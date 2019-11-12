@@ -8,7 +8,7 @@ const bodyParser=require('body-parser')
 app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({ extended: false }))
 
-Mongoose setup
+
 const mongoose = require('mongoose')
 mongoose.connect(process.env.MONGODB_URI || 'mongodb://localhost/Trip', { useNewUrlParser: true ,useUnifiedTopology: true})
 
