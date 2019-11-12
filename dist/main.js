@@ -7,5 +7,6 @@ $("#submit").on("click", async function () {
         countryName: $("#des-state").val()
     }
     let weather = await tripManager.getCityWeather(destination)
+    console.log(weather)
     render.renderWeather(weather)
 })

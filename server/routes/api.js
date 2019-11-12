@@ -18,9 +18,8 @@ router.post('/cityWeather', async function (req, res) {
         const weatherData =  await requestPromise(`${WheatherAPIbasicURL}?q=${cityName},q=${countryName}&units=metric&APPID=${APPID}`)
         const data= JSON.parse(weatherData)
         const weatherModified = {
-            CityName: data.name , CountryName: data.sys.country, Temperature : data.main.temp,Description:data.weather[0].description, Icon: data.weather[0].icon
+            cityName: data.name , countryName: data.sys.country, temperature : data.main.temp,description:data.weather[0].description, icon: data.weather[0].icon
         }
-        console.log(weatherModified)
         res.send(weatherModified)
     }
     catch (err) {
