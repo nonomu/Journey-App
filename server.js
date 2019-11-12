@@ -17,7 +17,6 @@ app.use(express.static(path.join(__dirname,  'node_modules')))
 app.use('/', api)
 
 const port =process.env.PORT || 4200
-app.listen(port, function () {
-    console.log(`Running on port ${port}`)
+app.listen(port, function () {console.log(`Running on port ${port}`)
 })
 
