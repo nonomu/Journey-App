@@ -1,0 +1,55 @@
+body{
+    margin: 0;
+    height: 100vh;
+    background-color: #CDE6F5;
+}
+
+#main-container{
+    display: grid;
+    height: 20%;
+    grid-template-rows: repeat(2, 1fr);
+}
+
+#form{
+    display: grid;
+    width: 50%;
+    grid-template-columns: repeat(3, 1fr);
+    justify-self: center;
+    align-content: center;
+    grid-gap: 7px;
+}
+
+.input{
+    width: fit-content;
+    height: fit-content;
+    border-radius: 7px;
+    padding: 5px;
+    font-family: 'Poppins', sans-serif;
+}
+
+#nav-bar{
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    background-color: #554640;
+    color: white;
+    align-content: center;
+    font-family: 'Poppins', sans-serif;
+}
+
+
+#logo{
+    font-family: 'Lobster', cursive;
+    font-size: 40px;
+}
+
+#favorites{
+    display: grid;
+    width: fit-content;
+    justify-self: right;
+    align-self: center;
+    margin-right: 50px;
+}
+
+.nav{
+    padding: 10px;
+}
