@@ -16,8 +16,9 @@ router.get('/places/:cityName', async function(req, res){
 
     function(err, result){           
         result = JSON.parse(result.body)
-        place_id = result.candidates[0].place_id
-        requestPromise(`https://maps.googleapis.com/maps/api/place/details/json?place_id=${place_id}&key=AIzaSyD_D-FODJApGj4CUB_V-ey9xzRH-gU2uRk`,
+        latitude = result.candidates[0].geometry.location.lat
+        longitude = result.candidates[0].geometry.location.lng
+        requestPromise(`https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=${latitude},${longitude}&radius=1500&key=AIzaSyD_D-FODJApGj4CUB_V-ey9xzRH-gU2uRk&pagetoken`,
 
             function(err, result){           
                 result = JSON.parse(result.body)
