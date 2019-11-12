@@ -1,12 +1,14 @@
 const render = new Renderer()
-const trip = new TripManager()
+const tripManager = new TripManager()
 
-$("#submit").on("submit",async function () {
+$("#submit").on("click", async function () {
     let destination = {
         city: $("#des-city").val(),
         state: $("#des-state").val()
     }
 
-     let weather = await getCityWeather(destination)
-     render.renderWeather(weather)
+    console.log(destination)
+
+    let weather = await getCityWeather(destination)
+    render.renderWeather(weather)
 })
