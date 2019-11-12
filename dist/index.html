@@ -2,18 +2,45 @@
 <html>
 
 <head>
-    <meta charset="utf-8" />
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <title>Totally Real Site</title>
-    <script src="../handlebars/dist/handlebars.js"></script>
-    <script src="https://kit.fontawesome.com/a076d05399.js"></script>
-    <link rel="stylesheet" type="text/css" media="screen" href="style.css" />
-    <script type="text/javascript" src="../materialize-css/dist/js/materialize.js"></script>
-    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-    <link type="text/css" rel="stylesheet" href="../materialize-css/dist/css/materialize.css"media="screen,projection" />
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Journey app</title>
+    <link rel="stylesheet" href="style.css" />
+    <link href="https://fonts.googleapis.com/css?family=Lobster|Poppins&display=swap" rel="stylesheet">
+   <script src="../jquery/dist/jquery.js"></script>
+
 </head>
 <body>
-    <script src="../jquery/dist/jquery.js"></script>
+
+    <div id="main-container">
+        <div id="nav-bar">
+            <div id="logo" class="nav">Journey</div>
+            <div id="favorites" class="nav">Favorites</div>
+        </div>
+
+        <div id = "form">
+            <input id="des-city" class = "input" type="text" placeholder="Insert a city name">
+            <input id="des-state" class = "input" type="text" placeholder="Insert a state">
+            <button id="submit" class ="input"> Send </button>
+        </div>
+
+
+    </div>
+
+    <script id="weather-template" type="text/x-handlebars-template">
+                <div class = "city-info">
+                    <p>{{name}},{{country}}</p>
+                    <div class = "icon"><img scr ="{{icon}}"></div>
+                    <div class = "weather-des">{{description}}</div>
+                    <div class="temp">{{temp}}</div>
+                </div>
+            </script>
+
+    <script src="/handlebars/dist/handlebars.js"></script>
+    <script src="/jquery/dist/jquery.min.js"></script>
+
     <script src="TripManager.js"></script>
     <script src="renderer.js"></script>
     <script src="main.js"></script>
