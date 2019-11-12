@@ -9,9 +9,10 @@
     <title>Journey app</title>
     <link rel="stylesheet" href="style.css" />
     <link href="https://fonts.googleapis.com/css?family=Lobster|Poppins&display=swap" rel="stylesheet">
-   <script src="../jquery/dist/jquery.js"></script>
+    <script src="../jquery/dist/jquery.js"></script>
 
 </head>
+
 <body>
 
     <div id="main-container">
@@ -20,12 +21,13 @@
             <div id="favorites" class="nav">Favorites</div>
         </div>
 
-        <div id = "form">
-            <input id="des-city" class = "input" type="text" placeholder="Insert a city name">
-            <input id="des-state" class = "input" type="text" placeholder="Insert a state">
-            <button id="submit" class ="input"> Send </button>
+        <div id="form">
+            <input id="des-city" class="input" type="text" placeholder="Insert a city name">
+            <input id="des-state" class="input" type="text" placeholder="Insert a state">
+            <button id="submit" class="input"> Send </button>
         </div>
 
+        <div id="cities"></div>
 
     </div>
 
@@ -36,13 +38,14 @@
                     <div class = "weather-des">{{description}}</div>
                     <div class="temp">{{temp}}</div>
                 </div>
-            </script>
+    </script>
+
 
     <script src="/handlebars/dist/handlebars.js"></script>
     <script src="/jquery/dist/jquery.min.js"></script>
-
     <script src="TripManager.js"></script>
     <script src="renderer.js"></script>
     <script src="main.js"></script>
 </body>
+
 </html>
