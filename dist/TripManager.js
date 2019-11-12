@@ -5,13 +5,9 @@ class TripManager {
     }
 
   async getCityWeather(destinationObject){
-    await $.post("/cityWeather", destinationObject,function(err,res){
-            let weather = res.body
-            return weather
-        })
+    let weather =  await $.post("/cityWeather", destinationObject)
+           return  (weather)
+        }
     }
 
     
-    
-}
-
