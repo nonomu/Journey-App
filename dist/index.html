@@ -19,7 +19,7 @@
 <div id = "main-container">
     <div id = "nav-bar">
         <div id = "logo">Journey</div>
-        <div id = "favorites"></div>
+        <div id = "favorites">Favorites</div>
     </div>
     
     <form >
@@ -30,7 +30,15 @@
 
 </div>
 
-    
+<script id="weather-template" type="text/x-handlebars-template">
+    <div class = "city-info">
+        <p>{{name}},{{country}}</p>
+        <div class = "icon"><img scr ="{{icon}}"></div>
+        <div class = "weather-des">{{description}}</div>
+        <div class="temp">{{temp}}</div>
+    </div>
+</script>
+
 <body>
    
     <script src="../jquery/dist/jquery.js"></script>
