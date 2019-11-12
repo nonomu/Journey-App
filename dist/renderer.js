@@ -1,11 +1,14 @@
 
 class Renderer {
-    _renderCity(allCityData) {
-        let source = $('#wheather-template').html()
+   
+    renderWeather(weather) {
+        $("#main-container").empty()
+        let source = $("#weather-template").html()
         let template = Handlebars.compile(source)
-        let newHTML = template({ allCityData })
-        $('.weather-container').empty().append(newHTML)
+        let newHTML = template(weather)
+        $("#main-container").append(newHTML)
     }
+
     renderData(allCityData) {
         
     }
