@@ -8,8 +8,7 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Journey app</title>
     <link rel="stylesheet" href="style.css" />
-    <link href="https://fonts.googleapis.com/css?family=Lobster|Poppins&display=swap" rel="stylesheet">
-    <script src="../jquery/dist/jquery.js"></script>
+    <link href="https://fonts.googleapis.com/css?family=Indie+Flower|Lobster|Poppins&display=swap" rel="stylesheet">
 
 </head>
 
@@ -33,10 +32,11 @@
 
     <script id="weather-template" type="text/x-handlebars-template">
                 <div class = "city-info">
-                    <p>{{cityName}},{{countryName}}</p>
+                    <p>{{cityName}}, {{countryName}}</p>
                     <div class = "icon"><img scr ="{{icon}}"></div>
                     <div class = "weather-des">{{description}}</div>
                     <div class="temp">{{temperature}}</div>
+                    <button class="explore">Explore</button>
                 </div>
     </script>
 

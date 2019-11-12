@@ -60,15 +60,35 @@ body{
 
 #cities{
     grid-area: c;
+    display: grid;
 }
 
 .city-info{
     display: grid;
     background-color: #8DA7BE;
     color:white;
+    width: 80%;
+    height: 15%;
+    justify-self: center;
     align-items: center;
-    margin: 10px;
+    justify-items: center;
+    margin: 15px;
     padding: 5px;
     border-radius: 10px;
-    grid-template-columns: repeat(4,1fr);
+    grid-template-columns: repeat(5,1fr);
+    box-shadow: 5px 5px 5px #707078;
+    font-family: 'Indie Flower', cursive;
+    font-size: 20px;
+}
+
+p{
+    text-align: center;
+}
+
+.explore{
+    width: fit-content;
+    height: fit-content;
+    border-radius: 7px;
+    padding: 5px;
+    font-family: 'Poppins', sans-serif;
 }
