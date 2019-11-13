@@ -85,6 +85,7 @@ router.get('/favorites',async function(req, res){
 
 router.post('/favorites',async function(req, res){
     let cityData =req.body
+    console.log(cityData)
     const FavObj={
         siteName: cityData.siteName,
         address:cityData.address,
@@ -93,6 +94,7 @@ router.post('/favorites',async function(req, res){
         picture:cityData.picture ,
         website:cityData.website }
         console.log(FavObj)
+    
     const FavArr = [FavObj]
     const Favdb = await Favorites.findOne({cityName: cityData.cityName,countryName: cityData.countryName})
     if(Favdb==null)  

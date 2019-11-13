@@ -47,6 +47,7 @@ class TripManager {
             picture: ""
         }
         this.favorites.push(favorite)
+        console.log(this.favorites)
         $.post('/favorites', favorite, function (response,err) {
             console.log(response)
         })
@@ -64,17 +65,16 @@ class TripManager {
             website: site.website,
             picture: ""
         }
-
+        let index = 0
         for(let favorite of this.favorites){
-            let index = 0
             if(favorite.cityName === siteForDel.cityName && favorite.siteName === siteForDel.siteName && favorite.address === siteForDel.address){
                 this.favorites.splice(index,1)
-                console.log(siteForDel)
+                console.log(index)
+                console.log(this.favorites)
             }
             index++
         }
-        console.log(this.favorites)
-
+        
         $.ajax({
             method: "DELETE",
             url: `/favorites`,
