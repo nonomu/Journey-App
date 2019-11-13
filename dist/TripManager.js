@@ -52,7 +52,7 @@ class TripManager {
             countryName: destObj.countryName,
             siteName: site.siteName,
             address: site.address,
-            openningHours: site.openningHours,
+            openingHours: site.openingHours,
             rating: site.rating,
             website: site.website,
             picture: ""

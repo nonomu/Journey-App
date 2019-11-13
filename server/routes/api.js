@@ -117,7 +117,7 @@ router.post('/favorites',async function(req, res){
                  siteName:cityData.siteName,
                 address:cityData.address,
                  openningHours:cityData.openningHours,
-                 rate:cityData.rate,
+                 rating:cityData.rating,
                  picture:cityData.picture,
                  website:cityData.website}
                   } }
