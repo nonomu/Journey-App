@@ -56,20 +56,22 @@ router.post('/sites', async function(req, res){
     for(let p of placesIDs){
         let place = await requestPromise(`https://maps.googleapis.com/maps/api/place/details/json?place_id=${p}&fields=name,rating,formatted_address,type,international_phone_number,opening_hours,website&key=${APIkey}`)
         place = JSON.parse(place)   
-        let types = ["cafe", "bar", "museum", "night_club", "restaurant", "food", "art_gallery", "spa", "stadium", "shopping_mall", "tourist_attraction", "zoo"]
-        for(let t of types){
-            if(place.result.types.includes(t)){
+       // let types = ["cafe", "bar", "museum", "night_club", "restaurant", "food", "art_gallery", "spa", "stadium", "shopping_mall", "tourist_attraction", "zoo"]
+        // for(t of types){
+        //     if(place.result.types.includes(t)){
                 placesDetails.push({
                     siteName: place.result.name,
                     address: place.result.formatted_address,
                     phone: place.result.international_phone_number,
-                    openningHours: place.result.opening_hours.weekday_text,
+                    openningHours: place.result.opening_hours ? place.result.opening_hours.weekday_text : false,
                     rating: place.result.rating,
                     website: place.result.website
                 })
-            } 
-        }
-         
+        //     } 
+        // }
+        placesDetails = placesDetails.sort(function(a, b){
+            return a.rating-b.rating
+        }).reverse().splice(0, 5)
     }
     res.send(placesDetails)
 })
@@ -104,7 +106,7 @@ router.post('/favorites',async function(req, res){
     const Favdb = await Favorites.findOne({cityName: cityData.cityName,countryName: cityData.countryName})
     if(Favdb==null)  
     {
-        let city = new Favorites({cityname:cityData.cityname,countryName:cityData.countryName,favoritePlaces:FavArr})
+        let city = new Favorites({cityName:cityData.cityname,countryName:cityData.countryName,favoritePlaces:FavArr})
         await city.save()
     }
     else{
