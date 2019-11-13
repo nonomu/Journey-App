@@ -39,7 +39,6 @@ router.post('/cityWeather', async function (req, res) {
 router.post('/sites', async function(req, res){
     const APIkey = 'AIzaSyD_D-FODJApGj4CUB_V-ey9xzRH-gU2uRk'
     let placeObj = req.body
-    console.log(placeObj)
     let cityName = placeObj.cityName
     let countryName = placeObj.countryName
     
@@ -48,39 +47,44 @@ router.post('/sites', async function(req, res){
     latitude = result.candidates[0].geometry.location.lat
     longitude = result.candidates[0].geometry.location.lng
     
-    result =  await requestPromise(`https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=${latitude},${longitude}&radius=20000&key=${APIkey}&pagetoken`)
+    result =  await requestPromise(`https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=${latitude},${longitude}&radius=2000&key=${APIkey}&pagetoken`)
     result = JSON.parse(result)
     let places = result.results
-    placesIDs = places.map(p =>   {return p.place_id})
+    placesIDs = places.map(p =>  {return p.place_id})
 
     let placesDetails = []
     for(let p of placesIDs){
-        let place = await requestPromise(`https://maps.googleapis.com/maps/api/place/details/json?place_id=${p}&fields=name,rating,formatted_address,type,international_phone_number,opening_hours,website&key=${APIkey}`)
+        let place = await requestPromise(`https://maps.googleapis.com/maps/api/place/details/json?place_id=${p}&fields=name,rating,formatted_address,type,international_phone_number,opening_hours,website&type=tourist_attraction&key=${APIkey}`)
         place = JSON.parse(place)   
-        let types = ["cafe", "bar", "museum", "night_club", "restaurant", "food", "art_gallery", "spa", "stadium", "shopping_mall", "tourist_attraction", "zoo"]
-        for(t of types){
-            if(place.result.types.includes(t)){
+     
                 placesDetails.push({
                     siteName: place.result.name,
                     address: place.result.formatted_address,
                     phone: place.result.international_phone_number,
-                    openningHours: place.result.opening_hours.weekday_text,
+                    openningHours: place.result.opening_hours ? place.result.opening_hours.weekday_text : false,
                     rating: place.result.rating,
                     website: place.result.website
-                })
-            } 
-        }
-         
+                })       
     }
+    
+     placesDetails.shift()
+     placesDetails.sort(function(a, b){
+        return a.rating-b.rating
+    })
+    .reverse()
+    placesDetails = placesDetails.splice(0, 5)
     res.send(placesDetails)
 })
 
 
 router.get('/favorites',async function(req, res){
+
    let data =await Favorites.find({})
          res.send(data)
+
 })
-router.put('/favorites/add',async function(req, res){
+
+router.post('/favorites',async function(req, res){
     let cityData =req.body
     const FavObj={
         siteName: cityData.siteName,
@@ -89,16 +93,17 @@ router.put('/favorites/add',async function(req, res){
         rate:cityData.rate,
         picture:cityData.picture ,
         website:cityData.website }
-    const FavArr=[FavObj]
-    const Favdb= await Favorites.findOne({Cityname: cityData.Cityname,CountryName: cityData.CountryName})
+        console.log(FavObj)
+    const FavArr = [FavObj]
+    const Favdb = await Favorites.findOne({cityName: cityData.cityName,countryName: cityData.countryName})
     if(Favdb==null)  
     {
-        let city = new Favorites({Cityname:cityData.Cityname,CountryName:cityData.CountryName,FavoritePlaces:FavArr})
+        let city = new Favorites({cityName:cityData.cityname,countryName:cityData.countryName,favoritePlaces:FavArr})
         await city.save()
     }
     else{
-    await Favorites.update(
-        {Cityname:cityData.Cityname,CountryName: cityData.CountryName},
+    await Favorites.findOneAndUpdate(
+        {cityName:cityData.Cityname,countryName: cityData.CountryName},
         { $push: { FavoritePlaces:
                  {	
                  siteName:cityData.siteName,
@@ -112,8 +117,10 @@ router.put('/favorites/add',async function(req, res){
     }
     res.send("Thx")
 })
-router.put('/favorites/remove',async function(req, res){
+
+router.delete('/favorites/remove',async function(req, res){
     let cityData =req.body
+
    const data= await Favorites.update(
             {Cityname:cityData.Cityname,CountryName: cityData.CountryName},
                 { $pull: { "FavoritePlaces": {	
@@ -121,7 +128,6 @@ router.put('/favorites/remove',async function(req, res){
                     "siteName": cityData.siteName
                  }}}
              )
-             console.log(data);
     res.send("Deleted")
 })
 
