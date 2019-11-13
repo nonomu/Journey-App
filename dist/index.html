@@ -28,6 +28,8 @@
 
         <div id="cities"></div>
 
+        <div id="sites"></div>
+
     </div>
 
     <script id="weather-template" type="text/x-handlebars-template">
@@ -38,6 +40,19 @@
                     <div class="temp">{{temperature}}</div>
                     <button class="explore">Explore</button>
                 </div>
+    </script>
+
+    <script id="site-template" type="text/x-handlebars-template">
+        {{#each sites}}
+        <div class = "site-info">
+            <p>{{siteName}}</p>
+            <div class = "address">{{address}}</div>
+            <div class = "hours">{{openningHours}}</div>
+            <div class="temp">{{rate}}</div>
+            <button class="explore">Add to favorites</button>
+        </div>
+        {{/each}}
+        
     </script>
 
 
