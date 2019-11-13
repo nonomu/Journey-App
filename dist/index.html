@@ -20,7 +20,7 @@
             <div id="logo" class="nav">Journey</div>
             <div id="favorites" class="nav">
                 <p>Favorites</p>
-                <div id = "favorite-sites"></div>
+                <div id="favorite-sites"></div>
             </div>
         </div>
 
@@ -48,6 +48,7 @@
 
     <script id="site-template" type="text/x-handlebars-template">
         {{#each sites}}
+    <div class ="site">
         <div class = "site-info">
             <p>{{siteName}}</p>
             <div class = "address">{{address}}</div>
@@ -64,6 +65,7 @@
             <a href = {{website}}>Visit {{siteName}}</a>
             <img src = {{picture}}>
         </div>
+    </div>
         {{/each}}
     </script>
 

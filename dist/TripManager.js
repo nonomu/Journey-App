@@ -42,7 +42,6 @@ class TripManager {
     async getSites(destination) {
         let capDestination = this._stringFromDOM(destination)
         let sites = await $.post("/sites", capDestination)
-        console.log(sites)
         return sites
     }
 
