@@ -562,12 +562,19 @@ router.post('/sites', async function(req, res){
 
     let placesDetails = []
     for(let p of placesIDs){
-        let place = await requestPromise(`https://maps.googleapis.com/maps/api/place/details/json?place_id=${p}&fields=name,rating,formatted_phone_number,address_component,adr_address,formatted_address,geometry,icon,name,permanently_closed,photo,place_id,plus_code,type,url,utc_offset,vicinity,formatted_phone_number,international_phone_number,opening_hours,website,price_level,rating,review,user_ratings_total&key=${APIkey}`)
+        let place = await requestPromise(`https://maps.googleapis.com/maps/api/place/details/json?place_id=${p}&fields=name,rating,formatted_address,type,international_phone_number,opening_hours,website&key=${APIkey}`)
         place = JSON.parse(place)   
         let types = ["cafe", "bar", "museum", "night_club", "restaurant", "food", "art_gallery", "spa", "stadium", "shopping_mall", "tourist_attraction", "zoo"]
         for(t of types){
             if(place.result.types.includes(t)){
-                placesDetails.push(place.result)
+                placesDetails.push({
+                    siteName: place.result.name,
+                    address: place.result.formatted_address,
+                    phone: place.result.international_phone_number,
+                    openningHours: place.result.opening_hours.weekday_text,
+                    rating: place.result.rating,
+                    website: place.result.website
+                })
             } 
         }
          
