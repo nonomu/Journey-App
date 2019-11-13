@@ -61,7 +61,7 @@ router.post('/sites', async function(req, res){
                     siteName: place.result.name,
                     address: place.result.formatted_address,
                     phone: place.result.international_phone_number,
-                    openningHours: place.result.opening_hours ? place.result.opening_hours.weekday_text : false,
+                    openingHours: place.result.opening_hours ? place.result.opening_hours.weekday_text : false,
                     rating: place.result.rating,
                     website: place.result.website
                 })       
@@ -78,18 +78,8 @@ router.post('/sites', async function(req, res){
 
 
 router.get('/favorites',async function(req, res){
-   await Favorites.update(
-        {Cityname:"Tel aviv",CountryName: "Israel"},
-            { $push: { FavoritePlaces: {	
-                 siteName:"new",
-                address:"try3",
-                 openningHours:"8-12",
-                 rate:"5",
-                 picture:"URL",
-                 website: "newURl"}
-                  } }
-         )
-         res.end()
+   let data =await Favorites.find({})
+         res.send(data)
 })
 
 router.post('/favorites',async function(req, res){
@@ -97,8 +87,8 @@ router.post('/favorites',async function(req, res){
     const FavObj={
         siteName: cityData.siteName,
         address:cityData.address,
-        openningHours:cityData.openningHours,
-        rate:cityData.rate,
+        openingHours:cityData.openingHours,
+        rating:cityData.rating,
         picture:cityData.picture ,
         website:cityData.website }
         console.log(FavObj)
@@ -111,12 +101,12 @@ router.post('/favorites',async function(req, res){
     }
     else{
     await Favorites.findOneAndUpdate(
-        {cityName:cityData.Cityname,countryName: cityData.CountryName},
+        {cityName:cityData.Cityname,countryName: cityData.countryName},
         { $push: { FavoritePlaces:
                  {	
                  siteName:cityData.siteName,
                 address:cityData.address,
-                 openningHours:cityData.openningHours,
+                 openingHours:cityData.openingHours,
                  rating:cityData.rating,
                  picture:cityData.picture,
                  website:cityData.website}
@@ -129,15 +119,15 @@ router.post('/favorites',async function(req, res){
 router.delete('/favorites/remove',async function(req, res){
     let cityData =req.body
     Favorites.findOneAndUpdate(
-            {cityname:cityData.cityname,countryName: cityData.CountryName},
-                { $pull: { favoritePlaces: {	
-                    address:cityData.address
-                 } }}
+            {cityname:cityData.cityname,countryName: cityData.countryName},
+            { $pull: { "favoritePlaces": {	
+                "address": cityData.address,
+                "siteName": cityData.siteName
+             }}}
              )
     res.send("Deleted")
 })
 
 
 module.exports = router
-
 
