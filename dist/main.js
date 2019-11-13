@@ -11,6 +11,7 @@ $("#submit").on("click", async function () {
     render.renderWeather(weather)
 })
 
+
 $("#cities").on("click", ".explore", async function () {
     let destination = $(this).siblings("p").text()
     console.log(destination)
@@ -19,4 +20,5 @@ $("#cities").on("click", ".explore", async function () {
     console.log(sites)
     render.renderSites(sites)
 })
+
 

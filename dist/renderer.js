@@ -17,6 +17,7 @@ class Renderer {
         let sitesHTML = template({sites})
         $("#sites").append(sitesHTML)
     }
+
   
 }
 
