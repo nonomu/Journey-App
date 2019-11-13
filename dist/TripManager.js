@@ -29,11 +29,8 @@ class TripManager {
     }
 
     async getCityWeather(destination) {
-        let capDestination = {
-            cityName: this._stringForAPI(destination.cityName),
-            countryName: this._stringForAPI(destination.countryName)
-        }
-        let weather = await $.post("/cityWeather", capDestination)
+        let capDestination = this._stringFromDOM(destination)
+        let weather = await $.post('/cityWeather', capDestination)
         let temp = parseInt(weather.temperature)
         weather.temperature = temp
         return weather
