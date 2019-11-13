@@ -10,10 +10,38 @@ const Transfer =require("./transfer")
 const IconsTransfer=Transfer.IconsTransfer
 const CityStateToCode=Transfer.CityStateToCode
 const CodeToCityState=Transfer.CodeToCityState
+var airports = mongoose.model('airports', new Schema({ name: String }));
 const WheatherAPIbasicURL = "https://api.openweathermap.org/data/2.5/weather"
+const FlightsAPIbasicURL="https://api.skypicker.com/flights?"
+mongoose.set('useNewUrlParser', true);
+mongoose.set('useFindAndModify', false);
+mongoose.set('useCreateIndex', true);
+mongoose.set('useUnifiedTopology', true);
 
-
-
+router.get('/get/',async function (req, res) {
+    res.end()
+})
+router.post('/flights', async function (req, res) {
+    let cityName=req.body.cityName
+    let countryName=req.body.countryName
+    const airportInSameCity=await airports.find({ city : cityName})
+    // console.log("SameCity Flights" +airportInSameCity  );
+    // const airportInSameContry=await airports.find({ country : countryName})
+    // console.log("SameCounrty Flights" + " " + airportInSameContry )
+    // res.send(airportInSameCity)
+    // try {
+    //     const flightsData =  await requestPromise(`${FlightsAPIbasicURL}fly_from=airport:${iatafrom}&fly_to=airport:${iatato}&
+    //                                                                     dateFrom=${datefrom}&dateTo=${dateto}&partner=picky&
+    //                                                                     return_from=${returnfrom}&return_to=${returnto}&
+    //                                                                     flight_type=round&curr=USD&max_stopovers=1&ret_from_diff_airport=0&limit=10`)
+    //     res.send(weatherModified)
+    // }
+    // catch (err) {
+    //      res.status(400)
+    //     res.send(err.message)
+        
+    // }
+})
 
 
 router.post('/cityWeather', async function (req, res) {
@@ -114,42 +142,46 @@ router.post('/favorites',async function(req, res){
         rating:cityData.rating,
         picture:cityData.picture ,
         website:cityData.website }
-        console.log(FavObj)
-    
+
     const FavArr = [FavObj]
     const Favdb = await Favorites.findOne({cityName: cityData.cityName,countryName: cityData.countryName})
     if(Favdb==null)  
     {
-        let city = new Favorites({cityName:cityData.cityname,countryName:cityData.countryName,favoritePlaces:FavArr})
+        let city = new Favorites({cityName:cityData.cityName,countryName:cityData.countryName,favoritePlaces:FavArr})
         await city.save()
     }
     else{
-    await Favorites.findOneAndUpdate(
-        {cityName:cityData.Cityname,countryName: cityData.countryName},
-        { $push: { FavoritePlaces:
+    const data=await Favorites.updateOne(
+        {cityName:cityData.cityName,countryName: cityData.countryName},
+        { $push: { favoritePlaces:
                  {	
                  siteName:cityData.siteName,
-                address:cityData.address,
+                 address:cityData.address,
                  openingHours:cityData.openingHours,
                  rating:cityData.rating,
                  picture:cityData.picture,
                  website:cityData.website}
                   } }
          )
+         console.log(data)
     }
+    
     res.send("Thx")
 })
 
 router.delete('/favorites',async function(req, res){
     let cityData =req.body
-    Favorites.findOneAndDelete(
-            {cityName:cityData.cityName,countryName: cityData.countryName,siteName: cityData.sit},
-            { $pull: { "favoritePlaces": {	
-                "address": cityData.address,
-                "siteName": cityData.siteName
-             }}}
+    const data= await Favorites.findOneAndUpdate(
+        {cityName:cityData.cityName,countryName: cityData.countryName},
+        { $pull: { "favoritePlaces": {	
+            "address": cityData.address,
+            "siteName": cityData.siteName
+         }}},
+        {new: false,
+        upsert: true}
              )
-    res.send("Deleted")
+    console.log(data)
+    res.send(data)
 })
 
 

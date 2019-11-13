@@ -3,7 +3,7 @@ const express = require('express')
 const app = express()
 const api = require('./server/routes/api')
 const bodyParser=require('body-parser')
-const basicDB= require('./server/models/Favorites')
+
 
 
 app.use(bodyParser.json())
