@@ -1,6 +1,6 @@
 const render = new Renderer()
 const tripManager = new TripManager()
-
+let sites
 // tripManager.getFavourites()
 
 let input = document.getElementById('autocomplete');
@@ -9,12 +9,13 @@ google.maps.event.addListener(autocomplete, 'place_changed',async function(){
     let place = $("#autocomplete")[0].value
     let weather = await tripManager.getCityWeather(place)
     render.renderWeather(weather)
+    sites = await tripManager.getSites(place)
 })
 
 
 $("#cities").on("click", ".explore", async function () {
-    let destination = $(this).siblings("p").text()
-    let sites = await tripManager.getSites(destination)
+    // let destination = $(this).siblings("p").text()
+    // let sites = await tripManager.getSites(destination)
     render.renderSites(sites)
 })
 
