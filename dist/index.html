@@ -9,6 +9,7 @@
     <title>Journey app</title>
     <link rel="stylesheet" href="style.css" />
     <link href="https://fonts.googleapis.com/css?family=Indie+Flower|Lobster|Poppins&display=swap" rel="stylesheet">
+    <script src="https://kit.fontawesome.com/0c25c19dc4.js" crossorigin="anonymous"></script>
 
 </head>
 
@@ -18,7 +19,7 @@
         <div id="nav-bar">
             <div id="logo" class="nav">Journey</div>
             <div id="favorites" class="nav">Favorites</div>
-    </div>
+        </div>
 
         <div id="form">
             <input id="des-city" class="input" type="text" placeholder="Insert a city name">
@@ -37,7 +38,7 @@
                     <p>{{cityName}}, {{countryName}}</p>
                     <div class = "icon"><img src ={{icon}}></div>
                     <div class = "weather-des">{{description}}</div>
-                    <div class="temp">{{temperature}}</div>
+                    <div class="temp">{{temperature}}&#8451</div>
                     <button class="explore">Explore</button>
                 </div>
     </script>
@@ -47,9 +48,15 @@
         <div class = "site-info">
             <p>{{siteName}}</p>
             <div class = "address">{{address}}</div>
-            <div class = "hours">{{openningHours}}</div>
-            <div class="temp">{{rate}}</div>
-            <button class="explore">Add to favorites</button>
+            {{#if openningHours}}
+            <div class = "hours">Open</div>
+            {{else}}
+            <div class="hours">Close</div>
+            {{/if}}
+            <div class="rate">{{rate}}</div>
+            <div class="favorites"><i class="fas fa-plus-circle"></i></div>
+            
+            <!-- <i class="fas fa-minus-circle"></i> -->
         </div>
         {{/each}}
         
