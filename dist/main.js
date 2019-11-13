@@ -9,3 +9,12 @@ $("#submit").on("click", async function(){
     let weather = await tripManager.getCityWeather(destination)
     render.renderWeather(weather)
 })
+
+
+var country_code = null;
+$.getJSON('http://ipinfo.io/' + userip, function(data){
+    country_code = data.country;
+    alert(country_code);
+});
+
+
