@@ -13,19 +13,22 @@ const CodeToCityState=Transfer.CodeToCityState
 var airports = mongoose.model('airports', new Schema({ name: String }));
 const WheatherAPIbasicURL = "https://api.openweathermap.org/data/2.5/weather"
 const FlightsAPIbasicURL="https://api.skypicker.com/flights?"
+mongoose.set('useNewUrlParser', true);
+mongoose.set('useFindAndModify', false);
+mongoose.set('useCreateIndex', true);
+mongoose.set('useUnifiedTopology', true);
 
 router.get('/get/',async function (req, res) {
-   console.log()
     res.end()
 })
 router.post('/flights', async function (req, res) {
     let cityName=req.body.cityName
     let countryName=req.body.countryName
     const airportInSameCity=await airports.find({ city : cityName})
-    console.log("SameCity Flights" +airportInSameCity  );
-    const airportInSameContry=await airports.find({ country : countryName})
-    console.log("SameCounrty Flights" + " " + airportInSameContry )
-    res.send(airportInSameCity)
+    // console.log("SameCity Flights" +airportInSameCity  );
+    // const airportInSameContry=await airports.find({ country : countryName})
+    // console.log("SameCounrty Flights" + " " + airportInSameContry )
+    // res.send(airportInSameCity)
     // try {
     //     const flightsData =  await requestPromise(`${FlightsAPIbasicURL}fly_from=airport:${iatafrom}&fly_to=airport:${iatato}&
     //                                                                     dateFrom=${datefrom}&dateTo=${dateto}&partner=picky&
@@ -63,31 +66,34 @@ router.post('/cityWeather', async function (req, res) {
 
 router.post('/sites', async function(req, res){
     const APIkey = 'AIzaSyD_D-FODJApGj4CUB_V-ey9xzRH-gU2uRk'
-    let input = req.body
+    let placeObj = req.body
+    let cityName = placeObj.cityName
+    let countryName = placeObj.countryName
+    let result = await requestPromise(`https://maps.googleapis.com/maps/api/place/findplacefromtext/json?input=${cityName},${countryName}&inputtype=textquery&fields=formatted_address,geometry,icon,name,permanently_closed,photos,place_id,plus_code,types&key=${APIkey}&language=EN`)
     
-    let result = await requestPromise(`https://maps.googleapis.com/maps/api/place/findplacefromtext/json?input=${input}&inputtype=textquery&fields=formatted_address,geometry,icon,name,permanently_closed,photos,place_id,plus_code,types&key=${APIkey}&language=EN`)
-    result = JSON.parse(result)        
+    result = JSON.parse(result)       
     latitude = result.candidates[0].geometry.location.lat
     longitude = result.candidates[0].geometry.location.lng
     
     result =  await requestPromise(`https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=${latitude},${longitude}&radius=2000&key=${APIkey}&pagetoken`)
     result = JSON.parse(result)
     let places = result.results
-    placesIDs = places.map(p =>  {return p.place_id})
+    let placesIDs = places.map(p =>  {return p.place_id})
 
     let placesDetails = []
     for(let p of placesIDs){
         let place = await requestPromise(`https://maps.googleapis.com/maps/api/place/details/json?place_id=${p}&fields=name,rating,formatted_address,type,international_phone_number,opening_hours,website&type=tourist_attraction&key=${APIkey}`)
         place = JSON.parse(place)   
-     
-                placesDetails.push({
-                    siteName: place.result.name,
-                    address: place.result.formatted_address,
-                    phone: place.result.international_phone_number,
-                    openingHours: place.result.opening_hours ? place.result.opening_hours.weekday_text : false,
-                    rating: place.result.rating,
-                    website: place.result.website
-                })       
+        if(place.result.rating){
+            placesDetails.push({
+                siteName: place.result.name,
+                address: place.result.formatted_address,
+                phone: place.result.international_phone_number,
+                openingHours: place.result.opening_hours ? place.result.opening_hours.weekday_text : false,
+                rating: place.result.rating,
+                website: place.result.website
+            })
+        }           
     }
     
      placesDetails.shift()
@@ -114,41 +120,46 @@ router.post('/favorites',async function(req, res){
         rating:cityData.rating,
         picture:cityData.picture ,
         website:cityData.website }
-        console.log(FavObj)
+        // console.log(FavObj)
     const FavArr = [FavObj]
     const Favdb = await Favorites.findOne({cityName: cityData.cityName,countryName: cityData.countryName})
     if(Favdb==null)  
     {
-        let city = new Favorites({cityName:cityData.cityname,countryName:cityData.countryName,favoritePlaces:FavArr})
+        let city = new Favorites({cityName:cityData.cityName,countryName:cityData.countryName,favoritePlaces:FavArr})
         await city.save()
     }
     else{
-    await Favorites.findOneAndUpdate(
-        {cityName:cityData.Cityname,countryName: cityData.countryName},
-        { $push: { FavoritePlaces:
+    const data=await Favorites.updateOne(
+        {cityName:cityData.cityName,countryName: cityData.countryName},
+        { $push: { favoritePlaces:
                  {	
                  siteName:cityData.siteName,
-                address:cityData.address,
+                 address:cityData.address,
                  openingHours:cityData.openingHours,
                  rating:cityData.rating,
                  picture:cityData.picture,
                  website:cityData.website}
                   } }
          )
+         console.log(data)
     }
+    
     res.send("Thx")
 })
 
-router.delete('/favorites/remove',async function(req, res){
+router.delete('/favorites',async function(req, res){
     let cityData =req.body
-    Favorites.findOneAndUpdate(
-            {cityname:cityData.cityname,countryName: cityData.countryName},
-            { $pull: { "favoritePlaces": {	
-                "address": cityData.address,
-                "siteName": cityData.siteName
-             }}}
+    const data= await Favorites.findOneAndUpdate(
+        {cityName:cityData.cityName,countryName: cityData.countryName},
+        { $pull: { "favoritePlaces": {	
+            "address": cityData.address,
+            "siteName": cityData.siteName
+         }}},
+        {new: false,
+        upsert: true}
              )
-    res.send("Deleted")
+    console.log(data)
+    res.send(data)
 })
 
 

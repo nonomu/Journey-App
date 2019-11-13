@@ -1,23 +1,9 @@
 
 class TripManager {
     constructor() {
-        this.sites = []
+        this.favorites = []
     }
 
-    _stringForAPI(string) {
-        const brokenString = string.split(" ")
-        if (brokenString.length > 1) {
-            for (let word in brokenString) {
-                let upperCased = brokenString[word][0].toUpperCase() + brokenString[word].slice(1)
-                brokenString.splice(word, 1, upperCased)
-            }
-
-            string = brokenString.join(" ")
-        } else {
-            string = brokenString[0][0].toUpperCase() + brokenString[0].slice(1)
-        }
-        return string
-    }
 
     _stringFromDOM(destination) {
         let cityCountryArray = destination.split(", ")
@@ -39,7 +25,13 @@ class TripManager {
     async getSites(destination) {
         let capDestination = this._stringFromDOM(destination)
         let sites = await $.post("/sites", capDestination)
-        return sites
+        let newSites = []
+        for(let site of sites){
+           let rating = Number.parseFloat(site.rating).toFixed(1)
+            site.rating = rating
+            newSites.push(site)
+        }
+        return newSites
     }
 
     addToFavorites(destination, site) {
@@ -54,10 +46,53 @@ class TripManager {
             website: site.website,
             picture: ""
         }
-        console.log(favorite)
+        this.favorites.push(favorite)
         $.post('/favorites', favorite, function (response,err) {
             console.log(response)
         })
+    }
+
+    removeFromFavorites(destination,site){
+        let destObj = this._stringFromDOM(destination)
+        let siteForDel = {
+            cityName: destObj.cityName,
+            countryName: destObj.countryName,
+            siteName: site.siteName,
+            address: site.address,
+            openingHours: site.openingHours,
+            rating: site.rating,
+            website: site.website,
+            picture: ""
+        }
+
+        for(let favorite of this.favorites){
+            let index = 0
+            if(favorite.cityName === siteForDel.cityName && favorite.siteName === siteForDel.siteName && favorite.address === siteForDel.address){
+                this.favorites.splice(index,1)
+                console.log(siteForDel)
+            }
+            index++
+        }
+        console.log(this.favorites)
+
+        $.ajax({
+            method: "DELETE",
+            url: `/favorites`,
+            data: site,
+            success: function (err, res) {
+                console.log(`${res} was succesfully removed`)
+            },
+            error: function (err) {
+                console.log('Delete request did not succeed')
+            }
+
+        })
+        
+
+    }
+
+    getFavorites(){
+
     }
 }
 
