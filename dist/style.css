@@ -98,3 +98,11 @@ p{
     padding: 5px;
     font-family: 'Poppins', sans-serif;
 }
+
+#sites{
+    display: grid; 
+}
+
+.site-info{
+    
+}
