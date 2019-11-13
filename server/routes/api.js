@@ -89,7 +89,8 @@ router.post('/favorites',async function(req, res){
          )
          res.end()
 })
-router.put('/favorites/add',async function(req, res){
+
+router.post('/favorites',async function(req, res){
     let cityData =req.body
     const FavObj={
         siteName: cityData.siteName,
@@ -98,16 +99,17 @@ router.put('/favorites/add',async function(req, res){
         rate:cityData.rate,
         picture:cityData.picture ,
         website:cityData.website }
-    const FavArr=[FavObj]
-    const Favdb= await Favorites.findOne({Cityname: cityData.Cityname,CountryName: cityData.CountryName})
+        console.log(FavObj)
+    const FavArr = [FavObj]
+    const Favdb = await Favorites.findOne({cityName: cityData.cityName,countryName: cityData.countryName})
     if(Favdb==null)  
     {
-        let city = new Favorites({Cityname:cityData.Cityname,CountryName:cityData.CountryName,FavoritePlaces:FavArr})
+        let city = new Favorites({cityname:cityData.cityname,countryName:cityData.countryName,favoritePlaces:FavArr})
         await city.save()
     }
     else{
-    await Favorites.update(
-        {Cityname:cityData.Cityname,CountryName: cityData.CountryName},
+    await Favorites.findOneAndUpdate(
+        {cityName:cityData.Cityname,countryName: cityData.CountryName},
         { $push: { FavoritePlaces:
                  {	
                  siteName:cityData.siteName,
@@ -121,7 +123,8 @@ router.put('/favorites/add',async function(req, res){
     }
     res.send("Thx")
 })
-router.put('/favorites/remove',async function(req, res){
+
+router.delete('/favorites/remove',async function(req, res){
     let cityData =req.body
     Favorites.findOneAndUpdate(
             {Cityname:cityData.Cityname,CountryName: cityData.CountryName},

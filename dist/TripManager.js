@@ -58,7 +58,7 @@ class TripManager {
             picture: ""
         }
         console.log(favorite)
-        $.post('/favorite', favorite, function (response, err) {
+        $.post('/favorites', favorite, function (response,err) {
             console.log(response)
         })
     }
