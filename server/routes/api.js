@@ -10,10 +10,35 @@ const Transfer =require("./transfer")
 const IconsTransfer=Transfer.IconsTransfer
 const CityStateToCode=Transfer.CityStateToCode
 const CodeToCityState=Transfer.CodeToCityState
+var airports = mongoose.model('airports', new Schema({ name: String }));
 const WheatherAPIbasicURL = "https://api.openweathermap.org/data/2.5/weather"
+const FlightsAPIbasicURL="https://api.skypicker.com/flights?"
 
-
-
+router.get('/get/',async function (req, res) {
+   console.log()
+    res.end()
+})
+router.post('/flights', async function (req, res) {
+    let cityName=req.body.cityName
+    let countryName=req.body.countryName
+    const airportInSameCity=await airports.find({ city : cityName})
+    console.log("SameCity Flights" +airportInSameCity  );
+    const airportInSameContry=await airports.find({ country : countryName})
+    console.log("SameCounrty Flights" + " " + airportInSameContry )
+    res.send(airportInSameCity)
+    // try {
+    //     const flightsData =  await requestPromise(`${FlightsAPIbasicURL}fly_from=airport:${iatafrom}&fly_to=airport:${iatato}&
+    //                                                                     dateFrom=${datefrom}&dateTo=${dateto}&partner=picky&
+    //                                                                     return_from=${returnfrom}&return_to=${returnto}&
+    //                                                                     flight_type=round&curr=USD&max_stopovers=1&ret_from_diff_airport=0&limit=10`)
+    //     res.send(weatherModified)
+    // }
+    // catch (err) {
+    //      res.status(400)
+    //     res.send(err.message)
+        
+    // }
+})
 
 
 router.post('/cityWeather', async function (req, res) {

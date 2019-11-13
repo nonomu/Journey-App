@@ -13,8 +13,6 @@ google.maps.event.addListener(autocomplete, 'place_changed',async function(){
 
 
 
-
-
 $("#cities").on("click", ".explore", async function () {
     let destination = $(this).siblings("p").text()
     let sites = await tripManager.getSites(destination)
