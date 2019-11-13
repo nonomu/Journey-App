@@ -36,17 +36,34 @@ class TripManager {
 
     addToFavorites(destination, site) {
         let destObj = this._stringFromDOM(destination)
-        let favorite = {
-            cityName: destObj.cityName,
-            countryName: destObj.countryName,
+        
+        let favSite = {
+            
             siteName: site.siteName,
             address: site.address,
             openingHours: site.openingHours,
-            rating: site.rating,
-            website: site.website,
-            picture: ""
+            rating: site.rating
         }
-        this.favorites.push(favorite)
+
+        let index = 0
+        for(let favorite of this.favorites){
+            if(favSite.cityName === destObj.cityName && favSite.countryName === destObj.countryName){
+                favorite.favoritePlaces.push(favSite)
+                this.favorites.splice(index,1,favorite)
+                return
+            } else {
+                let cityData = {
+                    cityName: destObj.cityName,
+                    countryName: destObj.countryName,
+                    favoritePlaces: []
+                }
+
+                cityData.favoritePlaces.push(favSite)
+                this.favorites.push(cityData)
+
+            }
+            index++
+        }
         console.log(this.favorites)
         $.post('/favorites', favorite, function (response,err) {
             console.log(response)
