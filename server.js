@@ -5,8 +5,6 @@ const api = require('./server/routes/api')
 const bodyParser=require('body-parser')
 const basicDB= require('./server/models/Favorites')
 
-const new1=new basicDB({CityName:"Noam"})
-
 new1.save()
 app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({ extended: false }))
