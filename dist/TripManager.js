@@ -1,8 +1,9 @@
 
 class TripManager {
     constructor() {
-        this.tripData = []
+        this.sites = []
     }
+
     _stringForAPI(string) {
         const brokenString = string.split(" ")
         if (brokenString.length > 1) {
@@ -18,6 +19,15 @@ class TripManager {
         return string
     }
 
+    _stringFromDOM(destination) {
+        let cityCountryArray = destination.split(", ")
+        let capDestination = {
+            cityName: cityCountryArray[0],
+            countryName: cityCountryArray[1]
+        }
+        return capDestination
+    }
+
     async getCityWeather(destination) {
         let capDestination = {
             cityName: this._stringForAPI(destination.cityName),
@@ -27,16 +37,27 @@ class TripManager {
         return weather
     }
 
-    async getSites(destination){
-        
-        let cityCountryArray= destination.split(", ")
-        console.log(cityCountryArray)
-        let capDestination = {
-            cityName: cityCountryArray[0],
-            countryName: cityCountryArray[1]
+    async getSites(destination) {
+        let capDestination = this._stringFromDOM(destination)
+        let sites = await $.post("/sites", capDestination)
+        sites.forEach(s=> this.sites.push(s))
+        return this.sites
+    }
+
+    addToFavorites(destination, site) {
+        let destObj = this._stringFromDOM(destination)
+        console.log(destObj)
+        let favorite = {
+            cityName: destObj[0],
+            countryName: destObj[1],
+            siteName: site.siteName,
+            address: site.address,
+            openningHours: site.openningHours,
+            rating: site.rating
         }
-        let sites = await $.post("/sites",capDestination)
-        return sites
+        $.post('/favorite', favorite, function (response, err) {
+            console.log(response)
+        })
     }
 }
 

@@ -17,6 +17,14 @@ class Renderer {
         let sitesHTML = template({sites})
         $("#sites").append(sitesHTML)
     }
+
+    renderFavorites(){
+        $("#favorites").empty()
+        let source = $("#favorite-template").html()
+        let template = Handlebars.compile(source)
+        let weatherHTML = template(weather)
+        $("#favorites").append(weatherHTML)
+    }
   
 }
 

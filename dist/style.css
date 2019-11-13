@@ -149,3 +149,8 @@ p{
         font-size: 14px;
     }
 }
+
+
+i:hover {
+    cursor: pointer;
+}

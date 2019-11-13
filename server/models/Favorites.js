@@ -4,11 +4,6 @@ const Schema = mongoose.Schema
 const FavoriteSchema = new Schema({
     Cityname: String,
     CountryName:String,
-    weather: {
-        temperature: Number,
-        condition: String,
-        conditionPic: String
-    },
     FavoritePlaces:[]
 })
 
