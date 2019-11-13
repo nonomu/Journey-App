@@ -19,3 +19,4 @@ $("#cities").on("click", ".explore", async function () {
     console.log(sites)
     render.renderSites(sites)
 })
+

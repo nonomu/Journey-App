@@ -549,33 +549,33 @@ router.post('/sites', async function(req, res){
     console.log(placeObj)
     let cityName = placeObj.cityName
     let countryName = placeObj.countryName
-    await requestPromise(`https://maps.googleapis.com/maps/api/place/findplacefromtext/json?input=${cityName},${countryName}&inputtype=textquery&fields=formatted_address,geometry,icon,name,permanently_closed,photos,place_id,plus_code,types&key=${APIkey}&language=EN`,
+    
+    let result = await requestPromise(`https://maps.googleapis.com/maps/api/place/findplacefromtext/json?input=${cityName},${countryName}&inputtype=textquery&fields=formatted_address,geometry,icon,name,permanently_closed,photos,place_id,plus_code,types&key=${APIkey}&language=EN`)
+    result = JSON.parse(result)        
+    latitude = result.candidates[0].geometry.location.lat
+    longitude = result.candidates[0].geometry.location.lng
+    
+    result =  await requestPromise(`https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=${latitude},${longitude}&radius=20000&key=${APIkey}&pagetoken`)
+    result = JSON.parse(result)
+    let places = result.results
+    placesIDs = places.map(p =>   {return p.place_id})
 
-    function(err, result){           
-        result = JSON.parse(result.body)
-        console.log(result);
-        
-        latitude = result.candidates[0].geometry.location.lat
-        longitude = result.candidates[0].geometry.location.lng
-        requestPromise(`https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=${latitude},${longitude}&radius=1500&key=${APIkey}&pagetoken`,
-
-            function(err, result){           
-                result = JSON.parse(result.body)
-                let places = result.results
-                places = places.filter(p => places.indexOf(p) < 6 && places.indexOf(p) >0)                
-                places = places.map(p =>   {return {siteName: p.name, address: p.vicinity, openningHours: p.opening_hours ? p.opening_hours.open_now : false, rate: p.rating}})
-
-                res.send(places)
-            })
-    })
+    let placesDetails = []
+    for(let p of placesIDs){
+        let place = await requestPromise(`https://maps.googleapis.com/maps/api/place/details/json?place_id=${p}&fields=name,rating,formatted_phone_number,address_component,adr_address,formatted_address,geometry,icon,name,permanently_closed,photo,place_id,plus_code,type,url,utc_offset,vicinity,formatted_phone_number,international_phone_number,opening_hours,website,price_level,rating,review,user_ratings_total&key=${APIkey}`)
+        place = JSON.parse(place)   
+        let types = ["cafe", "bar", "museum", "night_club", "restaurant", "food", "art_gallery", "spa", "stadium", "shopping_mall", "tourist_attraction", "zoo"]
+        for(t of types){
+            if(place.result.types.includes(t)){
+                placesDetails.push(place.result)
+            } 
+        }
+         
+    }
+    res.send(placesDetails)
 })
 
-router.post('/favorites', function(req, res){
-    let cityData = req.body    
-    let city = new City(cityData)
-    city.save()
-    res.send(city)
-})
+
 
 
 module.exports = router
