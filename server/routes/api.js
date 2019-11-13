@@ -76,19 +76,9 @@ router.post('/sites', async function(req, res){
 })
 
 
-router.post('/favorites',async function(req, res){
-   await Favorites.update(
-        {Cityname:"Tel aviv",CountryName: "Israel"},
-            { $push: { FavoritePlaces: {	
-                 siteName:"new",
-                address:"try3",
-                 openningHours:"8-12",
-                 rate:"5",
-                 picture:"URL",
-                 website: "newURl"}
-                  } }
-         )
-         res.end()
+router.get('/favorites',async function(req, res){
+   let data =await Favorites.find({})
+         res.send(data)
 })
 router.put('/favorites/add',async function(req, res){
     let cityData =req.body
@@ -110,7 +100,7 @@ router.put('/favorites/add',async function(req, res){
     await Favorites.update(
         {Cityname:cityData.Cityname,CountryName: cityData.CountryName},
         { $push: { FavoritePlaces:
-                GI {	
+                 {	
                  siteName:cityData.siteName,
                 address:cityData.address,
                  openningHours:cityData.openningHours,
@@ -124,12 +114,14 @@ router.put('/favorites/add',async function(req, res){
 })
 router.put('/favorites/remove',async function(req, res){
     let cityData =req.body
-    Favorites.findOneAndUpdate(
+   const data= await Favorites.update(
             {Cityname:cityData.Cityname,CountryName: cityData.CountryName},
-                { $pull: { FavoritePlaces: {	
-                    address:cityData.address
-                 } }}
+                { $pull: { "FavoritePlaces": {	
+                    "address": cityData.address,
+                    "siteName": cityData.siteName
+                 }}}
              )
+             console.log(data);
     res.send("Deleted")
 })
 
