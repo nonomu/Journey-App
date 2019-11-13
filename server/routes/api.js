@@ -43,7 +43,7 @@ router.post('/sites', async function(req, res){
     let countryName = placeObj.countryName
     let result = await requestPromise(`https://maps.googleapis.com/maps/api/place/findplacefromtext/json?input=${cityName},${countryName}&inputtype=textquery&fields=formatted_address,geometry,icon,name,permanently_closed,photos,place_id,plus_code,types&key=${APIkey}&language=EN`)
     
-    result = JSON.parse(result)        
+    result = JSON.parse(result)       
     latitude = result.candidates[0].geometry.location.lat
     longitude = result.candidates[0].geometry.location.lng
     
@@ -119,8 +119,8 @@ router.post('/favorites',async function(req, res){
 
 router.delete('/favorites',async function(req, res){
     let cityData =req.body
-    Favorites.findOneAndUpdate(
-            {cityname:cityData.cityname,countryName: cityData.countryName},
+    Favorites.findOneAndDelete(
+            {cityName:cityData.cityName,countryName: cityData.countryName,siteName: cityData.sit},
             { $pull: { "favoritePlaces": {	
                 "address": cityData.address,
                 "siteName": cityData.siteName
