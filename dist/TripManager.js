@@ -23,13 +23,19 @@ class TripManager {
             cityName: this._stringForAPI(destination.cityName),
             countryName: this._stringForAPI(destination.countryName)
         }
-        console.log(capDestination)
         let weather = await $.post("/cityWeather", capDestination)
         return weather
     }
 
-    async getSites(destinationObject){
-        let sites = await $.post("/sites",destinationObject)
+    async getSites(destination){
+        
+        let cityCountryArray= destination.split(", ")
+        console.log(cityCountryArray)
+        let capDestination = {
+            cityName: cityCountryArray[0],
+            countryName: cityCountryArray[1]
+        }
+        let sites = await $.post("/sites",capDestination)
         return sites
     }
 }

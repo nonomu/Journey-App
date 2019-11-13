@@ -8,7 +8,8 @@ body{
 #main-container{
     display: grid;
     width: 100vw;
-    grid-template-rows: 1fr 1fr 2fr 4fr;
+    height: 100vh;
+    grid-template-rows: 1fr 1fr 1fr 5fr;
     grid-template-areas: "n"
                          "i"
                          "c"
@@ -19,8 +20,10 @@ body{
     grid-area: i;
     display: grid;
     justify-self: center;
+    align-self: center;
+    justify-items: center;
     width: fit-content;
-    margin-top: 10px;
+    height: fit-content;
     grid-auto-flow: column;
 }
 
@@ -68,6 +71,8 @@ body{
 
 #sites{
     grid-area: s;
+    display:grid;
+    grid-template-rows: repeat(5,1fr);
 }
 
 .city-info{
@@ -99,10 +104,30 @@ p{
     font-family: 'Poppins', sans-serif;
 }
 
-#sites{
-    display: grid; 
-}
 
 .site-info{
-    
+    display: grid;
+    grid-template-columns: 2fr 2fr 1fr 1fr 1fr;
+    align-items: center;
+    height: fit-content;
+}
+
+.favorites{
+    height: fit-content;
+    width: fit-content;
+    border-radius: 7px;
+    padding: 3px;
+    font-family: 'Poppins', sans-serif;
+}
+
+
+
+@media screen and (max-width: 768px){
+    img{
+    height: 60px;
+    width: 60px;
+}
+    .city-info{
+        font-size: 16px;
+    }
 }
