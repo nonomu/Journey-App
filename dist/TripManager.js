@@ -9,6 +9,10 @@ class TripManager {
         return weather
     }
 
+    getSites(destinationObject){
+
+    }
+
 
 
 }

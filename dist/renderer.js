@@ -9,8 +9,12 @@ class Renderer {
         $("#cities").append(weatherHTML)
     }
 
-    renderData(allCityData) {
-        
+    renderSites(sites) {
+        $("#sites").empty()
+        let source = $("#site-template").html()
+        let template = Handlebars.compile(source)
+        let weatherHTML = template({sites})
+        $("#sites").append(weatherHTML)
     }
 }
 
