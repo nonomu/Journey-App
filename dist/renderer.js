@@ -2,15 +2,14 @@
 class Renderer {
    
     renderWeather(weather) {
-        $("#main-container").empty()
+
+        $("#cities").empty()
         let source = $("#weather-template").html()
         let template = Handlebars.compile(source)
-        let newHTML = template(weather)
-        $("#main-container").append(newHTML)
+        let weatherHTML = template(weather)
+        $("#cities").append(weatherHTML)
     }
 
-    renderData(allCityData) {
-        
-    }
+  
 }
 
