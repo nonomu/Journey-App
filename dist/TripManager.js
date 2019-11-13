@@ -26,8 +26,8 @@ class TripManager {
         let capDestination = this._stringFromDOM(destination)
         let sites = await $.post("/sites", capDestination)
         let newSites = []
-        for(let site of sites){
-           let rating = Number.parseFloat(site.rating).toFixed(1)
+        for (let site of sites) {
+            let rating = Number.parseFloat(site.rating).toFixed(1)
             site.rating = rating
             newSites.push(site)
         }
@@ -36,23 +36,62 @@ class TripManager {
 
     addToFavorites(destination, site) {
         let destObj = this._stringFromDOM(destination)
-        let favorite = {
+        
+        let favSite = {
+            siteName: site.siteName,
+            address: site.address,
+            openingHours: site.openingHours,
+            rating: site.rating
+        }
+
+       
+        let index = 0
+        if(this.favorites.length > 0){
+            for (let favorite of this.favorites) {
+                if (favorite.cityName === destObj.cityName && favorite.countryName === destObj.countryName){
+                    favorite.favoritePlaces.push(favAndDest)
+                    this.favorites.splice(index, 1, favorite)
+                } else {
+    
+                    let cityData = {
+                        cityName: destObj.cityName,
+                        countryName: destObj.countryName,
+                        favoritePlaces: []
+                    }
+    
+                    cityData.favoritePlaces.push(favSite)
+                    this.favorites.push(cityData)
+    
+                }
+    
+                index++
+            }
+        } else {
+            let cityData = {
+                cityName: destObj.cityName,
+                countryName: destObj.countryName,
+                favoritePlaces: []
+            }
+
+            cityData.favoritePlaces.push(favSite)
+            this.favorites.push(cityData)
+        }
+
+        let favAndDest = {
             cityName: destObj.cityName,
             countryName: destObj.countryName,
             siteName: site.siteName,
             address: site.address,
             openingHours: site.openingHours,
-            rating: site.rating,
-            website: site.website,
-            picture: ""
+            rating: site.rating
         }
-        this.favorites.push(favorite)
-        $.post('/favorites', favorite, function (response,err) {
+
+        $.post('/favorites', favAndDest, function (response, err) {
             console.log(response)
         })
     }
 
-    removeFromFavorites(destination,site){
+    removeFromFavorites(destination, site) {
         let destObj = this._stringFromDOM(destination)
         let siteForDel = {
             cityName: destObj.cityName,
@@ -64,16 +103,15 @@ class TripManager {
             website: site.website,
             picture: ""
         }
-
-        for(let favorite of this.favorites){
-            let index = 0
-            if(favorite.cityName === siteForDel.cityName && favorite.siteName === siteForDel.siteName && favorite.address === siteForDel.address){
-                this.favorites.splice(index,1)
-                console.log(siteForDel)
+        let index = 0
+        for (let favorite of this.favorites) {
+            if (favorite.cityName === siteForDel.cityName && favorite.siteName === siteForDel.siteName && favorite.address === siteForDel.address) {
+                this.favorites.splice(index, 1)
+                console.log(index)
+                console.log(this.favorites)
             }
             index++
         }
-        console.log(this.favorites)
 
         $.ajax({
             method: "DELETE",
@@ -87,13 +125,13 @@ class TripManager {
             }
 
         })
-        
+
 
     }
 
-    getFavorites(){
+    // getFavorites() {
 
-    }
+    // }
 }
 
 

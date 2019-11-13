@@ -75,44 +75,66 @@ router.post('/sites', async function(req, res){
     latitude = result.candidates[0].geometry.location.lat
     longitude = result.candidates[0].geometry.location.lng
     
-    result =  await requestPromise(`https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=${latitude},${longitude}&radius=2000&key=${APIkey}&pagetoken`)
+    result =  await requestPromise(`https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=${latitude},${longitude}&type=bar&radius=2000&key=${APIkey}&pagetoken`)
     result = JSON.parse(result)
     let places = result.results
-    let placesIDs = places.map(p =>  {return p.place_id})
-
-    let placesDetails = []
-    for(let p of placesIDs){
-        let place = await requestPromise(`https://maps.googleapis.com/maps/api/place/details/json?place_id=${p}&fields=name,rating,formatted_address,type,international_phone_number,opening_hours,website&type=tourist_attraction&key=${APIkey}`)
-        place = JSON.parse(place)   
-        if(place.result.rating){
-            placesDetails.push({
-                siteName: place.result.name,
-                address: place.result.formatted_address,
-                phone: place.result.international_phone_number,
-                openingHours: place.result.opening_hours ? place.result.opening_hours.weekday_text : false,
-                rating: place.result.rating,
-                website: place.result.website
+    let newPlaces = []
+    for(p of places){
+        if(p.rating){
+            newPlaces.push({
+                siteName: p.name,
+                address: p.vicinity,
+                openingHours: p.opening_hours ? p.opening_hours.open_now : false,
+                rating: p.rating,
             })
-        }           
+        } 
     }
+
+    newPlaces.shift()
+    newPlaces.sort(function(a, b){
+       return a.rating-b.rating
+   })
+   .reverse()
+   newPlaces = newPlaces.splice(0, 5)
+
+    res.send(newPlaces)
+
+    // let placesIDs = places.map(p =>  {return p.place_id})
+
+    // let placesDetails = []
+    // for(let p of placesIDs){
+    //     let place = await requestPromise(`https://maps.googleapis.com/maps/api/place/details/json?place_id=${p}&fields=name,rating,formatted_address,type,international_phone_number,opening_hours,website&key=${APIkey}`)
+    //     place = JSON.parse(place)   
+    //     if(place.result.rating){
+    //         placesDetails.push({
+    //             siteName: place.result.name,
+    //             address: place.result.formatted_address,
+    //             phone: place.result.international_phone_number,
+    //             openingHours: place.result.opening_hours ? place.result.opening_hours.weekday_text : false,
+    //             rating: place.result.rating,
+    //             website: place.result.website
+    //         })
+    //     }           
+    // }
     
-     placesDetails.shift()
-     placesDetails.sort(function(a, b){
-        return a.rating-b.rating
-    })
-    .reverse()
-    placesDetails = placesDetails.splice(0, 5)
-    res.send(placesDetails)
+    //  placesDetails.shift()
+    //  placesDetails.sort(function(a, b){
+    //     return a.rating-b.rating
+    // })
+    // .reverse()
+    // placesDetails = placesDetails.splice(0, 5)
+    // res.send(placesDetails)
 })
 
 
 router.get('/favorites',async function(req, res){
-   let data =await Favorites.find({})
+   let data = await Favorites.find({})
          res.send(data)
 })
 
 router.post('/favorites',async function(req, res){
     let cityData =req.body
+    console.log(cityData)
     const FavObj={
         siteName: cityData.siteName,
         address:cityData.address,
@@ -120,7 +142,7 @@ router.post('/favorites',async function(req, res){
         rating:cityData.rating,
         picture:cityData.picture ,
         website:cityData.website }
-        // console.log(FavObj)
+
     const FavArr = [FavObj]
     const Favdb = await Favorites.findOne({cityName: cityData.cityName,countryName: cityData.countryName})
     if(Favdb==null)  

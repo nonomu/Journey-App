@@ -1,6 +1,6 @@
 const render = new Renderer()
 const tripManager = new TripManager()
-
+let sites
 // tripManager.getFavourites()
 
 let input = document.getElementById('autocomplete');
