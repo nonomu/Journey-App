@@ -61,7 +61,7 @@ router.post('/sites', async function(req, res){
                     siteName: place.result.name,
                     address: place.result.formatted_address,
                     phone: place.result.international_phone_number,
-                    openningHours: place.result.opening_hours ? place.result.opening_hours.weekday_text : false,
+                    openingHours: place.result.opening_hours ? place.result.opening_hours.weekday_text : false,
                     rating: place.result.rating,
                     website: place.result.website
                 })       
@@ -87,8 +87,8 @@ router.post('/favorites',async function(req, res){
     const FavObj={
         siteName: cityData.siteName,
         address:cityData.address,
-        openningHours:cityData.openningHours,
-        rate:cityData.rate,
+        openingHours:cityData.openingHours,
+        rating:cityData.rating,
         picture:cityData.picture ,
         website:cityData.website }
         console.log(FavObj)
@@ -101,13 +101,13 @@ router.post('/favorites',async function(req, res){
     }
     else{
     await Favorites.findOneAndUpdate(
-        {cityName:cityData.Cityname,countryName: cityData.CountryName},
+        {cityName:cityData.Cityname,countryName: cityData.countryName},
         { $push: { FavoritePlaces:
                  {	
                  siteName:cityData.siteName,
                 address:cityData.address,
-                 openningHours:cityData.openningHours,
-                 rate:cityData.rate,
+                 openingHours:cityData.openingHours,
+                 rating:cityData.rating,
                  picture:cityData.picture,
                  website:cityData.website}
                   } }
@@ -119,7 +119,7 @@ router.post('/favorites',async function(req, res){
 router.delete('/favorites/remove',async function(req, res){
     let cityData =req.body
     Favorites.findOneAndUpdate(
-            {cityname:cityData.cityname,countryName: cityData.CountryName},
+            {cityname:cityData.cityname,countryName: cityData.countryName},
             { $pull: { "favoritePlaces": {	
                 "address": cityData.address,
                 "siteName": cityData.siteName
