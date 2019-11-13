@@ -34,27 +34,31 @@ class TripManager {
             countryName: this._stringForAPI(destination.countryName)
         }
         let weather = await $.post("/cityWeather", capDestination)
+        let temp = parseInt(weather.temperature)
+        weather.temperature = temp
+        console.log(weather)
         return weather
     }
 
     async getSites(destination) {
         let capDestination = this._stringFromDOM(destination)
         let sites = await $.post("/sites", capDestination)
-        sites.forEach(s=> this.sites.push(s))
-        return this.sites
+        return sites
     }
 
     addToFavorites(destination, site) {
         let destObj = this._stringFromDOM(destination)
-        console.log(destObj)
         let favorite = {
-            cityName: destObj[0],
-            countryName: destObj[1],
+            cityName: destObj.cityName,
+            countryName: destObj.countryName,
             siteName: site.siteName,
             address: site.address,
             openningHours: site.openningHours,
-            rating: site.rating
+            rating: site.rating,
+            website: site.website,
+            picture: ""
         }
+        console.log(favorite)
         $.post('/favorite', favorite, function (response, err) {
             console.log(response)
         })

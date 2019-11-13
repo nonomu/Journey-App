@@ -23,8 +23,8 @@ $("#sites").on("click",".fa-plus-circle",function(){
         siteName: $(this).closest(".favorite").siblings("p").text(),
         address: $(this).closest(".favorite").siblings(".address").text(),
         openningHours: $(this).closest(".favorite").siblings(".hours").text(),
-        rating: $(this).closest(".favorite").siblings(".rating").text()
+        rating: $(this).closest(".favorite").siblings(".rating").text(),
+        // website: $(this).closest(".favorite").siblings(".website").text()
     }
-    console.log(site)
     tripManager.addToFavorites(destination,site)
 })
