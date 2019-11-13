@@ -38,11 +38,9 @@ router.post('/cityWeather', async function (req, res) {
 
 router.post('/sites', async function(req, res){
     const APIkey = 'AIzaSyD_D-FODJApGj4CUB_V-ey9xzRH-gU2uRk'
-    let placeObj = req.body
-    let cityName = placeObj.cityName
-    let countryName = placeObj.countryName
+    let input = req.body
     
-    let result = await requestPromise(`https://maps.googleapis.com/maps/api/place/findplacefromtext/json?input=${cityName},${countryName}&inputtype=textquery&fields=formatted_address,geometry,icon,name,permanently_closed,photos,place_id,plus_code,types&key=${APIkey}&language=EN`)
+    let result = await requestPromise(`https://maps.googleapis.com/maps/api/place/findplacefromtext/json?input=${input}&inputtype=textquery&fields=formatted_address,geometry,icon,name,permanently_closed,photos,place_id,plus_code,types&key=${APIkey}&language=EN`)
     result = JSON.parse(result)        
     latitude = result.candidates[0].geometry.location.lat
     longitude = result.candidates[0].geometry.location.lng
