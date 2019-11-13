@@ -129,9 +129,10 @@ class TripManager {
 
     }
 
-    // getFavorites() {
-
-    // }
+    async getFavorites() {
+       let favoritesDB = await $.get('/favorites')
+        return favoritesDB
+    }
 }
 
 
