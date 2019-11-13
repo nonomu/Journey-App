@@ -77,7 +77,7 @@ router.post('/sites', async function(req, res){
 })
 
 
-router.post('/favorites',async function(req, res){
+router.get('/favorites',async function(req, res){
    await Favorites.update(
         {Cityname:"Tel aviv",CountryName: "Israel"},
             { $push: { FavoritePlaces: {	
