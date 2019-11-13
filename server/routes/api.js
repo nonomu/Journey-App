@@ -62,12 +62,77 @@ router.post('/sites', async function(req, res){
     })
 })
 
-router.post('/favorites', function(req, res){
-    let cityData = req.body    
-    let city = new Favorites(cityData)
-    city.save()
-    res.send(city)
+router.post('/favorites',async function(req, res){
+   await Favorites.update(
+        {Cityname:"Tel aviv",CountryName: "Israel"},
+            { $push: { FavoritePlaces: {	
+                 siteName:"new",
+                address:"try3",
+                 openningHours:"8-12",
+                 rate:"5",
+                 picture:"URL",
+                 website: "newURl"}
+                  } }
+         )
+         res.end()
+})
+router.put('/favorites/add',async function(req, res){
+    let cityData =req.body
+    const FavObj={
+        siteName: cityData.siteName,
+        address:cityData.address,
+        openningHours:cityData.openningHours,
+        rate:cityData.rate,
+        picture:cityData.picture ,
+        website:cityData.website }
+    const FavArr=[FavObj]
+    const Favdb= await Favorites.findOne({Cityname: cityData.Cityname,CountryName: cityData.CountryName})
+    if(Favdb==null)  
+    {
+        let city = new Favorites({Cityname:cityData.Cityname,CountryName:cityData.CountryName,FavoritePlaces:FavArr})
+        await city.save()
+    }
+    else{
+    await Favorites.update(
+        {Cityname:cityData.Cityname,CountryName: cityData.CountryName},
+        { $push: { FavoritePlaces:
+                GI {	
+                 siteName:cityData.siteName,
+                address:cityData.address,
+                 openningHours:cityData.openningHours,
+                 rate:cityData.rate,
+                 picture:cityData.picture,
+                 website:cityData.website}
+                  } }
+         )
+    }
+    res.send("Thx")
+})
+router.put('/favorites/remove',async function(req, res){
+    let cityData =req.body
+    Favorites.findOneAndUpdate(
+            {Cityname:cityData.Cityname,CountryName: cityData.CountryName},
+                { $pull: { FavoritePlaces: {	
+                    address:cityData.address
+                 } }}
+             )
+    res.send("Deleted")
 })
 
-
 module.exports = router
+
+
+/*
+Add new favorite place
+db.favoritetrips.update(
+   {Cityname: "Jerusalem" },
+   { $push: { FavoritePlaces: {name:"baba",link:"NewURL"} } }
+)
+delete favorite place
+db.favoritetrips.update(
+  { Cityname: "Jerusalem",
+   CountryName: "Israel"},
+  { $pull: { 'FavoritePlaces': {name:"baba",link:"NewURL"} } }
+);
+
+*/
