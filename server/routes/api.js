@@ -30,14 +30,18 @@ const APPID = "693487d5ce7f67db0872c3ce4dbe3b15"
 const WheatherAPIbasicURL = "https://api.openweathermap.org/data/2.5/weather"
 
 router.post('/cityWeather', async function (req, res) {
+
     const cityName=req.body.city
     const countryName=req.body.state
+    
     try {
         const weatherData =  await requestPromise(`${WheatherAPIbasicURL}?q=${cityName},q=${countryName}&units=metric&APPID=${APPID}`)
         const data= JSON.parse(weatherData)
         const IconModified= IconsTransfer[data.weather[0].icon]
         const weatherModified = {
-            name: data.name , country: data.sys.country, temp : data.main.temp,description:data.weather[0].description, Icon: `https://uds-static.api.aero/weather/icon/lg/${IconModified}.png`
+
+            cityName: data.name , countryName: data.sys.country, temperature : data.main.temp,description:data.weather[0].description, icon: `https://uds-static.api.aero/weather/icon/lg/${IconModified}.png`
+
         }
         res.send(weatherModified)
     }
