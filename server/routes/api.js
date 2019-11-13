@@ -128,18 +128,3 @@ router.put('/favorites/remove',async function(req, res){
 
 module.exports = router
 
-
-/*
-Add new favorite place
-db.favoritetrips.update(
-   {Cityname: "Jerusalem" },
-   { $push: { FavoritePlaces: {name:"baba",link:"NewURL"} } }
-)
-delete favorite place
-db.favoritetrips.update(
-  { Cityname: "Jerusalem",
-   CountryName: "Israel"},
-  { $pull: { 'FavoritePlaces': {name:"baba",link:"NewURL"} } }
-);
-
-*/
