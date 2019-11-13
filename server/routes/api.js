@@ -47,18 +47,16 @@ router.post('/sites', async function(req, res){
     latitude = result.candidates[0].geometry.location.lat
     longitude = result.candidates[0].geometry.location.lng
     
-    result =  await requestPromise(`https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=${latitude},${longitude}&radius=20000&key=${APIkey}&pagetoken`)
+    result =  await requestPromise(`https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=${latitude},${longitude}&radius=2000&key=${APIkey}&pagetoken`)
     result = JSON.parse(result)
     let places = result.results
     placesIDs = places.map(p =>   {return p.place_id})
 
     let placesDetails = []
     for(let p of placesIDs){
-        let place = await requestPromise(`https://maps.googleapis.com/maps/api/place/details/json?place_id=${p}&fields=name,rating,formatted_address,type,international_phone_number,opening_hours,website&key=${APIkey}`)
+        let place = await requestPromise(`https://maps.googleapis.com/maps/api/place/details/json?place_id=${p}&fields=name,rating,formatted_address,type,international_phone_number,opening_hours,website&type=tourist_attraction&key=${APIkey}`)
         place = JSON.parse(place)   
-       // let types = ["cafe", "bar", "museum", "night_club", "restaurant", "food", "art_gallery", "spa", "stadium", "shopping_mall", "tourist_attraction", "zoo"]
-        // for(t of types){
-        //     if(place.result.types.includes(t)){
+     
                 placesDetails.push({
                     siteName: place.result.name,
                     address: place.result.formatted_address,
@@ -66,13 +64,15 @@ router.post('/sites', async function(req, res){
                     openningHours: place.result.opening_hours ? place.result.opening_hours.weekday_text : false,
                     rating: place.result.rating,
                     website: place.result.website
-                })
-        //     } 
-        // }
-        placesDetails = placesDetails.sort(function(a, b){
-            return a.rating-b.rating
-        }).reverse().splice(0, 5)
+                })       
     }
+    
+     placesDetails.shift()
+     placesDetails.sort(function(a, b){
+        return a.rating-b.rating
+    })
+    .reverse()
+    placesDetails = placesDetails.splice(0, 5)
     res.send(placesDetails)
 })
 
@@ -111,7 +111,7 @@ router.put('/favorites/add',async function(req, res){
     await Favorites.update(
         {Cityname:cityData.Cityname,CountryName: cityData.CountryName},
         { $push: { FavoritePlaces:
-                GI {	
+                 {	
                  siteName:cityData.siteName,
                 address:cityData.address,
                  openningHours:cityData.openningHours,
