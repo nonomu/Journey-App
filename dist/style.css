@@ -1,34 +1,37 @@
 body{
     margin: 0;
     height: 100vh;
+    width: 100vw;
     background-color: #CDE6F5;
 }
 
 #main-container{
     display: grid;
-    grid-template-rows: 1fr 1fr 7fr;
+    width: 100vw;
+    grid-template-rows: 1fr 1fr 2fr 4fr;
     grid-template-areas: "n"
                          "i"
-                         "c";
+                         "c"
+                         "s";
 }
 
 #form{
-    grid-area: i ;
+    grid-area: i;
     display: grid;
-    width: 50%;
-    grid-template-columns: repeat(3, 1fr);
     justify-self: center;
-    align-content: center;
-    grid-gap: 7px;
+    width: fit-content;
+    margin-top: 10px;
+    grid-auto-flow: column;
 }
 
 .input{
-    width: fit-content;
     height: fit-content;
+    width: fit-content;
     border-radius: 7px;
-    padding: 5px;
+    padding: 3px;
     font-family: 'Poppins', sans-serif;
 }
+
 
 #nav-bar{
     grid-area: n;
@@ -63,12 +66,15 @@ body{
     display: grid;
 }
 
+#sites{
+    grid-area: s;
+}
+
 .city-info{
     display: grid;
     background-color: #8DA7BE;
     color:white;
     width: 80%;
-    height: 15%;
     justify-self: center;
     align-items: center;
     justify-items: center;
