@@ -19,7 +19,7 @@
         <div id="nav-bar">
             <div id="logo" class="nav">Journey</div>
             <div id="favorites" class="nav">
-                <p>Favorites</p>
+                <p>Favorites</p>    
                 <div id="favorite-sites"></div>
             </div>
         </div>
@@ -43,7 +43,6 @@
                     <button class="explore">Explore</button>
                 </div>
     </script>
-
     <script id="site-template" type="text/x-handlebars-template">
         {{#each sites}}
     <div class ="site">
@@ -66,7 +65,6 @@
     </div>
         {{/each}}
     </script>
-
     <script id="favorite-template" type="text/x-handlebars-template">
             <p>{{cityName}}, {{countryName}}</p>
             <p>{{siteName}}</p>
@@ -78,7 +76,6 @@
             {{/if}}
             <div class="rating">{{rating}}</div>
     </script>
-
     <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyD_D-FODJApGj4CUB_V-ey9xzRH-gU2uRk&libraries=places&language=en"></script>>
     <script src="/handlebars/dist/handlebars.js"></script>
     <script src="/jquery/dist/jquery.min.js"></script>
@@ -86,5 +83,4 @@
     <script src="renderer.js"></script>
     <script src="main.js"></script>
 </body>
-
 </html>

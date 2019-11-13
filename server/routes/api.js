@@ -47,14 +47,14 @@ router.post('/sites', async function(req, res){
     latitude = result.candidates[0].geometry.location.lat
     longitude = result.candidates[0].geometry.location.lng
     
-    result =  await requestPromise(`https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=${latitude},${longitude}&radius=2000&key=${APIkey}&pagetoken`)
+    result =  await requestPromise(`https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=${latitude},${longitude}&type=bar&radius=2000&key=${APIkey}&pagetoken`)
     result = JSON.parse(result)
     let places = result.results
     placesIDs = places.map(p =>  {return p.place_id})
 
     let placesDetails = []
     for(let p of placesIDs){
-        let place = await requestPromise(`https://maps.googleapis.com/maps/api/place/details/json?place_id=${p}&fields=name,rating,formatted_address,type,international_phone_number,opening_hours,website&type=tourist_attraction&key=${APIkey}`)
+        let place = await requestPromise(`https://maps.googleapis.com/maps/api/place/details/json?place_id=${p}&fields=name,rating,formatted_address,type,international_phone_number,opening_hours,website&key=${APIkey}`)
         place = JSON.parse(place)   
         if(place.result.rating){
             placesDetails.push({
@@ -79,7 +79,7 @@ router.post('/sites', async function(req, res){
 
 
 router.get('/favorites',async function(req, res){
-   let data =await Favorites.find({})
+   let data = await Favorites.find({})
          res.send(data)
 })
 
