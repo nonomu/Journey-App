@@ -9,6 +9,6 @@ $("#submit").on("click", async function () {
 
     console.log(destination)
 
-    let weather = await getCityWeather(destination)
+    let weather = await tripManager.getCityWeather(destination)
     render.renderWeather(weather)
 })
