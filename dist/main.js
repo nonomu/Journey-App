@@ -11,10 +11,4 @@ $("#submit").on("click", async function(){
 })
 
 
-var country_code = null;
-$.getJSON('http://ipinfo.io/' + userip, function(data){
-    country_code = data.country;
-    alert(country_code);
-});
-
 

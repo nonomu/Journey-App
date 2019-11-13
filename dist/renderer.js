@@ -9,7 +9,6 @@ class Renderer {
         let weatherHTML = template(weather)
         $("#cities").append(weatherHTML)
     }
-
   
 }
 
