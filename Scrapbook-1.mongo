@@ -1,0 +1,12 @@
+db.favoritetrips.update(
+   {Cityname: "Jerusalem" },
+   { $push: { FavoritePlaces: {name:"baba",link:"NewURL"} } }
+)
+
+db.favoritetrips.findOneAndUpdate(
+  { Cityname: "Jerusalem",
+   CountryName: "Israel"},
+  { $pull: { 'FavoritePlaces': {name:"baba",link:"NewURL"} } }
+);
+
+db.favoritetrips.find({})

@@ -11,6 +11,7 @@ $("#submit").on("click", async function () {
     render.renderWeather(weather)
 })
 
+
 $("#cities").on("click", ".explore", async function () {
     let destination = $(this).siblings("p").text()
     let sites = await tripManager.getSites(destination)
