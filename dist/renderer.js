@@ -10,6 +10,13 @@ class Renderer {
         $("#cities").append(weatherHTML)
     }
 
+    renderSites(sites){
+        $("#sites").empty()
+        let source = $("#site-template").html()
+        let template = Handlebars.compile(source)
+        let sitesHTML = template({sites})
+        $("#sites").append(sitesHTML)
+    }
   
 }
 

@@ -1,34 +1,40 @@
 body{
     margin: 0;
     height: 100vh;
+    width: 100vw;
     background-color: #CDE6F5;
 }
 
 #main-container{
     display: grid;
-    grid-template-rows: 1fr 1fr 7fr;
+    width: 100vw;
+    height: 100vh;
+    grid-template-rows: 2fr 2fr 1fr 20fr;
     grid-template-areas: "n"
                          "i"
-                         "c";
+                         "c"
+                         "s";
 }
 
 #form{
-    grid-area: i ;
+    grid-area: i;
     display: grid;
-    width: 50%;
-    grid-template-columns: repeat(3, 1fr);
     justify-self: center;
-    align-content: center;
-    grid-gap: 7px;
+    align-self: center;
+    justify-items: center;
+    width: fit-content;
+    height: fit-content;
+    grid-auto-flow: column;
 }
 
 .input{
-    width: fit-content;
     height: fit-content;
+    width: fit-content;
     border-radius: 7px;
-    padding: 5px;
+    padding: 3px;
     font-family: 'Poppins', sans-serif;
 }
+
 
 #nav-bar{
     grid-area: n;
@@ -63,12 +69,18 @@ body{
     display: grid;
 }
 
+#sites{
+    grid-area: s;
+    display:grid;
+    grid-auto-rows: min-content;
+    justify-items: center;
+}
+
 .city-info{
     display: grid;
     background-color: #8DA7BE;
     color:white;
     width: 80%;
-    height: 15%;
     justify-self: center;
     align-items: center;
     justify-items: center;
@@ -91,4 +103,49 @@ p{
     border-radius: 7px;
     padding: 5px;
     font-family: 'Poppins', sans-serif;
+}
+
+
+.site-info{
+    display: grid;
+    grid-template-columns: 2fr 2fr 1fr 1fr 1fr;
+    align-items: center;
+    height: fit-content;
+    width: 90vw;
+    background-color: white;
+    border-radius: 7px;
+    font-family: 'Indie Flower', cursive;
+    background-color:white ;
+    color: #554640;
+    margin: 3px;
+    justify-items: center;
+    box-shadow: 5px 5px 5px  #554640; ;
+}
+
+.favorites{
+    height: fit-content;
+    width: fit-content;
+    border-radius: 7px;
+    padding: 3px;
+    width: 15px;
+    font-family: 'Poppins', sans-serif;
+    color: #554640;
+}
+
+
+
+@media screen and (max-width: 768px){
+    img{
+    height: 60px;
+    width: 60px;
+}
+
+    .city-info{
+        font-size: 14px;
+        justify-self: center;
+    }
+
+    .site-info{
+        font-size: 14px;
+    }
 }
