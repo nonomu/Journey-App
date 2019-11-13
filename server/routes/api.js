@@ -50,7 +50,7 @@ router.post('/sites', async function(req, res){
     result =  await requestPromise(`https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=${latitude},${longitude}&radius=20000&key=${APIkey}&pagetoken`)
     result = JSON.parse(result)
     let places = result.results
-    placesIDs = places.map(p =>   {return p.place_id})
+    placesIDs = places.map(p =>  {return p.place_id})
 
     let placesDetails = []
     for(let p of placesIDs){
@@ -77,7 +77,7 @@ router.post('/sites', async function(req, res){
 })
 
 
-router.post('/favorites',async function(req, res){
+router.get('/favorites',async function(req, res){
    await Favorites.update(
         {Cityname:"Tel aviv",CountryName: "Israel"},
             { $push: { FavoritePlaces: {	
@@ -91,7 +91,8 @@ router.post('/favorites',async function(req, res){
          )
          res.end()
 })
-router.put('/favorites/add',async function(req, res){
+
+router.post('/favorites',async function(req, res){
     let cityData =req.body
     const FavObj={
         siteName: cityData.siteName,
@@ -100,18 +101,19 @@ router.put('/favorites/add',async function(req, res){
         rate:cityData.rate,
         picture:cityData.picture ,
         website:cityData.website }
-    const FavArr=[FavObj]
-    const Favdb= await Favorites.findOne({Cityname: cityData.Cityname,CountryName: cityData.CountryName})
+        console.log(FavObj)
+    const FavArr = [FavObj]
+    const Favdb = await Favorites.findOne({cityName: cityData.cityName,countryName: cityData.countryName})
     if(Favdb==null)  
     {
-        let city = new Favorites({Cityname:cityData.Cityname,CountryName:cityData.CountryName,FavoritePlaces:FavArr})
+        let city = new Favorites({cityName:cityData.cityname,countryName:cityData.countryName,favoritePlaces:FavArr})
         await city.save()
     }
     else{
-    await Favorites.update(
-        {Cityname:cityData.Cityname,CountryName: cityData.CountryName},
+    await Favorites.findOneAndUpdate(
+        {cityName:cityData.Cityname,countryName: cityData.CountryName},
         { $push: { FavoritePlaces:
-                GI {	
+                 {	
                  siteName:cityData.siteName,
                 address:cityData.address,
                  openningHours:cityData.openningHours,
@@ -123,11 +125,12 @@ router.put('/favorites/add',async function(req, res){
     }
     res.send("Thx")
 })
-router.put('/favorites/remove',async function(req, res){
+
+router.delete('/favorites/remove',async function(req, res){
     let cityData =req.body
     Favorites.findOneAndUpdate(
-            {Cityname:cityData.Cityname,CountryName: cityData.CountryName},
-                { $pull: { FavoritePlaces: {	
+            {cityname:cityData.cityname,countryName: cityData.CountryName},
+                { $pull: { favoritePlaces: {	
                     address:cityData.address
                  } }}
              )
@@ -138,17 +141,3 @@ router.put('/favorites/remove',async function(req, res){
 module.exports = router
 
 
-/*
-Add new favorite place
-db.favoritetrips.update(
-   {Cityname: "Jerusalem" },
-   { $push: { FavoritePlaces: {name:"baba",link:"NewURL"} } }
-)
-delete favorite place
-db.favoritetrips.update(
-  { Cityname: "Jerusalem",
-   CountryName: "Israel"},
-  { $pull: { 'FavoritePlaces': {name:"baba",link:"NewURL"} } }
-);
-
-*/

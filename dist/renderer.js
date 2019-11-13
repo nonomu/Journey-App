@@ -2,8 +2,8 @@
 class Renderer {
    
     renderWeather(weather) {
-
         $("#cities").empty()
+        $("#sites").empty()
         let source = $("#weather-template").html()
         let template = Handlebars.compile(source)
         let weatherHTML = template(weather)
@@ -18,6 +18,13 @@ class Renderer {
         $("#sites").append(sitesHTML)
     }
 
+    renderFavorites(){
+        $("#favorites").empty()
+        let source = $("#favorite-template").html()
+        let template = Handlebars.compile(source)
+        let weatherHTML = template(weather)
+        $("#favorites").append(weatherHTML)
+    }
   
 }
 
