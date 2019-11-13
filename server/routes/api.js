@@ -41,14 +41,15 @@ router.post('/sites', async function(req, res){
     let input = req.body
     
     let result = await requestPromise(`https://maps.googleapis.com/maps/api/place/findplacefromtext/json?input=${input}&inputtype=textquery&fields=formatted_address,geometry,icon,name,permanently_closed,photos,place_id,plus_code,types&key=${APIkey}&language=EN`)
-    result = JSON.parse(result)        
-    latitude = result.candidates[0].geometry.location.lat
-    longitude = result.candidates[0].geometry.location.lng
+    result = JSON.parse(result) 
+    console.log(result)       
+    let latitude = result.candidates[0].geometry.location.lat
+    let longitude = result.candidates[0].geometry.location.lng
     
     result =  await requestPromise(`https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=${latitude},${longitude}&radius=2000&key=${APIkey}&pagetoken`)
     result = JSON.parse(result)
     let places = result.results
-    placesIDs = places.map(p =>  {return p.place_id})
+    let placesIDs = places.map(p =>  {return p.place_id})
 
     let placesDetails = []
     for(let p of placesIDs){
@@ -114,7 +115,7 @@ router.post('/favorites',async function(req, res){
     res.send("Thx")
 })
 
-router.delete('/favorites/remove',async function(req, res){
+router.delete('/favorites',async function(req, res){
     let cityData =req.body
     Favorites.findOneAndUpdate(
             {cityname:cityData.cityname,countryName: cityData.countryName},
