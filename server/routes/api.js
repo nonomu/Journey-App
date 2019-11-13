@@ -127,8 +127,8 @@ router.post('/favorites',async function(req, res){
 router.delete('/favorites/remove',async function(req, res){
     let cityData =req.body
     Favorites.findOneAndUpdate(
-            {Cityname:cityData.Cityname,CountryName: cityData.CountryName},
-                { $pull: { FavoritePlaces: {	
+            {cityname:cityData.cityname,countryName: cityData.CountryName},
+                { $pull: { favoritePlaces: {	
                     address:cityData.address
                  } }}
              )
