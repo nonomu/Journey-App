@@ -154,3 +154,7 @@ p{
 i:hover {
     cursor: pointer;
 }
+
+.more-info{
+    display: none;
+}

@@ -36,13 +36,13 @@ class TripManager {
         let weather = await $.post("/cityWeather", capDestination)
         let temp = parseInt(weather.temperature)
         weather.temperature = temp
-        console.log(weather)
         return weather
     }
 
     async getSites(destination) {
         let capDestination = this._stringFromDOM(destination)
         let sites = await $.post("/sites", capDestination)
+        console.log(sites)
         return sites
     }
 

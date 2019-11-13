@@ -24,7 +24,7 @@ $("#sites").on("click",".fa-plus-circle",function(){
         address: $(this).closest(".favorite").siblings(".address").text(),
         openningHours: $(this).closest(".favorite").siblings(".hours").text(),
         rating: $(this).closest(".favorite").siblings(".rating").text(),
-        // website: $(this).closest(".favorite").siblings(".website").text()
+        website: $(this).closest(".favorite").siblings(".website").text()
     }
     tripManager.addToFavorites(destination,site)
 })
