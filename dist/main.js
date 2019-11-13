@@ -14,11 +14,19 @@ $("#submit").on("click", async function () {
 
 $("#cities").on("click", ".explore", async function () {
     let destination = $(this).siblings("p").text()
-    console.log(destination)
     let sites = await tripManager.getSites(destination)
-    // let sites = [{ siteName: "Hello", address: "Boo 12,st", openningHours: true, rate: 5 }, { siteName: "Bye", address: "Bee 21,st", openningHours: false, rate: 2.5 }]
-    console.log(sites)
     render.renderSites(sites)
 })
 
-
+$("#sites").on("click",".fa-plus-circle",function(){
+    let destination = $(this).closest("#sites").siblings("#cities").find(".city-info").find("p").text()
+    let site = {
+        siteName: $(this).closest(".favorite").siblings("p").text(),
+        address: $(this).closest(".favorite").siblings(".address").text(),
+        openningHours: $(this).closest(".favorite").siblings(".hours").text(),
+        rating: $(this).closest(".favorite").siblings(".rating").text(),
+        website: $(this).closest(".favorite").closest(".site-info").siblings(".more-info").find("a").attr("href")
+    }
+    
+    tripManager.addToFavorites(destination,site)
+})

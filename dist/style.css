@@ -149,3 +149,12 @@ p{
         font-size: 14px;
     }
 }
+
+
+i:hover {
+    cursor: pointer;
+}
+
+.more-info{
+    display: none;
+}

@@ -2,9 +2,9 @@ const mongoose = require('mongoose')
 const Schema = mongoose.Schema
 
 const FavoriteSchema = new Schema({
-    Cityname: String,
-    CountryName:String,
-    FavoritePlaces:[
+    cityName: String,
+    countryName:String,
+    favoritePlaces:[
         // {
         //     siteName:String,
         //     address:String,
