@@ -16,6 +16,14 @@ google.maps.event.addListener(autocomplete, 'place_changed',async function(){
 })
 
 
+let userLocation = document.getElementById('user-location');
+let autocomplete1 = new google.maps.places.Autocomplete(userLocation,{types: ['(cities)']});
+google.maps.event.addListener(autocomplete1, 'place_changed',async function(){
+    let place = $("#user-location")[0].value
+    
+})
+
+
 $("#cities").on("click", ".explore", async function () {
     render.renderSites(tripManager.sites)
     $(this).text("Find Flights")

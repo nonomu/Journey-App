@@ -23,7 +23,10 @@
         <div id="favorites-container"></div>
         
         <div id="form">
-            <input class="input" type="text" id="autocomplete" />
+            
+            <input class="input" type="text" id="user-location" placeholder="Enter current place" />
+            <input class="input" type="text" id="autocomplete" placeholder="Enter destination" />
+          
         </div>
 
         <div id="cities"></div>
@@ -45,15 +48,10 @@
         {{#each flyList}}
     <div class ="site">
         <div class = "site-info">
-            <div class = "address">From {{cityFrom}} to {{cityTo}}</div>
+            <div class = "address">From {{cityFrom}} <br> to {{cityTo}}</div>
             <div class = "hours">{{duration}} in {{route}}routes</div>
             <div class="rating">{{price}}USD</div>
             <div class="favorite"><a href={{link}}> book </a></div>
-            <!-- <i class="fas fa-minus-circle"></i> -->
-        </div>
-        <div class = "more-info">
-            <a href = {{website}}>Visit {{siteName}}</a>
-            <img src = {{picture}}>
         </div>
     </div>
         {{/each}}
@@ -61,7 +59,7 @@
     <script id="site-template" type="text/x-handlebars-template">
         {{#each sites}}
     <div class ="site">
-        <div class = "site-info">
+        <div class = "site-info">d
             <p>{{siteName}}</p>
             <div class = "address">{{address}}</div>
             {{#if openingHours}}
@@ -98,9 +96,11 @@
         {{/each}}
     
     </script>
+
     <script type="text/javascript"
         src="https://maps.googleapis.com/maps/api/js?key=AIzaSyD_D-FODJApGj4CUB_V-ey9xzRH-gU2uRk&libraries=places&language=en"></script>
     >
+
     <script src="/handlebars/dist/handlebars.js"></script>
     <script src="/jquery/dist/jquery.min.js"></script>
     <script src="TripManager.js"></script>

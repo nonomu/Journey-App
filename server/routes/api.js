@@ -174,3 +174,10 @@ router.delete('/favorites', async function (req, res) {
 
 module.exports = router
 
+// render.renderSites(tripManager.sites)
+// $(this).text("Find Flights")
+// let currenLocation = $("#user-location")[0].value
+// let place = $("#autocomplete")[0].value
+// let locations={currenLocation:currenLocation,place:place}
+// const flights=await tripManager.getFlights(locations)
+// console.log(flights);

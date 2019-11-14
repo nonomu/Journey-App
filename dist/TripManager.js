@@ -16,7 +16,9 @@ class TripManager {
         return capDestination
     }
      async getFlights(destination){
-        let capDestination = this._stringFromDOM(destination)
+        let currenLocation = this._stringFromDOM(destination.currenLocation)
+        let destination = this._stringFromDOM(destination.place)
+        const capDestination={currenLocation,destination}
          const flightsData=await $.post('/flights',capDestination)
          let flightsDataModified= flightsData.map(f=>{return {
             cityFrom:f.cityFrom,
