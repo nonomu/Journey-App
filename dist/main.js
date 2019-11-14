@@ -19,7 +19,6 @@ google.maps.event.addListener(autocomplete, 'place_changed',async function(){
 let userLocation = document.getElementById('user-location');
 let autocomplete1 = new google.maps.places.Autocomplete(userLocation,{types: ['(cities)']});
 google.maps.event.addListener(autocomplete1, 'place_changed',async function(){
-    let place = $("#user-location")[0].value
     
 })
 
@@ -28,9 +27,11 @@ $("#cities").on("click", ".explore", async function () {
     render.renderSites(tripManager.sites)
     $(this).text("Find Flights")
     let destination = $(this).siblings("p").text()
-    const flights=await tripManager.getFlights(destination)
+     let currenLocation = $("#user-location")[0].value
+    let place = $("#autocomplete")[0].value
+    let locations={currenLocation:currenLocation,place:place}
+    const flights=await tripManager.getFlights(locations)
     console.log(flights);
-    
     $(this).attr("class" ,"findFlights")
     
 })
@@ -44,7 +45,6 @@ $("#cities").on("click", ".findFlights", async function () {
 $("#favorite-text").on("click", async function () {
     if ($(this).hasClass("unclicked")) {
         let sites = await tripManager.getFavorites()
-        console.log(sites)
         render.renderFavorites(sites)
         $(this).attr("class","clicked")
         $("#favorites-container").hide().slideDown("slow")
