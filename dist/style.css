@@ -168,11 +168,13 @@ p{
     display: grid;
     background-color: #554640 ;
     margin: 10px;
-    top: 10%;
+    top: 60px;
     position: absolute;
     overflow: auto;
     text-align: center;
     z-index: 1;
+    border-radius:  0 0 5px 5px;
+    right: 30px;
 }
 
 .city-fav-name{
@@ -184,5 +186,17 @@ p{
 }
 
 #favorite-text:hover{
-
+    cursor: pointer;
 }
+
+.city-fav-list{
+    display: grid;
+}
+
+.fav-place{
+    color: white;
+    font-family: 'Poppins', sans-serif;
+    font-size: 15px;
+    padding: 5px;
+}
+
