@@ -153,7 +153,14 @@ p{
         font-size: 14px;
     }
 }
-
+.fa-window-close{
+    position: absolute;
+   /* text-align: end; */
+   right: 8px;
+   top: 7px;
+    margin-right: 2px;
+    font-size: 30px;
+}
 
 i:hover {
     cursor: pointer;
