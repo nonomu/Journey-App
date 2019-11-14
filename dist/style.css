@@ -211,3 +211,29 @@ a:link{
 a:visited{
     color: #98D2EB;
 }
+
+@keyframes gradientBG {
+    0% {
+        background-position: 0% 50%;
+    }
+    50% {
+        background-position: 100% 50%;
+    }
+    100% {
+        background-position: 0% 50%;
+    }
+}
+
+
+.find-flights{
+    display: none;
+    width: fit-content;
+    height: fit-content;
+    border-radius: 7px;
+    padding: 5px;
+    font-family: 'Poppins', sans-serif;
+    background: linear-gradient(-45deg, white, #87919E,white);
+    background-size: 200% 200%;
+	animation: gradientBG 2s ease;
+    
+}
