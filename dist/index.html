@@ -10,7 +10,6 @@
     <link rel="stylesheet" href="style.css" />
     <link href="https://fonts.googleapis.com/css?family=Indie+Flower|Lobster|Poppins&display=swap" rel="stylesheet">
     <script src="https://kit.fontawesome.com/0c25c19dc4.js" crossorigin="anonymous"></script>
-
 </head>
 
 <body>
@@ -19,7 +18,7 @@
         <div id="nav-bar">
             <div id="logo" class="nav">Journey</div>
             <div id="favorites" class="nav">
-                <p>Favorites</p>    
+                <p class="favorite-text">Favorites</p>    
                 <div id="favorite-sites"></div>
             </div>
         </div>
@@ -31,7 +30,7 @@
         <div id="cities"></div>
 
         <div id="sites"></div>
-
+        
     </div>
 
     <script id="weather-template" type="text/x-handlebars-template">
@@ -66,7 +65,12 @@
         {{/each}}
     </script>
     <script id="favorite-template" type="text/x-handlebars-template">
-            <p>{{cityName}}, {{countryName}}</p>
+        
+        <i class="fas fa-window-close"></i>
+        {{#each favList}} 
+       
+            <p class="cityFavName">{{cityName}}, {{countryName}}</p>
+            {{#each favoritePlaces}}
             <p>{{siteName}}</p>
             <div class = "address">{{address}}</div>
             {{#if openingHours}}
@@ -75,6 +79,9 @@
             <div class="hours">Close</div>
             {{/if}}
             <div class="rating">{{rating}}</div>
+            {{/each}}
+        {{/each}}
+    
     </script>
     <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyD_D-FODJApGj4CUB_V-ey9xzRH-gU2uRk&libraries=places&language=en"></script>>
     <script src="/handlebars/dist/handlebars.js"></script>
