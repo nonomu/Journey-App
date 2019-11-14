@@ -9,14 +9,17 @@ google.maps.event.addListener(autocomplete, 'place_changed',async function(){
     let place = $("#autocomplete")[0].value
     let weather = await tripManager.getCityWeather(place)
     render.renderWeather(weather)
+    tripManager.sites = await tripManager.getSites(place)
+    console.log(tripManager.sites);
+    $(".explore").toggle()
+    
 })
 
 
 $("#cities").on("click", ".explore", async function () {
-    let destination = $(this).siblings("p").text()
-    let sites = await tripManager.getSites(destination)
-    render.renderSites(sites)
+    render.renderSites(tripManager.sites)
 })
+
 $("#favorites").on("click", ".favorite-text",  async function () {
     let sites = await tripManager.getFavorites()
     console.log(sites)
@@ -52,6 +55,7 @@ $("#sites").on("click",".fa-minus-circle",function(){
         website: $(this).closest(".favorite").closest(".site-info").siblings(".more-info").find("a").attr("href")
     }
     
+     
     tripManager.removeFromFavorites(destination,site)
     $(this).attr("class","fas fa-plus-circle")
 })

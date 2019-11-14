@@ -1,7 +1,9 @@
 
 class TripManager {
     constructor() {
-        this.favorites = []
+        this.favorites = [],
+        this.flights=[],
+        this.sites=[]
     }
 
 
@@ -13,7 +15,12 @@ class TripManager {
         }
         return capDestination
     }
-
+     async getFlights(destination){
+        let capDestination = this._stringFromDOM(destination)
+         const flightsData=await $.post('/flights',capDestination)
+         console.log(flightsData)
+         this.flights= flightsData
+     }
     async getCityWeather(destination) {
         let capDestination = this._stringFromDOM(destination)
         let weather = await $.post('/cityWeather', capDestination)
@@ -43,39 +50,6 @@ class TripManager {
             openingHours: site.openingHours,
             rating: site.rating
         }
-
-        // let index = 0
-        // if(this.favorites.length > 0){
-        //     for (let favorite of this.favorites) {
-        //         if (favorite.cityName === destObj.cityName && favorite.countryName === destObj.countryName){
-        //             favorite.favoritePlaces.push(favAndDest)
-        //             this.favorites.splice(index, 1, favorite)
-        //         } else {
-    
-        //             let cityData = {
-        //                 cityName: destObj.cityName,
-        //                 countryName: destObj.countryName,
-        //                 favoritePlaces: []
-        //             }
-    
-        //             cityData.favoritePlaces.push(favSite)
-        //             this.favorites.push(cityData)
-    
-        //         }
-    
-        //         index++
-        //     }
-        // } else {
-        //     let cityData = {
-        //         cityName: destObj.cityName,
-        //         countryName: destObj.countryName,
-        //         favoritePlaces: []
-        //     }
-
-        //     cityData.favoritePlaces.push(favSite)
-        //     this.favorites.push(cityData)
-        // }
-
         let favAndDest = {
             cityName: destObj.cityName,
             countryName: destObj.countryName,
@@ -133,7 +107,4 @@ class TripManager {
     
         
 }
-
-
-
 
