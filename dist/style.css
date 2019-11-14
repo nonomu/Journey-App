@@ -163,11 +163,26 @@ p{
     font-size: 30px;
 }
 
-i:hover {
-    cursor: pointer;
+
+#favorites-container{
+    display: grid;
+    background-color: #554640 ;
+    margin: 10px;
+    top: 10%;
+    position: absolute;
+    overflow: auto;
+    text-align: center;
+    z-index: 1;
 }
 
-.more-info{
-    display: none;
+.city-fav-name{
+    background-color:wheat;
+    color: #554640;
+    font-weight: bold;
+    font-family: 'Poppins', sans-serif;
+    font-size: 20px;
 }
 
+#favorite-text:hover{
+
+}

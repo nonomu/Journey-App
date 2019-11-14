@@ -109,31 +109,6 @@ router.post('/sites', async function(req, res){
    newPlaces = newPlaces.splice(0, 5)
     res.send(newPlaces)
 
-    // let placesIDs = places.map(p =>  {return p.place_id})
-
-    // let placesDetails = []
-    // for(let p of placesIDs){
-    //     let place = await requestPromise(`https://maps.googleapis.com/maps/api/place/details/json?place_id=${p}&fields=name,rating,formatted_address,type,international_phone_number,opening_hours,website&key=${APIkey}`)
-    //     place = JSON.parse(place)   
-    //     if(place.result.rating){
-    //         placesDetails.push({
-    //             siteName: place.result.name,
-    //             address: place.result.formatted_address,
-    //             phone: place.result.international_phone_number,
-    //             openingHours: place.result.opening_hours ? place.result.opening_hours.weekday_text : false,
-    //             rating: place.result.rating,
-    //             website: place.result.website
-    //         })
-    //     }           
-    // }
-    
-    //  placesDetails.shift()
-    //  placesDetails.sort(function(a, b){
-    //     return a.rating-b.rating
-    // })
-    // .reverse()
-    // placesDetails = placesDetails.splice(0, 5)
-    // res.send(placesDetails)
 })
 
 
