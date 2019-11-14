@@ -1,15 +1,15 @@
 body{
     margin: 0;
-    /* height: 100vh; */
+    height: 100vh;
     width: 100vw;
     background-color: #CDE6F5;
 }
 
 #main-container{
     display: grid;
-    width: 100vw;
     height: 100vh;
-    grid-template-rows: 2fr 2fr 1fr 20fr;
+    width: 100vw;
+    grid-template-rows: 2fr 2fr 1fr 15fr;
     grid-template-areas: "n"
                          "i"
                          "c"
@@ -83,7 +83,7 @@ body{
     justify-self: center;
     align-items: center;
     justify-items: center;
-    margin: 15px;
+    margin: 5px;
     padding: 5px;
     border-radius: 10px;
     grid-template-columns: repeat(5,1fr);
@@ -110,33 +110,27 @@ p{
     display: grid;
     grid-template-columns: 2fr 2fr 1fr 1fr 1fr;
     align-items: center;
-    height: fit-content;
+    height: 8vh;
     width: 90vw;
     background-color: white;
     border-radius: 7px;
     font-family: 'Indie Flower', cursive;
-    background-color:white ;
     color: #554640;
     margin: 3px;
     justify-items: center;
-    box-shadow: 5px 5px 5px  #554640; ;
+    box-shadow: 5px 5px 5px  #554640; 
+    font-size: 16px;
 }
 
-.favorites{
-    height: fit-content;
-    width: 80vw;
-    border-radius: 7px;
-    padding: 3px;
-    width: 15px;
-    font-family: 'Poppins', sans-serif;
-    font-size: 14px;
-    color: #554640;
-}
 
 .cityFavName{
     font-size: 20px;
     font-family: 'Poppins', sans-serif;
     color: #CDE6F5;
+}
+
+.weather-des{
+    text-align: center;
 }
 
 @media screen and (max-width: 768px){
@@ -151,8 +145,12 @@ p{
     }
 
     .site-info{
-        font-size: 14px;
+        font-size: 12px;
+        padding: 2px;
     }
+
+    
+
 }
 .fa-window-close{
     position: absolute;
@@ -167,8 +165,7 @@ p{
 #favorites-container{
     display: grid;
     background-color: #554640 ;
-    margin: 10px;
-    top: 60px;
+    top: 75px;
     position: absolute;
     overflow: auto;
     text-align: center;
@@ -183,6 +180,13 @@ p{
     font-weight: bold;
     font-family: 'Poppins', sans-serif;
     font-size: 20px;
+}
+
+#favorite-text{
+    display: grid;
+    position: absolute;
+    right: 17%;
+    width: fit-content;
 }
 
 #favorite-text:hover{
@@ -200,3 +204,10 @@ p{
     padding: 5px;
 }
 
+a:link{
+    color: #554640;
+}
+
+a:visited{
+    color: #98D2EB;
+}
