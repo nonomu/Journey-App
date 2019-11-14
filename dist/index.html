@@ -42,26 +42,20 @@
                     <button class="explore">Explore</button>
                 </div>
     </script>
+
     <script id="flights-template" type="text/x-handlebars-template">
         {{#each flyList}}
-    <div class ="site">
         <div class = "site-info">
             <div class = "address">From {{cityFrom}} to {{cityTo}}</div>
             <div class = "hours">{{duration}} in {{route}}routes</div>
             <div class="rating">{{price}}USD</div>
-            <div class="favorite"><a href={{link}}> book </a></div>
-            <!-- <i class="fas fa-minus-circle"></i> -->
+            <div class="favorite"><a href={{link}} target="_blank"> <i class="fas fa-plane-departure"></i> </a></div>
         </div>
-        <div class = "more-info">
-            <a href = {{website}}>Visit {{siteName}}</a>
-            <img src = {{picture}}>
-        </div>
-    </div>
         {{/each}}
     </script>
+
     <script id="site-template" type="text/x-handlebars-template">
         {{#each sites}}
-    <div class ="site">
         <div class = "site-info">
             <p>{{siteName}}</p>
             <div class = "address">{{address}}</div>
@@ -74,7 +68,6 @@
             <div class="favorite"><i display="none" class="fas fa-plus-circle"></i></div>
             <!-- <i class="fas fa-minus-circle"></i> -->
         </div>
-    </div>
         {{/each}}
     </script>
 
