@@ -26,9 +26,17 @@ google.maps.event.addListener(autocomplete1, 'place_changed',async function(){
 $("#cities").on("click", ".explore", async function () {
     render.renderSites(tripManager.sites)
     let destination = $(this).siblings("p").text()
-    await tripManager.getFlights(destination)
+
+     let currenLocation = $("#user-location")[0].value
+    let place = $("#autocomplete")[0].value
+    let locations={currenLocation:currenLocation,place:place}
+    await tripManager.getFlights(locations)
+   
+
+    
     $(this).text("Find Flights")
     $(this).attr("class" ,"find-flights")
+
     
 })
 $("#cities").on("click", ".find-flights", async function () {
