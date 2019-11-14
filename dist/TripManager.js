@@ -1,7 +1,9 @@
 
 class TripManager {
     constructor() {
-        this.favorites = []
+        this.favorites = [],
+        this.flights=[],
+        this.sites=[]
     }
 
 
@@ -13,6 +15,12 @@ class TripManager {
         }
         return capDestination
     }
+     async getFlights(destination){
+        let capDestination = this._stringFromDOM(destination)
+         const flightsData=await $.post('/flights',capDestination)
+         console.log(flightsData)
+         this.flights= flightsData
+     }
 
     async getCityWeather(destination) {
         let capDestination = this._stringFromDOM(destination)
@@ -37,13 +45,6 @@ class TripManager {
     addToFavorites(destination, site) {
         let destObj = this._stringFromDOM(destination)
         
-        let favSite = {
-            siteName: site.siteName,
-            address: site.address,
-            openingHours: site.openingHours,
-            rating: site.rating
-        }
-
         let favAndDest = {
             cityName: destObj.cityName,
             countryName: destObj.countryName,
@@ -95,13 +96,10 @@ class TripManager {
 
     }
     async getFavorites() {
-        let data=await $.get('/favorites')
+        let data = await $.get('/favorites')
             return data      
          }
     
         
 }
-
-
-
 
