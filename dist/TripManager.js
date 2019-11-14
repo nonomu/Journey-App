@@ -37,45 +37,6 @@ class TripManager {
     addToFavorites(destination, site) {
         let destObj = this._stringFromDOM(destination)
         
-        let favSite = {
-            siteName: site.siteName,
-            address: site.address,
-            openingHours: site.openingHours,
-            rating: site.rating
-        }
-
-        // let index = 0
-        // if(this.favorites.length > 0){
-        //     for (let favorite of this.favorites) {
-        //         if (favorite.cityName === destObj.cityName && favorite.countryName === destObj.countryName){
-        //             favorite.favoritePlaces.push(favAndDest)
-        //             this.favorites.splice(index, 1, favorite)
-        //         } else {
-    
-        //             let cityData = {
-        //                 cityName: destObj.cityName,
-        //                 countryName: destObj.countryName,
-        //                 favoritePlaces: []
-        //             }
-    
-        //             cityData.favoritePlaces.push(favSite)
-        //             this.favorites.push(cityData)
-    
-        //         }
-    
-        //         index++
-        //     }
-        // } else {
-        //     let cityData = {
-        //         cityName: destObj.cityName,
-        //         countryName: destObj.countryName,
-        //         favoritePlaces: []
-        //     }
-
-        //     cityData.favoritePlaces.push(favSite)
-        //     this.favorites.push(cityData)
-        // }
-
         let favAndDest = {
             cityName: destObj.cityName,
             countryName: destObj.countryName,
