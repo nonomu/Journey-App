@@ -9,15 +9,26 @@ google.maps.event.addListener(autocomplete, 'place_changed',async function(){
     let place = $("#autocomplete")[0].value
     let weather = await tripManager.getCityWeather(place)
     render.renderWeather(weather)
+    $(".explore").fadeIn(3000)
     tripManager.sites = await tripManager.getSites(place)
-    console.log(tripManager.sites);
-    $(".explore").toggle()
-    
 })
 
 
 $("#cities").on("click", ".explore", async function () {
     render.renderSites(tripManager.sites)
+    $(this).text("Find Flights")
+    let destination = $(this).siblings("p").text()
+    const flights=await tripManager.getFlights(destination)
+    console.log(flights);
+    
+    $(this).attr("class" ,"findFlights")
+    
+})
+$("#cities").on("click", ".findFlights", async function () {
+    $(this).text("Explore")
+    render.renderFlights(tripManager.flights)
+    $(this).text("Explore")
+    $(this).attr("class" ,"explore")
 })
 
 $("#favorites").on("click", ".favorite-text",  async function () {

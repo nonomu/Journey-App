@@ -24,6 +24,13 @@ class Renderer {
         let favoHTML = template({favList})
         $("#favorites").append(favoHTML)
     }
+    renderFlights(flyList){
+        $("#sites").empty()
+        let source = $("#flights-template").html()
+        let template = Handlebars.compile(source)
+        let sitesHTML = template({flyList})
+        $("#sites").append(sitesHTML)
+    }
   
 }
 

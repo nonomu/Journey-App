@@ -18,8 +18,17 @@ class TripManager {
      async getFlights(destination){
         let capDestination = this._stringFromDOM(destination)
          const flightsData=await $.post('/flights',capDestination)
-         console.log(flightsData)
-         this.flights= flightsData
+         let flightsDataModified= flightsData.map(f=>{return {
+            cityFrom:f.cityFrom,
+            cityTo:f.cityTo, 
+            route:f.route.length ,
+            price:f.conversion.USD,
+            duration: f.fly_duration,
+            link: f.deep_link,
+            bagPrice: f.bags_price["1"]
+         }})
+         this.flights=flightsDataModified
+         return flightsDataModified
      }
     async getCityWeather(destination) {
         let capDestination = this._stringFromDOM(destination)
@@ -73,7 +82,6 @@ class TripManager {
             address: site.address,
             openingHours: site.openingHours,
             rating: site.rating,
-          
         }
         let index = 0
         for (let favorite of this.favorites) {
