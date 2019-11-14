@@ -18,11 +18,11 @@ class Renderer {
         $("#sites").append(sitesHTML)
     }
     renderFavorites(favList){
-        $("#favorites").empty()
+        $("#favorites-container").empty()
         let source = $("#favorite-template").html()
         let template = Handlebars.compile(source)
         let favoHTML = template({favList})
-        $("#favorites").append(favoHTML)
+        $("#favorites-container").append(favoHTML)
     }
   
 }

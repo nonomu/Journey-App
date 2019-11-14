@@ -17,20 +17,19 @@
     <div id="main-container">
         <div id="nav-bar">
             <div id="logo" class="nav">Journey</div>
-            <div id="favorites" class="nav">
-                <p class="favorite-text">Favorites</p>    
-                <div id="favorite-sites"></div>
-            </div>
+            <p id="favorite-text" class="unclicked">Favorites</p>
         </div>
-
+        
+        <div id="favorites-container"></div>
+        
         <div id="form">
-            <input class="input" type="text" id="autocomplete"/>
+            <input class="input" type="text" id="autocomplete" />
         </div>
 
         <div id="cities"></div>
 
         <div id="sites"></div>
-        
+
     </div>
 
     <script id="weather-template" type="text/x-handlebars-template">
@@ -57,20 +56,17 @@
             <div class="favorite"><i display="none" class="fas fa-plus-circle"></i></div>
             <!-- <i class="fas fa-minus-circle"></i> -->
         </div>
-        <div class = "more-info">
-            <a href = {{website}}>Visit {{siteName}}</a>
-            <img src = {{picture}}>
-        </div>
     </div>
         {{/each}}
     </script>
+
+
     <script id="favorite-template" type="text/x-handlebars-template">
-        
-        <i class="fas fa-window-close"></i>
         {{#each favList}} 
-       
-            <p class="cityFavName">{{cityName}}, {{countryName}}</p>
+    <div class = "city-fav-list">
+            <div class="city-fav-name">{{cityName}}, {{countryName}}</div>
             {{#each favoritePlaces}}
+        <div class ="fav-place">
             <p>{{siteName}}</p>
             <div class = "address">{{address}}</div>
             {{#if openingHours}}
@@ -79,15 +75,20 @@
             <div class="hours">Close</div>
             {{/if}}
             <div class="rating">{{rating}}</div>
+        </div>
             {{/each}}
+    </div>
         {{/each}}
     
     </script>
-    <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyD_D-FODJApGj4CUB_V-ey9xzRH-gU2uRk&libraries=places&language=en"></script>>
+    <script type="text/javascript"
+        src="https://maps.googleapis.com/maps/api/js?key=AIzaSyD_D-FODJApGj4CUB_V-ey9xzRH-gU2uRk&libraries=places&language=en"></script>
+    >
     <script src="/handlebars/dist/handlebars.js"></script>
     <script src="/jquery/dist/jquery.min.js"></script>
     <script src="TripManager.js"></script>
     <script src="renderer.js"></script>
     <script src="main.js"></script>
 </body>
+
 </html>
