@@ -19,7 +19,7 @@ class TripManager {
         let currenLocation = this._stringFromDOM(destination.currenLocation)
         let destinationPlace =this._stringFromDOM(destination.place)
         let desAndCurrent= {currenLocation,destinationPlace}
-         const flightsData=await $.post('/flights',desAndCurrent)
+         const flightsData = await $.post('/flights',desAndCurrent)
          let flightsDataModified= flightsData.map(f=>{return {
             cityFrom:f.cityFrom,
             cityTo:f.cityTo, 
