@@ -2,8 +2,6 @@ const render = new Renderer()
 const tripManager = new TripManager()
 let sites
 
-// $("#")
-// tripManager.getFavourites()
 
 let input = document.getElementById('autocomplete');
 let autocomplete = new google.maps.places.Autocomplete(input,{types: ['(cities)']});
@@ -31,9 +29,6 @@ $("#cities").on("click", ".explore", async function () {
     let place = $("#autocomplete")[0].value
     let locations={currenLocation:currenLocation,place:place}
     await tripManager.getFlights(locations)
-   
-
-    
     $(this).text("Find Flights")
     $(this).attr("class" ,"find-flights")
 

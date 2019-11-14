@@ -21,10 +21,11 @@ mongoose.set('useUnifiedTopology', true);
 router.get('/get/', async function (req, res) {
     res.end()
 })
+
 router.post('/flights', async function (req, res) {
     // let cityName = req.body.cityName
     // let countryName = req.body.countryName
-    console.log(req.body);
+    
     
     let curCityName=req.body["currenLocation[cityName]"]
     let curCountryName= req.body["currenLocation[countryName]"]
@@ -47,7 +48,7 @@ router.post('/flights', async function (req, res) {
             `https://api.skypicker.com/flights?fly_from=airport:${curiata}&fly_to=airport:${desiata}&dateFrom=14/11/2019&dateTo=19/11/2019&partner=picky&return_from=20/11/2019&return_to=12/12/2019&flight_type=round&curr=USD&max_stopovers=1&ret_from_diff_airport=0&limit=5`
             )
         res.send(JSON.parse(flightsData).data)
-        res.end()
+        return
     }
     else{
         return false
