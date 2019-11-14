@@ -24,23 +24,35 @@ router.get('/get/',async function (req, res) {
 router.post('/flights', async function (req, res) {
     let cityName=req.body.cityName
     let countryName=req.body.countryName
-    const airportInSameCity=await airports.find({ city : cityName})
-    // console.log("SameCity Flights" +airportInSameCity  );
-    // const airportInSameContry=await airports.find({ country : countryName})
-    // console.log("SameCounrty Flights" + " " + airportInSameContry )
-    // res.send(airportInSameCity)
-    // try {
-    //     const flightsData =  await requestPromise(`${FlightsAPIbasicURL}fly_from=airport:${iatafrom}&fly_to=airport:${iatato}&
-    //                                                                     dateFrom=${datefrom}&dateTo=${dateto}&partner=picky&
-    //                                                                     return_from=${returnfrom}&return_to=${returnto}&
-    //                                                                     flight_type=round&curr=USD&max_stopovers=1&ret_from_diff_airport=0&limit=10`)
-    //     res.send(weatherModified)
-    // }
-    // catch (err) {
-    //      res.status(400)
-    //     res.send(err.message)
+    let airportInSameCity=await airports.find(
+        {city : cityName},
+        {"iata_code" : 1, "_id":0})
+                   
+    if(airportInSameCity !=null)
+    {
+        const flightsData =  await requestPromise(`${FlightsAPIbasicURL}fly_from=airport:TLV&fly_to=airport:${airportInSameCity[0]._doc.iata_code}&
+                                                                        dateFrom=14/11/2019&dateTo=19/11/2019&partner=picky&
+                                                                        return_from=20/11/2019&return_to=12/12/2019&
+                                                                        flight_type=round&curr=USD&max_stopovers=1&ret_from_diff_airport=0&limit=10`)
+               res.send(JSON.parse (flightsData).data) 
+               res.end()                                            
+    }
+    console.log("SameCity Flights" +airportInSameCity  );
+    let airportInSameContry=await airports.find({ country : countryName})
+    console.log("SameCounrty Flights" + " " + airportInSameContry )
+    res.send(airportInSameContry)
+    try {
+        const flightsData =  await requestPromise(`${FlightsAPIbasicURL}fly_from=airport:${iatafrom}&fly_to=airport:${iatato}&
+                                                                        dateFrom=${datefrom}&dateTo=${dateto}&partner=picky&
+                                                                        return_from=${returnfrom}&return_to=${returnto}&
+                                                                        flight_type=round&curr=USD&max_stopovers=1&ret_from_diff_airport=0&limit=5`)
+        res.send(weatherModified)
+    }
+    catch (err) {
+         res.status(400)
+        res.send(err.message)
         
-    // }
+    }
 })
 
 
@@ -59,8 +71,7 @@ router.post('/cityWeather', async function (req, res) {
     }
     catch (err) {
          res.status(400)
-        res.send(err.message)
-        
+        res.send(err.message) 
     }
 })
 
@@ -96,7 +107,6 @@ router.post('/sites', async function(req, res){
    })
    .reverse()
    newPlaces = newPlaces.splice(0, 5)
-
     res.send(newPlaces)
 
     // let placesIDs = places.map(p =>  {return p.place_id})
