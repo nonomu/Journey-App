@@ -23,7 +23,10 @@
         
         
         <div id="form">
-            <input class="input" type="text" id="autocomplete" />
+            
+            <input class="input" type="text" id="user-location" placeholder="Enter current place" />
+            <input class="input" type="text" id="autocomplete" placeholder="Enter destination" />
+          
         </div>
         
         <div id="cities"></div>
@@ -46,17 +49,21 @@
     <script id="flights-template" type="text/x-handlebars-template">
         {{#each flyList}}
         <div class = "site-info">
-            <div class = "address">From {{cityFrom}} to {{cityTo}}</div>
+            <div class = "address">From {{cityFrom}} <br> to {{cityTo}}</div>
             <div class = "hours">{{duration}} in {{route}}routes</div>
             <div class="rating">{{price}}USD</div>
+
             <div class="favorite"><a href={{link}} target="_blank"> <i class="fas fa-plane-departure"></i> </a></div>
+
         </div>
         {{/each}}
     </script>
 
     <script id="site-template" type="text/x-handlebars-template">
         {{#each sites}}
+
         <div class = "site-info">
+
             <p>{{siteName}}</p>
             <div class = "address">{{address}}</div>
             {{#if openingHours}}

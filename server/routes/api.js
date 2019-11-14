@@ -22,18 +22,29 @@ router.get('/get/', async function (req, res) {
     res.end()
 })
 router.post('/flights', async function (req, res) {
-    let cityName = req.body.cityName
-    let countryName = req.body.countryName
-    try{
-    let airportInSameCity = await airports.find(
-        { city: cityName },
-        { "iata_code": 1, "_id": 0 })
-    const iata=airportInSameCity[0]._doc.iata_code
-    console.log(airportInSameCity[0]);
+    // let cityName = req.body.cityName
+    // let countryName = req.body.countryName
+    console.log(req.body);
     
-    if (iata != null) {
+    let curCityName=req.body["currenLocation[cityName]"]
+    let curCountryName= req.body["currenLocation[countryName]"]
+    let desCityName= req.body["destinationPlace[cityName]"]
+    let desCountryName=req.body["destinationPlace[countryName]"]
+    try{
+    let desairport = await airports.find(
+        { city: desCityName },
+        { "iata_code": 1, "_id": 0 })
+    let curairport = await airports.find(
+            { city: curCityName },
+            { "iata_code": 1, "_id": 0 })
+    const curiata=curairport[0]._doc.iata_code
+    const desiata=desairport[0]._doc.iata_code
+        console.log(desiata + curiata);
+        
+    
+    if (desiata != null && curiata != null) {
         const flightsData = await requestPromise(
-            `https://api.skypicker.com/flights?fly_from=airport:TLV&fly_to=airport:${iata}&dateFrom=14/11/2019&dateTo=19/11/2019&partner=picky&return_from=20/11/2019&return_to=12/12/2019&flight_type=round&curr=USD&max_stopovers=1&ret_from_diff_airport=0&limit=5`
+            `https://api.skypicker.com/flights?fly_from=airport:${curiata}&fly_to=airport:${desiata}&dateFrom=14/11/2019&dateTo=19/11/2019&partner=picky&return_from=20/11/2019&return_to=12/12/2019&flight_type=round&curr=USD&max_stopovers=1&ret_from_diff_airport=0&limit=5`
             )
         res.send(JSON.parse(flightsData).data)
         res.end()
@@ -174,3 +185,10 @@ router.delete('/favorites', async function (req, res) {
 
 module.exports = router
 
+// render.renderSites(tripManager.sites)
+// $(this).text("Find Flights")
+// let currenLocation = $("#user-location")[0].value
+// let place = $("#autocomplete")[0].value
+// let locations={currenLocation:currenLocation,place:place}
+// const flights=await tripManager.getFlights(locations)
+// console.log(flights);
