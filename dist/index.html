@@ -41,6 +41,23 @@
                     <button class="explore">Explore</button>
                 </div>
     </script>
+    <script id="flights-template" type="text/x-handlebars-template">
+        {{#each flyList}}
+    <div class ="site">
+        <div class = "site-info">
+            <div class = "address">From {{cityFrom}} to {{cityTo}}</div>
+            <div class = "hours">{{duration}} in {{route}}routes</div>
+            <div class="rating">{{price}}USD</div>
+            <div class="favorite"><a href={{link}}> book </a></div>
+            <!-- <i class="fas fa-minus-circle"></i> -->
+        </div>
+        <div class = "more-info">
+            <a href = {{website}}>Visit {{siteName}}</a>
+            <img src = {{picture}}>
+        </div>
+    </div>
+        {{/each}}
+    </script>
     <script id="site-template" type="text/x-handlebars-template">
         {{#each sites}}
     <div class ="site">
@@ -81,9 +98,11 @@
         {{/each}}
     
     </script>
+
     <script type="text/javascript"
         src="https://maps.googleapis.com/maps/api/js?key=AIzaSyD_D-FODJApGj4CUB_V-ey9xzRH-gU2uRk&libraries=places&language=en"></script>
     >
+
     <script src="/handlebars/dist/handlebars.js"></script>
     <script src="/jquery/dist/jquery.min.js"></script>
     <script src="TripManager.js"></script>
