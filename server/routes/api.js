@@ -104,6 +104,7 @@ router.post('/sites', async function (req, res) {
         .reverse()
     newPlaces = newPlaces.splice(0, 5)
     res.send(newPlaces)
+
 })
 
 
