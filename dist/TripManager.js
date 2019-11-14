@@ -116,7 +116,7 @@ class TripManager {
         $.ajax({
             method: "DELETE",
             url: `/favorites`,
-            data: site,
+            data: siteForDel,
             success: function (err, res) {
                 console.log(`${res} was succesfully removed`)
             },
