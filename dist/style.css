@@ -184,6 +184,13 @@ p{
     font-size: 20px;
 }
 
+#favorite-text{
+    display: grid;
+    position: absolute;
+    right: 17%;
+    width: fit-content;
+}
+
 #favorite-text:hover{
     cursor: pointer;
 }
