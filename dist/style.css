@@ -97,6 +97,7 @@ p{
 }
 
 .explore{
+    display: none;
     width: fit-content;
     height: fit-content;
     border-radius: 7px;

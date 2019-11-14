@@ -1,7 +1,9 @@
 
 class TripManager {
     constructor() {
-        this.favorites = []
+        this.favorites = [],
+        this.flights=[],
+        this.sites=[]
     }
 
 
@@ -13,7 +15,12 @@ class TripManager {
         }
         return capDestination
     }
-
+     async getFlights(destination){
+        let capDestination = this._stringFromDOM(destination)
+         const flightsData=await $.post('/flights',capDestination)
+         console.log(flightsData)
+         this.flights= flightsData
+     }
     async getCityWeather(destination) {
         let capDestination = this._stringFromDOM(destination)
         let weather = await $.post('/cityWeather', capDestination)
@@ -133,7 +140,4 @@ class TripManager {
     
         
 }
-
-
-
 
