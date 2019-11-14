@@ -19,6 +19,16 @@ $("#cities").on("click", ".explore", async function () {
     let sites = await tripManager.getSites(destination)
     render.renderSites(sites)
 })
+$("#favorites").on("click", ".favorite-text",  async function () {
+    let sites = await tripManager.getFavorites()
+    console.log(sites)
+    render.renderFavorites(sites)
+   
+})
+$("#favorites").on("click",".fa-window-close" ,   function () {
+    $("#favorites").empty()
+    $("#favorites").append(`<p class="favorite-text">Favorites</p>`)  
+})
 
 $("#sites").on("click",".fa-plus-circle",function(){
     let destination = $(this).closest("#sites").siblings("#cities").find(".city-info").find("p").text()
@@ -47,4 +57,7 @@ $("#sites").on("click",".fa-minus-circle",function(){
     tripManager.removeFromFavorites(destination,site)
     $(this).attr("class","fas fa-plus-circle")
 })
+
+
+
 

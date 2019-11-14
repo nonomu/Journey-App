@@ -75,7 +75,6 @@ body{
     grid-auto-rows: min-content;
     justify-items: center;
 }
-
 .city-info{
     display: grid;
     background-color: #8DA7BE;
@@ -124,15 +123,20 @@ p{
 
 .favorites{
     height: fit-content;
-    width: fit-content;
+    width: 80vw;
     border-radius: 7px;
     padding: 3px;
     width: 15px;
     font-family: 'Poppins', sans-serif;
+    font-size: 14px;
     color: #554640;
 }
 
-
+.cityFavName{
+    font-size: 20px;
+    font-family: 'Poppins', sans-serif;
+    color: #CDE6F5;
+}
 
 @media screen and (max-width: 768px){
     img{
@@ -149,7 +153,14 @@ p{
         font-size: 14px;
     }
 }
-
+.fa-window-close{
+    position: absolute;
+   /* text-align: end; */
+   right: 8px;
+   top: 7px;
+    margin-right: 2px;
+    font-size: 30px;
+}
 
 i:hover {
     cursor: pointer;
@@ -158,3 +169,4 @@ i:hover {
 .more-info{
     display: none;
 }
+
