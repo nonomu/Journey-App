@@ -44,38 +44,37 @@ class TripManager {
             rating: site.rating
         }
 
-       
-        let index = 0
-        if(this.favorites.length > 0){
-            for (let favorite of this.favorites) {
-                if (favorite.cityName === destObj.cityName && favorite.countryName === destObj.countryName){
-                    favorite.favoritePlaces.push(favAndDest)
-                    this.favorites.splice(index, 1, favorite)
-                } else {
+        // let index = 0
+        // if(this.favorites.length > 0){
+        //     for (let favorite of this.favorites) {
+        //         if (favorite.cityName === destObj.cityName && favorite.countryName === destObj.countryName){
+        //             favorite.favoritePlaces.push(favAndDest)
+        //             this.favorites.splice(index, 1, favorite)
+        //         } else {
     
-                    let cityData = {
-                        cityName: destObj.cityName,
-                        countryName: destObj.countryName,
-                        favoritePlaces: []
-                    }
+        //             let cityData = {
+        //                 cityName: destObj.cityName,
+        //                 countryName: destObj.countryName,
+        //                 favoritePlaces: []
+        //             }
     
-                    cityData.favoritePlaces.push(favSite)
-                    this.favorites.push(cityData)
+        //             cityData.favoritePlaces.push(favSite)
+        //             this.favorites.push(cityData)
     
-                }
+        //         }
     
-                index++
-            }
-        } else {
-            let cityData = {
-                cityName: destObj.cityName,
-                countryName: destObj.countryName,
-                favoritePlaces: []
-            }
+        //         index++
+        //     }
+        // } else {
+        //     let cityData = {
+        //         cityName: destObj.cityName,
+        //         countryName: destObj.countryName,
+        //         favoritePlaces: []
+        //     }
 
-            cityData.favoritePlaces.push(favSite)
-            this.favorites.push(cityData)
-        }
+        //     cityData.favoritePlaces.push(favSite)
+        //     this.favorites.push(cityData)
+        // }
 
         let favAndDest = {
             cityName: destObj.cityName,
@@ -100,8 +99,7 @@ class TripManager {
             address: site.address,
             openingHours: site.openingHours,
             rating: site.rating,
-            website: site.website,
-            picture: ""
+          
         }
         let index = 0
         for (let favorite of this.favorites) {
@@ -128,10 +126,12 @@ class TripManager {
 
 
     }
-
-    // getFavorites() {
-
-    // }
+    async getFavorites() {
+        let data=await $.get('/favorites')
+            return data      
+         }
+    
+        
 }
 
 

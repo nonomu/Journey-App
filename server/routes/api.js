@@ -140,8 +140,7 @@ router.post('/favorites',async function(req, res){
         address:cityData.address,
         openingHours:cityData.openingHours,
         rating:cityData.rating,
-        picture:cityData.picture ,
-        website:cityData.website }
+        }
 
     const FavArr = [FavObj]
     const Favdb = await Favorites.findOne({cityName: cityData.cityName,countryName: cityData.countryName})
@@ -159,8 +158,7 @@ router.post('/favorites',async function(req, res){
                  address:cityData.address,
                  openingHours:cityData.openingHours,
                  rating:cityData.rating,
-                 picture:cityData.picture,
-                 website:cityData.website}
+                 }
                   } }
          )
          console.log(data)
