@@ -1,6 +1,8 @@
 const render = new Renderer()
 const tripManager = new TripManager()
 let sites
+
+// $("#")
 // tripManager.getFavourites()
 
 let input = document.getElementById('autocomplete');
@@ -31,16 +33,20 @@ $("#cities").on("click", ".findFlights", async function () {
     $(this).attr("class" ,"explore")
 })
 
-$("#favorites").on("click", ".favorite-text",  async function () {
-    let sites = await tripManager.getFavorites()
-    console.log(sites)
-    render.renderFavorites(sites)
-   
+$("#favorite-text").on("click", async function () {
+    if ($(this).hasClass("unclicked")) {
+        let sites = await tripManager.getFavorites()
+        console.log(sites)
+        render.renderFavorites(sites)
+        $(this).attr("class","clicked")
+        $("#favorites-container").hide().slideDown("slow")
+    } else if($(this).hasClass("clicked")){
+        $("#favorites-container").slideUp(500)
+        $(this).attr("class","unclicked")
+    }
 })
-$("#favorites").on("click",".fa-window-close" ,   function () {
-    $("#favorites").empty()
-    $("#favorites").append(`<p class="favorite-text">Favorites</p>`)  
-})
+
+
 
 $("#sites").on("click",".fa-plus-circle",function(){
     let destination = $(this).closest("#sites").siblings("#cities").find(".city-info").find("p").text()
