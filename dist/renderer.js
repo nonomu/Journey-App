@@ -7,7 +7,6 @@ class Renderer {
     renderRating(rating,letter) { 
             const starPercentage = (rating / this.starTotal) * 100;
             const starPercentageRounded = `${(Math.round(starPercentage / 10) * 10)}%`;
-            console.log(letter)
             $(`.${letter}`).find(".stars-inner").css({width: `${starPercentageRounded}`})
           
     }
@@ -24,12 +23,10 @@ class Renderer {
 
     renderSites(sites) {
         let letters = ["a","b","c","d","e"]
-
         for (let site in sites) {
             sites[site].letter = letters[site]
         }
 
-         console.log(sites)
         $("#sites").empty()
         let source = $("#site-template").html()
         let template = Handlebars.compile(source)

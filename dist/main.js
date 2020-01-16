@@ -8,8 +8,10 @@ let autocomplete1 = new google.maps.places.Autocomplete(userLocation, { types: [
 google.maps.event.addListener(autocomplete1, 'place_changed', async function () {
 
 })
-
-
+const getFavorites = async()=>{
+    await tripManager.getFavorites()
+} 
+getFavorites()
 let input = document.getElementById('autocomplete');
 let autocomplete = new google.maps.places.Autocomplete(input, { types: ['(cities)'] });
 google.maps.event.addListener(autocomplete, 'place_changed', async function () {
@@ -26,18 +28,13 @@ $("#cities").on("change", "select", async function () {
     let type = $(".types option:selected").val()
     let place = $("#autocomplete")[0].value
     let currenLocation = $("#user-location")[0].value
-
     tripManager.sites = await tripManager.getSites(place, type)
-
     $("#sites").empty()
     let sites = tripManager.sites
-    console.log(sites)
     render.renderSites(sites)
-
     for (let site of tripManager.sites) {
         render.renderRating(site.rating, site.letter)
     }
-
     // let locations = { currenLocation: currenLocation, place: place }
     // console.log(locations)
     // await tripManager.getFlights(locations)
@@ -96,23 +93,23 @@ $("#sites").on("click", ".fa-plus-circle", function () {
         rating: chosenElement.siblings(".rating").text(),
         website: chosenElement.closest(".site-info").siblings(".more-info").find("a").attr("href")
     }
-
     tripManager.addToFavorites(destination, site)
     $(this).attr("class", "fas fa-minus-circle")
 })
 
-$("#sites").on("click", ".fa-minus-circle", function () {
+$("#sites").on("click", ".fa-minus-circle",async function () {
     let destination = $(this).closest("#sites").siblings("#cities").find(".city-info").find("p").text()
     let chosenFavoriteElement = $(this).closest(".favorite")
     let site = {
         siteName: chosenFavoriteElement.siblings("p").text(),
         address: chosenFavoriteElement.siblings(".address").text(),
     }
-    tripManager.removeFromFavorites(destination, site)
+    await tripManager.removeFromFavorites(destination, site)
+    
     $(this).attr("class", "fas fa-plus-circle")
 })
 
-$("#favorites-container").on("click", ".fa-minus-circle", function () {
+$("#favorites-container").on("click", ".fa-minus-circle", async function () {
     let chosenFavoriteElement = $(this)
     let site = {
         siteName: chosenFavoriteElement.siblings("p").text(),
@@ -122,7 +119,12 @@ $("#favorites-container").on("click", ".fa-minus-circle", function () {
     let destination = $(this).closest(".city-fav-list").find('.city-fav-name')[0].innerHTML 
     if(cityFavoritesLength == 0)
     $(this).closest('.city-fav-list').remove()
-    tripManager.removeFromFavorites(destination, site)
+    await tripManager.removeFromFavorites(destination, site)
+    let sites = tripManager.sites
+    render.renderSites(sites)
+    for (let site of tripManager.sites) {
+        render.renderRating(site.rating, site.letter)
+    }
     $(this).closest('.fav-place').remove()
 })
 
