@@ -23,48 +23,47 @@ router.get('/get/', async function (req, res) {
 })
 
 router.post('/flights', async function (req, res) {
-    let curCityName=req.body[`currenLocation[cityName]`]
-    let curCountryName= req.body[`currenLocation[countryName]`]
-    let desCityName= req.body[`destLocation[cityName]`]
-    let desCountryName=req.body[`destLocation[countryName]`]
+    let curCityName = req.body[`currentLocation[cityName]`]
+    let curCountryName = req.body[`currentLocation[countryName]`]
+    let desCityName = req.body[`destLocation[cityName]`]
+    let desCountryName = req.body[`destLocation[countryName]`]
     let fromDate = req.body['dates[fromDate]'].split("/")
     let toDate = req.body['dates[toDate]'].split("/")
 
-    newFromDate = [fromDate[1],fromDate[0],fromDate[2]]
-    newToDate = [toDate[1],toDate[0],toDate[2]]
+    newFromDate = [fromDate[1], fromDate[0], fromDate[2]]
+    newToDate = [toDate[1], toDate[0], toDate[2]]
     fromDate = newFromDate.join("/")
     toDate = newToDate.join("/")
 
 
-    try{
-    let desairport = await airports.find(
-        { city: desCityName },
-        { "iata_code": 1, "_id": 0 })
-    let curairport = await airports.find(
+    try {
+        let curAirport = await airports.find(
             { city: curCityName },
             { "iata_code": 1, "_id": 0 })
-    const curiata=curairport[0]._doc.iata_code
-    const desiata=desairport[0]._doc.iata_code
-        console.log(desiata + curiata);
-        
-    
-    if (desiata != null && curiata != null) {
-        const flightsData = await requestPromise(
-            `https://api.skypicker.com/flights?fly_from=airport:${curiata}&fly_to=airport:${desiata}&dateFrom=${fromDate}&dateTo=${toDate}&partner=picky&return_from=20/11/2019&return_to=12/12/2019&flight_type=round&curr=USD&max_stopovers=1&ret_from_diff_airport=0&limit=5`
-            )
-        res.send(JSON.parse(flightsData).data)
-        return
-    }
-    else{
-        return false
+        let desAirport = await airports.find(
+            { city: desCityName },
+            { "iata_code": 1, "_id": 0 })
+        const curiata = curAirport[0].iata_code
+        const desiata = desAirport[0].iata_code
 
+
+        if (desiata != null && curiata != null) {
+            const flightsData = await requestPromise(
+                `https://api.skypicker.com/flights?fly_from=airport:${curiata}&fly_to=airport:${desiata}&dateFrom=${fromDate}&dateTo=${toDate}&partner=picky&return_from=20/11/2019&return_to=12/12/2019&flight_type=round&curr=USD&max_stopovers=1&ret_from_diff_airport=0&limit=5`
+            )
+            flightsData = JSON.parse(flightsData)
+            console.log(flightsData)
+            res.send(JSON.parse(flightsData).data)
+        }
+        else {
+            return false
+
+        }
     }
-}
-catch(err)
-{
-    res.send(err.errmsg)
-}
-    
+    catch (err) {
+        res.send(err.errmsg)
+    }
+
 
 })
 

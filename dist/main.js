@@ -49,7 +49,7 @@ $("#cities").on("change", "select", async function () {
 
     let locations = { currenLocation: currentLocation, destLocation: destLocation }
     await tripManager.getFlights(locations)
-    $(".city-info").append("<button id = find-flights >Find Flights</button>")
+    $("#cities").append("<button id = find-flights >Find Flights</button>")
 })
 
 
