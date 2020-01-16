@@ -20,21 +20,21 @@
             <p id="favorite-text" class="unclicked">Favorites</p>
             <div id="favorites-container"></div>
         </div>
-        
-        
+
+
         <div id="form">
-            
+
             <input class="input" type="text" id="user-location" placeholder="Enter current place" />
             <input class="input" type="text" id="autocomplete" placeholder="Enter destination" />
-          
+
         </div>
-        
+
         <div id="cities"></div>
-        
+
         <div id="sites"></div>
-        
+
     </div>
-    
+
 
     <script id="weather-template" type="text/x-handlebars-template">
                 <div class = "city-info">
@@ -42,7 +42,15 @@
                     <div class = "icon"><img src ={{icon}}></div>
                     <div class = "weather-des">{{description}}</div>
                     <div class="temp">{{temperature}}&#8451</div>
-                    <button class="explore">Explore</button>
+                    <select class = "types">
+                            <option value="liquor_store">Liquor store</option>
+                            <option value="lodging">Lodging</option>
+                            <option value="museum">Museum</option>
+                            <option value="pharmacy">Pharmacy</option>
+                            <option value="restaurant">Restaurant</option>
+                            <option value="spa">SPA</option>
+                     </select>
+                    <!-- <button class="explore">Explore</button> -->
                 </div>
     </script>
 
@@ -65,16 +73,26 @@
 
             <p>{{siteName}}</p>
             <div class = "address">{{address}}</div>
-            {{#if openingHours}}
-            <div class = "hours">Open</div>
-            {{else}}
-            <div class="hours">Close</div>
-            {{/if}}
-            <div class="rating">{{rating}}</div>
+            <div class="{{letter}}">
+                <div class="stars-outer">
+                        <i class="far fa-star"></i>
+                        <i class="far fa-star"></i>
+                        <i class="far fa-star"></i>
+                        <i class="far fa-star"></i>
+                        <i class="far fa-star"></i>
+                    <div class="stars-inner">
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                    </div>
+                </div>
+            </div>
             <div class="favorite"><i display="none" class="fas fa-plus-circle"></i></div>
             <!-- <i class="fas fa-minus-circle"></i> -->
-        </div>
-        {{/each}}
+    </div>
+    {{/each}}
     </script>
 
 

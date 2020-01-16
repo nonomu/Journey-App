@@ -108,7 +108,7 @@ p{
 
 .site-info{
     display: grid;
-    grid-template-columns: 2fr 2fr 1fr 1fr 1fr;
+    grid-template-columns: 2fr 2fr 1fr 1fr;
     align-items: center;
     height: 8vh;
     width: 90vw;
@@ -133,6 +133,18 @@ p{
     text-align: center;
 }
 
+#favorites-container{
+    display: grid;
+    background-color: #554640 ;
+    top: 70px;
+    width: 50vw;
+    position: absolute;
+    overflow: auto;
+    text-align: center;
+    z-index: 1;
+    border-radius:  0 0 5px 5px;
+}
+
 @media screen and (max-width: 768px){
     img{
     height: 60px;
@@ -149,9 +161,20 @@ p{
         padding: 2px;
     }
 
+    .stars-inner{
+        font-size: 7px;
+    }
+
+    .stars-outer{
+        font-size: 7px;
+    }
     
+    #favorites-container{
+        width: 100vw;
+    }
 
 }
+
 .fa-window-close{
     position: absolute;
    /* text-align: end; */
@@ -162,17 +185,7 @@ p{
 }
 
 
-#favorites-container{
-    display: grid;
-    background-color: #554640 ;
-    top: 75px;
-    position: absolute;
-    overflow: auto;
-    text-align: center;
-    z-index: 1;
-    border-radius:  0 0 5px 5px;
-    right: 30px;
-}
+
 
 .city-fav-name{
     background-color:wheat;
@@ -237,3 +250,22 @@ a:visited{
 	animation: gradientBG 2s ease;
     
 }
+
+.stars-outer {
+    display: inline-block;
+    position: relative;
+    overflow: hidden;
+  }
+   
+   
+  .stars-inner {
+    position: absolute;
+    top: 0;
+    left: 0;
+    white-space: nowrap;
+    overflow: hidden;
+    width: 0;
+    color: #f8ce0b;
+  }
+   
+  

@@ -19,7 +19,7 @@ class TripManager {
         let currenLocation = this._stringFromDOM(destination.currenLocation)
         let destinationPlace =this._stringFromDOM(destination.place)
         let desAndCurrent= {currenLocation,destinationPlace}
-         const flightsData=await $.post('/flights',desAndCurrent)
+         const flightsData = await $.post('/flights',desAndCurrent)
          let flightsDataModified= flightsData.map(f=>{return {
             cityFrom:f.cityFrom,
             cityTo:f.cityTo, 
@@ -40,11 +40,11 @@ class TripManager {
         return weather
     }
 
-    async getSites(destination) {
+    async getSites(destination, type) {
         let capDestination = this._stringFromDOM(destination)
-        let sites = await $.post("/sites", capDestination)
+        let fiveSites = await $.post(`/sites/${type}`, capDestination)
         let newSites = []
-        for (let site of sites) {
+        for (let site of fiveSites) {
             let rating = Number.parseFloat(site.rating).toFixed(1)
             site.rating = rating
             newSites.push(site)

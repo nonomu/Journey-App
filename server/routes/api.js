@@ -22,10 +22,11 @@ mongoose.set('useUnifiedTopology', true);
 router.get('/get/', async function (req, res) {
     res.end()
 })
+
 router.post('/flights', async function (req, res) {
     // let cityName = req.body.cityName
     // let countryName = req.body.countryName
-    console.log(req.body);
+    
     
     let curCityName=req.body["currenLocation[cityName]"]
     let curCountryName= req.body["currenLocation[countryName]"]
@@ -50,7 +51,7 @@ router.post('/flights', async function (req, res) {
     if (desiata != null && curiata != null) {
         const flightsData = await requestPromise(requestURL)
         res.send(JSON.parse(flightsData).data)
-        res.end()
+        return
     }
     else{
         return false
@@ -85,39 +86,45 @@ router.post('/cityWeather', async function (req, res) {
     }
 })
 
-router.post('/sites', async function (req, res) {
+router.post('/sites/:type', async function (req, res) {
     const APIkey = process.env.Google_Api_Key
+    let type = req.params.type
     let placeObj = req.body
     let cityName = placeObj.cityName
     let countryName = placeObj.countryName
-    let result = await requestPromise(`https://maps.googleapis.com/maps/api/place/findplacefromtext/json?input=${cityName},${countryName}&inputtype=textquery&fields=formatted_address,geometry,icon,name,permanently_closed,photos,place_id,plus_code,types&key=${APIkey}&language=EN`)
+    let result = await requestPromise(`https://maps.googleapis.com/maps/api/place/textsearch/json?query=${type}+${cityName}+${countryName}&key=${APIkey}`)
 
-    result = JSON.parse(result)
-    latitude = result.candidates[0].geometry.location.lat
-    longitude = result.candidates[0].geometry.location.lng
+    let sitesOfType = JSON.parse(result)
+    // let latitude = results[0].geometry.location.lat
+    // let longitude = results[0].geometry.location.lng
 
-    result = await requestPromise(`https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=${latitude},${longitude}&type=bar&radius=2000&key=${APIkey}&pagetoken`)
-    result = JSON.parse(result)
-    let places = result.results
-    let newPlaces = []
-    for (p of places) {
-        if (p.rating) {
-            newPlaces.push({
-                siteName: p.name,
-                address: p.vicinity,
-                openingHours: p.opening_hours ? p.opening_hours.open_now : false,
-                rating: p.rating,
-            })
+    // result = await requestPromise(`https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=${latitude},${longitude}&radius=2000&key=${APIkey}&pagetoken`)
+    // result = JSON.parse(result)
+    let index = 0
+    let sitesResults = []
+    for (let site of sitesOfType.results) {
+        if (site.rating && !site.permenantly_closed && site.opening_hours) {
+            let updatedSite = {
+                siteName: site.name,
+                address: site.formatted_address,
+                openingHours: site.opening_hours.open_now,
+                rating: site.rating
+            }
+            sitesResults.push(updatedSite)
+
         }
+        index++
     }
 
-    newPlaces.shift()
-    newPlaces.sort(function (a, b) {
+    console.log(sitesResults)
+
+    sitesResults.shift()
+    sitesResults.sort(function (a, b) {
         return a.rating - b.rating
     })
         .reverse()
-    newPlaces = newPlaces.splice(0, 5)
-    res.send(newPlaces)
+    let fiveSites = sitesResults.splice(0, 5)
+    res.send(fiveSites)
 
 })
 
