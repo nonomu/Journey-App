@@ -26,7 +26,6 @@ class TripManager {
         let destLocation =this._stringFromDOM(locations.destLocation)
         const dates = this.dates
         let desAndCurrent= {currentLocation,destLocation,dates}
-        console.log(desAndCurrent)
          const flightsData = await $.post('/flights',desAndCurrent)
          let flightsDataModified= flightsData.map(f=>{return {
             cityFrom:f.cityFrom,
@@ -38,7 +37,6 @@ class TripManager {
             bagPrice: f.bags_price["1"]
          }})
          this.flights=flightsDataModified
-         return flightsDataModified
      }
     async getCityWeather(destination) {
         let capDestination = this._stringFromDOM(destination)

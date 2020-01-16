@@ -13,6 +13,7 @@ const CodeToCityState = Transfer.CodeToCityState
 var airports = mongoose.model('airports', new Schema({ name: String }));
 const WheatherAPIbasicURL = "https://api.openweathermap.org/data/2.5/weather"
 const FlightsAPIbasicURL = "https://api.skypicker.com/flights?"
+
 require('dotenv').config()
 mongoose.set('useNewUrlParser', true);
 mongoose.set('useFindAndModify', false);
@@ -30,12 +31,10 @@ router.post('/flights', async function (req, res) {
     let desCountryName=req.body[`destLocation[countryName]`]
     let fromDate = req.body['dates[fromDate]'].split("/")
     let toDate = req.body['dates[toDate]'].split("/")
-
     newFromDate = [fromDate[1],fromDate[0],fromDate[2]]
     newToDate = [toDate[1],toDate[0],toDate[2]]
     fromDate = newFromDate.join("/")
     toDate = newToDate.join("/")
-
 
     try{
     let desairport = await airports.find(
@@ -61,24 +60,20 @@ router.post('/flights', async function (req, res) {
     }
     else{
         return false
-
     }
 }
 catch(err)
 {
     res.send(err.errmsg)
 }
-    
-
 })
 
-
 router.post('/cityWeather', async function (req, res) {
-    const APPID = process.env.Weather_Api_Key
+    // const APPID = "693487d5ce7f67db0872c3ce4dbe3b15"
     let cityName = req.body.cityName
     let countryName = CityStateToCode[req.body.countryName]
     try {
-        const weatherData = await requestPromise(`${WheatherAPIbasicURL}?q=${cityName},${countryName}&units=metric&APPID=${APPID}`)
+        const weatherData = await requestPromise(`${WheatherAPIbasicURL}?q=${cityName},${countryName}&units=metric&APPID=${process.env.Weather_Api_Key}`)
         const data = JSON.parse(weatherData)
         const IconModified = IconsTransfer[data.weather[0].icon]
         const weatherModified = {
@@ -99,11 +94,9 @@ router.post('/sites/:type', async function (req, res) {
     let cityName = placeObj.cityName
     let countryName = placeObj.countryName
     let result = await requestPromise(`https://maps.googleapis.com/maps/api/place/textsearch/json?query=${type}+${cityName}+${countryName}&key=${APIkey}`)
-
     let sitesOfType = JSON.parse(result)
     // let latitude = results[0].geometry.location.lat
     // let longitude = results[0].geometry.location.lng
-
     // result = await requestPromise(`https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=${latitude},${longitude}&radius=2000&key=${APIkey}&pagetoken`)
     // result = JSON.parse(result)
     let index = 0
@@ -117,11 +110,9 @@ router.post('/sites/:type', async function (req, res) {
                 rating: site.rating
             }
             sitesResults.push(updatedSite)
-
         }
         index++
     }
-
     sitesResults.shift()
     sitesResults.sort(function (a, b) {
         return a.rating - b.rating
@@ -129,15 +120,11 @@ router.post('/sites/:type', async function (req, res) {
         .reverse()
     let fiveSites = sitesResults.splice(0, 5)
     res.send(fiveSites)
-
 })
-
-
 router.get('/favorites', async function (req, res) {
     let data = await Favorites.find({})
     res.send(data)
 })
-
 router.post('/favorites', async function (req, res) {
     let cityData = req.body
     const FavObj = {
@@ -146,7 +133,6 @@ router.post('/favorites', async function (req, res) {
         openingHours: cityData.openingHours,
         rating: cityData.rating,
     }
-
     const FavArr = [FavObj]
     const Favdb = await Favorites.findOne({ cityName: cityData.cityName, countryName: cityData.countryName })
     if (Favdb == null) {
@@ -169,10 +155,8 @@ router.post('/favorites', async function (req, res) {
             }
         )
     }
-
     res.send("Thx")
 })
-
 router.delete('/favorites', async function (req, res) {
     let cityData = req.body
     let data = await Favorites.findOneAndUpdate(
@@ -190,14 +174,10 @@ router.delete('/favorites', async function (req, res) {
             upsert: true
         }
     )
-
     if(data.favoritePlaces.length == 0)
     data= await Favorites.findOneAndDelete( { cityName: cityData.cityName, countryName: cityData.countryName })
-
     res.send(data)
 })
-
-
 module.exports = router
 
 // render.renderSites(tripManager.sites)

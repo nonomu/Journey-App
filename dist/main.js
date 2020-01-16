@@ -22,7 +22,6 @@ google.maps.event.addListener(autocomplete, 'place_changed', async function () {
 
 
 $('#date-picker').on('keypress', function (e) {
-    console.log(e.which)
     if (e.which == 13) {
         let fromDate = $('#from-date').val()
         let toDate = $('#to-date').val()
@@ -35,6 +34,7 @@ $('#date-picker').on('keypress', function (e) {
         }
     }
 })
+
 
 $("#cities").on("change", "select", async function () {
     let type = $(".types option:selected").val()
@@ -53,11 +53,7 @@ $("#cities").on("change", "select", async function () {
     let locations = { currenLocation: currentLocation, destLocation: destLocation }
     await tripManager.getFlights(locations)
     $(".city-info").append("<button id = find-flights >Find Flights</button>")
-
-
-
-
-
+})
 
 // $("#cities").on("click", ".explore", async function () {
 //     render.renderSites(tripManager.sites)
