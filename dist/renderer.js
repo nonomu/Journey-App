@@ -23,7 +23,6 @@ class Renderer {
 
     renderSites(sites) {
         let letters = ["a","b","c","d","e"]
-
         for (let site in sites) {
             sites[site].letter = letters[site]
         }

@@ -52,11 +52,20 @@ class TripManager {
         let capDestination = this._stringFromDOM(destination)
         let fiveSites = await $.post(`/sites/${type}`, capDestination)
         let newSites = []
+        let sameLocationFavorites = this.favorites.find(f => f.cityName === capDestination.cityName)
         for (let site of fiveSites) {
+            site.isFavorite=false
+            if(typeof sameLocationFavorites !== 'undefined')
+            {
+            let checked=sameLocationFavorites.favoritePlaces.findIndex(cF => cF.siteName === site.siteName)
+            if(checked > -1)
+             site.isFavorite=true
+            }
             let rating = Number.parseFloat(site.rating).toFixed(1)
             site.rating = rating
             newSites.push(site)
         }
+        this.sites= newSites
         return newSites
     }
 
@@ -77,10 +86,10 @@ class TripManager {
             openingHours: site.openingHours,
             rating: site.rating
         }
-
         $.post('/favorites', favAndDest, function (response, err) {
             console.log(response)
         })
+        
     }
 
     removeFromFavorites(destination, site) {
@@ -90,24 +99,24 @@ class TripManager {
             countryName: destObj.countryName,
             siteName: site.siteName,
             address: site.address,
-            openingHours: site.openingHours,
-            rating: site.rating,
         }
+        console.log(this.sites)
+        this.sites.forEach(s=> {if(s.siteName==site.siteName) {s.isFavorite=false}})
+        console.log(this.sites)
         let index = 0
         for (let favorite of this.favorites) {
             if (favorite.cityName === siteForDel.cityName && favorite.siteName === siteForDel.siteName && favorite.address === siteForDel.address) {
                 this.favorites.splice(index, 1)
-                console.log(index)
-                console.log(this.favorites)
+            
             }
             index++
         }
-
         $.ajax({
             method: "DELETE",
             url: `/favorites`,
             data: siteForDel,
             success: function (err, res) {
+                
                 console.log(`${res} was succesfully removed`)
             },
             error: function (err) {
@@ -117,9 +126,11 @@ class TripManager {
         })
 
 
+
     }
     async getFavorites() {
         let data=await $.get('/favorites')
+        this.favorites=data
             return data      
          }
     

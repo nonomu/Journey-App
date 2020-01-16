@@ -13,6 +13,7 @@ const CodeToCityState = Transfer.CodeToCityState
 var airports = mongoose.model('airports', new Schema({ name: String }));
 const WheatherAPIbasicURL = "https://api.openweathermap.org/data/2.5/weather"
 const FlightsAPIbasicURL = "https://api.skypicker.com/flights?"
+require('dotenv').config()
 mongoose.set('useNewUrlParser', true);
 mongoose.set('useFindAndModify', false);
 mongoose.set('useCreateIndex', true);
@@ -46,12 +47,15 @@ router.post('/flights', async function (req, res) {
     const curiata=curairport[0]._doc.iata_code
     const desiata=desairport[0]._doc.iata_code
         console.log(desiata + curiata);
-        
+        var today = new Date();
+        var dd = today.getDate();
+        var mm = today.getMonth()+1; 
+        var yyyy = today.getFullYear();
+        let returnDate =today.setMonth(today.getMonth()+1)
+    let requestURL=`https://api.skypicker.com/flights?fly_from=airport:${curiata}&fly_to=airport:${desiata}&date_from=${dd}/${mm}/${yyyy}&date_to=${dd+10}/${mm}/${yyyy}&partner=picky&return_from=25/12/2019&return_to=29/12/2019&flight_type=round&curr=ILS&max_stopovers=0&ret_from_diff_airport=0&limit=5`
     
     if (desiata != null && curiata != null) {
-        const flightsData = await requestPromise(
-            `https://api.skypicker.com/flights?fly_from=airport:${curiata}&fly_to=airport:${desiata}&dateFrom=${fromDate}&dateTo=${toDate}&partner=picky&return_from=20/11/2019&return_to=12/12/2019&flight_type=round&curr=USD&max_stopovers=1&ret_from_diff_airport=0&limit=5`
-            )
+        const flightsData = await requestPromise(requestURL)
         res.send(JSON.parse(flightsData).data)
         return
     }
@@ -70,7 +74,7 @@ catch(err)
 
 
 router.post('/cityWeather', async function (req, res) {
-    const APPID = "693487d5ce7f67db0872c3ce4dbe3b15"
+    const APPID = process.env.Weather_Api_Key
     let cityName = req.body.cityName
     let countryName = CityStateToCode[req.body.countryName]
     try {
@@ -89,7 +93,7 @@ router.post('/cityWeather', async function (req, res) {
 })
 
 router.post('/sites/:type', async function (req, res) {
-    const APIkey = 'AIzaSyD_D-FODJApGj4CUB_V-ey9xzRH-gU2uRk'
+    const APIkey = process.env.Google_Api_Key
     let type = req.params.type
     let placeObj = req.body
     let cityName = placeObj.cityName
@@ -171,7 +175,7 @@ router.post('/favorites', async function (req, res) {
 
 router.delete('/favorites', async function (req, res) {
     let cityData = req.body
-    const data = await Favorites.findOneAndUpdate(
+    let data = await Favorites.findOneAndUpdate(
         { cityName: cityData.cityName, countryName: cityData.countryName },
         {
             $pull: {
@@ -182,10 +186,14 @@ router.delete('/favorites', async function (req, res) {
             }
         },
         {
-            new: false,
+            new: true,
             upsert: true
         }
     )
+
+    if(data.favoritePlaces.length == 0)
+    data= await Favorites.findOneAndDelete( { cityName: cityData.cityName, countryName: cityData.countryName })
+
     res.send(data)
 })
 
