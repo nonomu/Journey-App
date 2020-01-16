@@ -1,6 +1,5 @@
 const render = new Renderer()
 const tripManager = new TripManager()
-let sites
 
 
 let userLocation = document.getElementById('user-location');
@@ -15,33 +14,46 @@ getFavorites()
 let input = document.getElementById('autocomplete');
 let autocomplete = new google.maps.places.Autocomplete(input, { types: ['(cities)'] });
 google.maps.event.addListener(autocomplete, 'place_changed', async function () {
-    let place = $("#autocomplete")[0].value
-    let weather = await tripManager.getCityWeather(place)
-    render.renderWeather(weather)
-
+    let destLocation = $("#autocomplete")[0].value
+    await tripManager.getCityWeather(destLocation)
 })
 
 
 
-// $(".explore").fadeIn(200)
+
+$('#date-picker').on('keypress', function (e) {
+    console.log(e.which)
+    if (e.which == 13) {
+        let fromDate = $('#from-date').val()
+        let toDate = $('#to-date').val()
+        if (fromDate && toDate) {
+            const dates = { fromDate, toDate }
+            tripManager.setDates(dates)
+            render.renderWeather(tripManager.weather)
+        } else {
+            alert('Please fill in all fields')
+        }
+    }
+})
+
 $("#cities").on("change", "select", async function () {
     let type = $(".types option:selected").val()
-    let place = $("#autocomplete")[0].value
-    let currenLocation = $("#user-location")[0].value
-    tripManager.sites = await tripManager.getSites(place, type)
+    let destLocation = $("#autocomplete")[0].value
+    let currentLocation = $("#user-location")[0].value
+    tripManager.sites = await tripManager.getSites(destLocation, type)
+
     $("#sites").empty()
     let sites = tripManager.sites
     render.renderSites(sites)
+
     for (let site of tripManager.sites) {
         render.renderRating(site.rating, site.letter)
     }
-    // let locations = { currenLocation: currenLocation, place: place }
-    // console.log(locations)
-    // await tripManager.getFlights(locations)
-    // $(".city-info").append("<button class = find-flights >Find Flights</button>")
 
+    let locations = { currenLocation: currentLocation, destLocation: destLocation }
+    await tripManager.getFlights(locations)
+    $(".city-info").append("<button id = find-flights >Find Flights</button>")
 
-})
 
 
 
@@ -62,6 +74,38 @@ $("#cities").on("change", "select", async function () {
 
 // })
 
+$(function () {
+    var dateFormat = "mm/dd/yy",
+        from = $("#from-date")
+            .datepicker({
+                defaultDate: "+1w",
+                changeMonth: true,
+                numberOfMonths: 1
+            })
+            .on("change", function () {
+                to.datepicker("option", "minDate", getDate(this));
+            }),
+        to = $("#to-date").datepicker({
+            defaultDate: "+1w",
+            changeMonth: true,
+            numberOfMonths: 1
+        })
+            .on("change", function () {
+                from.datepicker("option", "maxDate", getDate(this));
+            });
+
+    function getDate(element) {
+        var date;
+        try {
+            date = $.datepicker.parseDate(dateFormat, element.value);
+        } catch (error) {
+            date = null;
+        }
+
+        return date;
+    }
+})
+
 $("#cities").on("click", ".find-flights", async function () {
     $(this).text("Explore")
     render.renderFlights(tripManager.flights)
@@ -71,7 +115,6 @@ $("#cities").on("click", ".find-flights", async function () {
 $("#favorite-text").on("click", async function () {
     if ($(this).hasClass("unclicked")) {
         let sites = await tripManager.getFavorites()
-        console.log("fav clicked")
         render.renderFavorites(sites)
         $(this).attr("class", "clicked")
         $("#favorites-container").hide().slideDown("slow")

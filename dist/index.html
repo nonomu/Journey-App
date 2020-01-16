@@ -8,8 +8,11 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Journey app</title>
     <link rel="stylesheet" href="style.css" />
+    <!-- <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css"> -->
+    <!-- <link rel="stylesheet" href="/resources/demos/style.css"> -->
     <link href="https://fonts.googleapis.com/css?family=Indie+Flower|Lobster|Poppins&display=swap" rel="stylesheet">
     <script src="https://kit.fontawesome.com/0c25c19dc4.js" crossorigin="anonymous"></script>
+
 </head>
 
 <body>
@@ -22,11 +25,16 @@
         </div>
 
 
-        <div id="form">
+        <div id="origin-destination">
 
             <input class="input" type="text" id="user-location" placeholder="Enter current place" />
             <input class="input" type="text" id="autocomplete" placeholder="Enter destination" />
 
+        </div>
+
+        <div id="date-picker">
+            <input class="input" type="text" id="from-date" name="from" placeholder="From">
+            <input class="input" type="text" id="to-date" name="to" placeholder="To">
         </div>
 
         <div id="cities"></div>
@@ -43,6 +51,7 @@
                     <div class = "weather-des">{{description}}</div>
                     <div class="temp">{{temperature}}&#8451</div>
                     <select class = "types">
+                            <option value = "disabled">Choose a place</option>
                             <option value="liquor_store">Liquor store</option>
                             <option value="lodging">Lodging</option>
                             <option value="museum">Museum</option>
@@ -50,6 +59,7 @@
                             <option value="restaurant">Restaurant</option>
                             <option value="spa">SPA</option>
                      </select>
+                     <!-- <button class = find-flights >Find Flights</button> -->
                     <!-- <button class="explore">Explore</button> -->
                 </div>
     </script>
@@ -134,6 +144,7 @@
 
     <script src="/handlebars/dist/handlebars.js"></script>
     <script src="/jquery/dist/jquery.min.js"></script>
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
     <script src="TripManager.js"></script>
     <script src="renderer.js"></script>
     <script src="main.js"></script>
