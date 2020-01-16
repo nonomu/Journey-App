@@ -51,7 +51,7 @@ router.post('/flights', async function (req, res) {
         var mm = today.getMonth()+1; 
         var yyyy = today.getFullYear();
         let returnDate =today.setMonth(today.getMonth()+1)
-    let requestURL=`https://api.skypicker.com/flights?fly_from=airport:${curiata}&fly_to=airport:${desiata}&date_from=${dd}/${mm}/${yyyy}&date_to=${dd+10}/${mm}/${yyyy}&partner=picky&return_from=25/12/2019&return_to=29/12/2019&flight_type=round&curr=ILS&max_stopovers=0&ret_from_diff_airport=0&limit=5`
+    let requestURL=`https://api.skypicker.com/flights?fly_from=airport:${curiata}&fly_to=airport:${desiata}&date_from=${dd}/${mm}/${yyyy}&date_to=${dd+10}/${mm}/${yyyy}&partner=picky&return_from=${dd+2}/${mm}/${yyyy}&return_to=${dd+10}/${mm}/${yyyy}&flight_type=round&curr=ILS&max_stopovers=0&ret_from_diff_airport=0&limit=5`
     
     if (desiata != null && curiata != null) {
         const flightsData = await requestPromise(requestURL)

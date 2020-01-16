@@ -100,9 +100,7 @@ class TripManager {
             siteName: site.siteName,
             address: site.address,
         }
-        console.log(this.sites)
         this.sites.forEach(s=> {if(s.siteName==site.siteName) {s.isFavorite=false}})
-        console.log(this.sites)
         let index = 0
         for (let favorite of this.favorites) {
             if (favorite.cityName === siteForDel.cityName && favorite.siteName === siteForDel.siteName && favorite.address === siteForDel.address) {
