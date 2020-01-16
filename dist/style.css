@@ -7,14 +7,13 @@ body{
 
 #main-container{
     display: grid;
-    height: 100vh;
-    width: 100vw;
-    grid-template-rows: 2fr 2fr 2fr 1fr 15fr;
-    grid-template-areas: "n"
-                         "i"
-                         "d"
-                         "c"
-                         "s";
+    grid-template-rows: 2fr 2fr 2fr 1fr 10fr;
+    grid-template-areas:
+        "n"
+        "i"
+        "d"
+        "c"
+        "s";
 }
 
 #origin-destination{
@@ -96,6 +95,10 @@ body{
 
 
 #logo{
+    display: grid;
+    justify-self: end;
+    align-self: center;
+    padding: 10px;
     font-family: 'Lobster', cursive;
     font-size: 40px;
 }
@@ -186,7 +189,7 @@ p{
     display: grid;
     background-color: #554640 ;
     top: 70px;
-    width: 50vw;
+    width: 30vw;
     position: absolute;
     overflow: auto;
     text-align: center;
@@ -246,9 +249,8 @@ p{
 
 #favorite-text{
     display: grid;
-    position: absolute;
-    right: 17%;
-    width: fit-content;
+    padding: 10px;
+    align-self: center;
 }
 
 #favorite-text:hover{

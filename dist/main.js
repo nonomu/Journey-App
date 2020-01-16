@@ -113,10 +113,10 @@ $("#favorite-text").on("click", async function () {
         let sites = await tripManager.getFavorites()
         render.renderFavorites(sites)
         $(this).attr("class", "clicked")
-        $("#favorites-container").hide().toggle("slide","left")
+        $("#favorites-container").hide().toggle("slide")
         // $("#favorites-container")..slideDown("slow")
     } else if ($(this).hasClass("clicked")) {
-        $("#favorites-container").toggle("slide","right")
+        $("#favorites-container").toggle("slide")
         $(this).attr("class", "unclicked")
     }
 })
