@@ -82,8 +82,6 @@ class TripManager {
             countryName: destObj.countryName,
             siteName: site.siteName,
             address: site.address,
-            openingHours: site.openingHours,
-            rating: site.rating,
         }
         let index = 0
         for (let favorite of this.favorites) {

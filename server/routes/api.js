@@ -173,7 +173,7 @@ router.post('/favorites', async function (req, res) {
 
 router.delete('/favorites', async function (req, res) {
     let cityData = req.body
-    const data = await Favorites.findOneAndUpdate(
+    let data = await Favorites.findOneAndUpdate(
         { cityName: cityData.cityName, countryName: cityData.countryName },
         {
             $pull: {
@@ -184,11 +184,12 @@ router.delete('/favorites', async function (req, res) {
             }
         },
         {
-            new: false,
+            new: true,
             upsert: true
         }
     )
-    console.log(data)
+    if(data.favoritePlaces.length == 0)
+    data= await Favorites.findOneAndDelete( { cityName: cityData.cityName, countryName: cityData.countryName })
     res.send(data)
 })
 
