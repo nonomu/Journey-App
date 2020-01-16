@@ -86,6 +86,8 @@ class TripManager {
             openingHours: site.openingHours,
             rating: site.rating
         }
+        this.sites.forEach(s=> {if(s.siteName==site.siteName) {s.isFavorite=true}})
+
         $.post('/favorites', favAndDest, function (response, err) {
             console.log(response)
         })

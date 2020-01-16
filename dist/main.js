@@ -7,9 +7,9 @@ let autocomplete1 = new google.maps.places.Autocomplete(userLocation, { types: [
 google.maps.event.addListener(autocomplete1, 'place_changed', async function () {
 
 })
-const getFavorites = async()=>{
+const getFavorites = async () => {
     await tripManager.getFavorites()
-} 
+}
 getFavorites()
 let input = document.getElementById('autocomplete');
 let autocomplete = new google.maps.places.Autocomplete(input, { types: ['(cities)'] });
@@ -53,7 +53,7 @@ $("#cities").on("change", "select", async function () {
     let locations = { currenLocation: currentLocation, destLocation: destLocation }
     await tripManager.getFlights(locations)
     $(".city-info").append("<button id = find-flights >Find Flights</button>")
-
+})
 
 
 
@@ -140,7 +140,7 @@ $("#sites").on("click", ".fa-plus-circle", function () {
     $(this).attr("class", "fas fa-minus-circle")
 })
 
-$("#sites").on("click", ".fa-minus-circle",async function () {
+$("#sites").on("click", ".fa-minus-circle", async function () {
     let destination = $(this).closest("#sites").siblings("#cities").find(".city-info").find("p").text()
     let chosenFavoriteElement = $(this).closest(".favorite")
     let site = {
@@ -148,7 +148,7 @@ $("#sites").on("click", ".fa-minus-circle",async function () {
         address: chosenFavoriteElement.siblings(".address").text(),
     }
     await tripManager.removeFromFavorites(destination, site)
-    
+
     $(this).attr("class", "fas fa-plus-circle")
 })
 
@@ -158,10 +158,10 @@ $("#favorites-container").on("click", ".fa-minus-circle", async function () {
         siteName: chosenFavoriteElement.siblings("p").text(),
         address: chosenFavoriteElement.siblings(".address").text(),
     }
-    let cityFavoritesLength=($(this).closest(".city-fav-list").find('.fav-place').length)-1
-    let destination = $(this).closest(".city-fav-list").find('.city-fav-name')[0].innerHTML 
-    if(cityFavoritesLength == 0)
-    $(this).closest('.city-fav-list').remove()
+    let cityFavoritesLength = ($(this).closest(".city-fav-list").find('.fav-place').length) - 1
+    let destination = $(this).closest(".city-fav-list").find('.city-fav-name')[0].innerHTML
+    if (cityFavoritesLength == 0)
+        $(this).closest('.city-fav-list').remove()
     await tripManager.removeFromFavorites(destination, site)
     let sites = tripManager.sites
     render.renderSites(sites)
@@ -169,7 +169,8 @@ $("#favorites-container").on("click", ".fa-minus-circle", async function () {
         render.renderRating(site.rating, site.letter)
     }
     $(this).closest('.fav-place').remove()
-})
+}
+)
 
 
 
