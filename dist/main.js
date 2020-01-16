@@ -31,13 +31,8 @@ $("#cities").on("click", ".explore", async function () {
     let place = $("#autocomplete")[0].value
     let locations={currenLocation:currenLocation,place:place}
     await tripManager.getFlights(locations)
-   
-
-    
     $(this).text("Find Flights")
     $(this).attr("class" ,"find-flights")
-
-    
 })
 $("#cities").on("click", ".find-flights", async function () {
     $(this).text("Explore")
