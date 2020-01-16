@@ -69,7 +69,6 @@ catch(err)
 })
 
 router.post('/cityWeather', async function (req, res) {
-    // const APPID = "693487d5ce7f67db0872c3ce4dbe3b15"
     let cityName = req.body.cityName
     let countryName = CityStateToCode[req.body.countryName]
     try {
