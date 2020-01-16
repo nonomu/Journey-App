@@ -3,22 +3,30 @@ class TripManager {
     constructor() {
         this.favorites = [],
         this.flights=[],
-        this.sites=[]
+        this.sites=[],
+        this.weather = [],
+        this.dates = {}
     }
 
-
+    setDates(dates){
+        this.dates = dates
+    }
     _stringFromDOM(destination) {
-        let cityCountryArray = destination.split(", ")
-        let capDestination = {
-            cityName: cityCountryArray[0],
-            countryName: cityCountryArray[1]
+        if(destination){
+            let cityCountryArray = destination.split(", ")
+            let capDestination = {
+                cityName: cityCountryArray[0],
+                countryName: cityCountryArray[1]
+            }
+            return capDestination
         }
-        return capDestination
     }
-     async getFlights(destination){
-        let currenLocation = this._stringFromDOM(destination.currenLocation)
-        let destinationPlace =this._stringFromDOM(destination.place)
-        let desAndCurrent= {currenLocation,destinationPlace}
+     async getFlights(locations){
+        let currentLocation = this._stringFromDOM(locations.currenLocation)
+        let destLocation =this._stringFromDOM(locations.destLocation)
+        const dates = this.dates
+        let desAndCurrent= {currentLocation,destLocation,dates}
+        console.log(desAndCurrent)
          const flightsData = await $.post('/flights',desAndCurrent)
          let flightsDataModified= flightsData.map(f=>{return {
             cityFrom:f.cityFrom,
@@ -37,7 +45,7 @@ class TripManager {
         let weather = await $.post('/cityWeather', capDestination)
         let temp = parseInt(weather.temperature)
         weather.temperature = temp
-        return weather
+        this.weather = weather
     }
 
     async getSites(destination, type) {
