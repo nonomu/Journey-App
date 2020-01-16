@@ -40,11 +40,11 @@ class TripManager {
         return weather
     }
 
-    async getSites(destination) {
+    async getSites(destination, type) {
         let capDestination = this._stringFromDOM(destination)
-        let sites = await $.post("/sites", capDestination)
+        let fiveSites = await $.post(`/sites/${type}`, capDestination)
         let newSites = []
-        for (let site of sites) {
+        for (let site of fiveSites) {
             let rating = Number.parseFloat(site.rating).toFixed(1)
             site.rating = rating
             newSites.push(site)
