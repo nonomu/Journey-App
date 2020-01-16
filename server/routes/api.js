@@ -23,14 +23,19 @@ router.get('/get/', async function (req, res) {
 })
 
 router.post('/flights', async function (req, res) {
-    // let cityName = req.body.cityName
-    // let countryName = req.body.countryName
-    
-    
-    let curCityName=req.body["currenLocation[cityName]"]
-    let curCountryName= req.body["currenLocation[countryName]"]
-    let desCityName= req.body["destinationPlace[cityName]"]
-    let desCountryName=req.body["destinationPlace[countryName]"]
+    let curCityName=req.body[`currenLocation[cityName]`]
+    let curCountryName= req.body[`currenLocation[countryName]`]
+    let desCityName= req.body[`destLocation[cityName]`]
+    let desCountryName=req.body[`destLocation[countryName]`]
+    let fromDate = req.body['dates[fromDate]'].split("/")
+    let toDate = req.body['dates[toDate]'].split("/")
+
+    newFromDate = [fromDate[1],fromDate[0],fromDate[2]]
+    newToDate = [toDate[1],toDate[0],toDate[2]]
+    fromDate = newFromDate.join("/")
+    toDate = newToDate.join("/")
+
+
     try{
     let desairport = await airports.find(
         { city: desCityName },
@@ -45,7 +50,7 @@ router.post('/flights', async function (req, res) {
     
     if (desiata != null && curiata != null) {
         const flightsData = await requestPromise(
-            `https://api.skypicker.com/flights?fly_from=airport:${curiata}&fly_to=airport:${desiata}&dateFrom=14/11/2019&dateTo=19/11/2019&partner=picky&return_from=20/11/2019&return_to=12/12/2019&flight_type=round&curr=USD&max_stopovers=1&ret_from_diff_airport=0&limit=5`
+            `https://api.skypicker.com/flights?fly_from=airport:${curiata}&fly_to=airport:${desiata}&dateFrom=${fromDate}&dateTo=${toDate}&partner=picky&return_from=20/11/2019&return_to=12/12/2019&flight_type=round&curr=USD&max_stopovers=1&ret_from_diff_airport=0&limit=5`
             )
         res.send(JSON.parse(flightsData).data)
         return
@@ -113,8 +118,6 @@ router.post('/sites/:type', async function (req, res) {
         index++
     }
 
-    console.log(sitesResults)
-
     sitesResults.shift()
     sitesResults.sort(function (a, b) {
         return a.rating - b.rating
@@ -133,7 +136,6 @@ router.get('/favorites', async function (req, res) {
 
 router.post('/favorites', async function (req, res) {
     let cityData = req.body
-    console.log(cityData)
     const FavObj = {
         siteName: cityData.siteName,
         address: cityData.address,
@@ -162,7 +164,6 @@ router.post('/favorites', async function (req, res) {
                 }
             }
         )
-        console.log(data)
     }
 
     res.send("Thx")
@@ -185,7 +186,6 @@ router.delete('/favorites', async function (req, res) {
             upsert: true
         }
     )
-    console.log(data)
     res.send(data)
 })
 
