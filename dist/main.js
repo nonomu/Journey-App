@@ -53,7 +53,7 @@ $("#cities").on("change", "select", async function () {
     let locations = { currenLocation: currentLocation, destLocation: destLocation }
     await tripManager.getFlights(locations)
     $(".city-info").append("<button id = find-flights >Find Flights</button>")
-}
+})
 
 // $("#cities").on("click", ".explore", async function () {
 //     render.renderSites(tripManager.sites)

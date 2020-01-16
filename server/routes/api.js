@@ -69,11 +69,11 @@ catch(err)
 })
 
 router.post('/cityWeather', async function (req, res) {
-    const APPID = process.env.Weather_Api_Key
+    // const APPID = "693487d5ce7f67db0872c3ce4dbe3b15"
     let cityName = req.body.cityName
     let countryName = CityStateToCode[req.body.countryName]
     try {
-        const weatherData = await requestPromise(`${WheatherAPIbasicURL}?q=${cityName},${countryName}&units=metric&APPID=${APPID}`)
+        const weatherData = await requestPromise(`${WheatherAPIbasicURL}?q=${cityName},${countryName}&units=metric&APPID=${process.env.Weather_Api_Key}`)
         const data = JSON.parse(weatherData)
         const IconModified = IconsTransfer[data.weather[0].icon]
         const weatherModified = {
@@ -86,6 +86,7 @@ router.post('/cityWeather', async function (req, res) {
         res.send(err.message)
     }
 })
+
 router.post('/sites/:type', async function (req, res) {
     const APIkey = process.env.Google_Api_Key
     let type = req.params.type
