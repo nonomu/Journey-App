@@ -46,12 +46,12 @@
 
 
     <script id="weather-template" type="text/x-handlebars-template">
-                <div class = "city-info">
-                    <p>{{cityName}}, {{countryName}}</p>
-                    <div class = "icon"><img src ={{icon}}></div>
-                    <div class = "weather-des">{{description}}</div>
-                    <div class="temp">{{temperature}}&#8451</div>
-                    <select class = "types">
+                <div id = "city-info" >
+                    <div id = "city-name" class="weather-items">{{cityName}}, {{countryName}}</div>
+                    <div id = "icon" class="weather-items"><img src ={{icon}}></div>
+                    <div id = "weather-desc" class="weather-items">{{description}}</div>
+                    <div id ="temp" class="weather-items">{{temperature}}&#8451</div>
+                    <select id = "types" class="weather-items">
                             <option value = "disabled">Choose a place</option>
                             <option value="liquor_store">Liquor store</option>
                             <option value="lodging">Lodging</option>
@@ -139,7 +139,7 @@
 
     <script type="text/javascript"
         src="https://maps.googleapis.com/maps/api/js?key=AIzaSyD_D-FODJApGj4CUB_V-ey9xzRH-gU2uRk&libraries=places&language=en"></script>
-    >
+    
 
     <script src="/handlebars/dist/handlebars.js"></script>
     <script src="/jquery/dist/jquery.min.js"></script>
