@@ -6,37 +6,31 @@ body{
 }
 
 #main-container{
+    display: flex;
+    flex-direction: column;
+}
+
+#inputs{
+    grid-area: i;
     display: grid;
-    height: 100vh;
-    width: 100vw;
-    grid-template-rows: 2fr 2fr 2fr 1fr 15fr;
-    grid-template-areas: "n"
-                         "i"
-                         "d"
-                         "c"
-                         "s";
+    justify-items: center;
+    margin: 10px;
 }
 
 #origin-destination{
-    grid-area: i;
     display: grid;
-    justify-self: center;
-    align-self: center;
-    justify-items: center;
+    grid-auto-flow: column;
     width: fit-content;
     height: fit-content;
-    grid-auto-flow: column;
 }
 
 
 #date-picker{
-    grid-area: d;
     display: grid;
     grid-auto-flow: column;
+    width: fit-content;
     height: fit-content;
-    justify-self: center;
 }
-
 
 #ui-datepicker-div{
     display: none;
@@ -75,8 +69,7 @@ body{
 }
 
 .input{
-    height: fit-content;
-    width: fit-content;
+    display: grid;
     margin: 5px;
     border-radius: 7px;
     padding: 3px;
@@ -96,6 +89,10 @@ body{
 
 
 #logo{
+    display: grid;
+    justify-self: end;
+    align-self: center;
+    padding: 10px;
     font-family: 'Lobster', cursive;
     font-size: 40px;
 }
@@ -115,6 +112,7 @@ body{
 #cities{
     grid-area: c;
     display: grid;
+    margin: 5px;
 }
 
 #sites{
@@ -186,7 +184,7 @@ p{
     display: grid;
     background-color: #554640 ;
     top: 70px;
-    width: 50vw;
+    width: 30vw;
     position: absolute;
     overflow: auto;
     text-align: center;
@@ -226,9 +224,8 @@ p{
 
 .fa-window-close{
     position: absolute;
-   /* text-align: end; */
-   right: 8px;
-   top: 7px;
+    right: 8px;
+    top: 7px;
     margin-right: 2px;
     font-size: 30px;
 }
@@ -246,9 +243,8 @@ p{
 
 #favorite-text{
     display: grid;
-    position: absolute;
-    right: 17%;
-    width: fit-content;
+    padding: 10px;
+    align-self: center;
 }
 
 #favorite-text:hover{

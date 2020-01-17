@@ -19,22 +19,23 @@
 
     <div id="main-container">
         <div id="nav-bar">
-            <div id="logo" class="nav">Journey</div>
-            <p id="favorite-text" class="unclicked">Favorites</p>
+            <div id="favorite-text" class="unclicked">Favorites</div>
             <div id="favorites-container"></div>
+            <div id="logo" class="nav">Journey</div>
         </div>
 
+        <div id="inputs">
+            <div id="origin-destination">
 
-        <div id="origin-destination">
+                <input class="input" type="text" id="user-location" placeholder="Enter current place" />
+                <input class="input" type="text" id="autocomplete" placeholder="Enter destination" />
 
-            <input class="input" type="text" id="user-location" placeholder="Enter current place" />
-            <input class="input" type="text" id="autocomplete" placeholder="Enter destination" />
+            </div>
 
-        </div>
-
-        <div id="date-picker">
-            <input class="input" type="text" id="from-date" name="from" placeholder="From">
-            <input class="input" type="text" id="to-date" name="to" placeholder="To">
+            <div id="date-picker">
+                <input class="input" type="text" id="from-date" name="from" placeholder="From">
+                <input class="input" type="text" id="to-date" name="to" placeholder="To">
+            </div>
         </div>
 
         <div id="cities"></div>
