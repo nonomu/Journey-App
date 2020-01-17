@@ -122,21 +122,24 @@ body{
     justify-items: center;
 }
 
-.city-info{
-    display: grid;
+#city-info{
+    display: flex;
     background-color: #8DA7BE;
-    color:white;
     width: 80%;
     justify-self: center;
     align-items: center;
-    justify-items: center;
+    justify-content: space-evenly;
     margin: 5px;
     padding: 5px;
     border-radius: 10px;
-    grid-template-columns: repeat(5,1fr);
-    box-shadow: 5px 5px 5px #707078;
-    font-family: 'Indie Flower', cursive;
+    box-shadow: 2px 2px 2px #707078;
+    color: white;
     font-size: 20px;
+    font-family: 'Indie Flower', cursive;
+}
+
+.weather-items{
+    
 }
 
 p{
@@ -165,7 +168,7 @@ p{
     color: #554640;
     margin: 3px;
     justify-items: center;
-    box-shadow: 5px 5px 5px  #554640; 
+    box-shadow: 2px 2px 2px  #554640; 
     font-size: 16px;
 }
 
@@ -176,9 +179,9 @@ p{
     color: #CDE6F5;
 }
 
-.weather-des{
+/* .weather-des{
     text-align: center;
-}
+} */
 
 #favorites-container{
     display: grid;

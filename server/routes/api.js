@@ -25,47 +25,51 @@ router.get('/get/', async function (req, res) {
 })
 
 router.post('/flights', async function (req, res) {
-    let curCityName=req.body[`currenLocation[cityName]`]
-    let curCountryName= req.body[`currenLocation[countryName]`]
-    let desCityName= req.body[`destLocation[cityName]`]
-    let desCountryName=req.body[`destLocation[countryName]`]
+    let curCityName = req.body[`currentLocation[cityName]`]
+    let curCountryName = req.body[`currentLocation[countryName]`]
+    let desCityName = req.body[`destLocation[cityName]`]
+    let desCountryName = req.body[`destLocation[countryName]`]
+
     let fromDate = req.body['dates[fromDate]'].split("/")
     let toDate = req.body['dates[toDate]'].split("/")
-    newFromDate = [fromDate[1],fromDate[0],fromDate[2]]
-    newToDate = [toDate[1],toDate[0],toDate[2]]
+
+    newFromDate = [fromDate[1], fromDate[0], fromDate[2]]
+    newToDate = [toDate[1], toDate[0], toDate[2]]
+
     fromDate = newFromDate.join("/")
     toDate = newToDate.join("/")
 
-    try{
-    let desairport = await airports.find(
-        { city: desCityName },
-        { "iata_code": 1, "_id": 0 })
-    let curairport = await airports.find(
+    try {
+        let curairport = await airports.find(
             { city: curCityName },
             { "iata_code": 1, "_id": 0 })
-    const curiata=curairport[0]._doc.iata_code
-    const desiata=desairport[0]._doc.iata_code
-        console.log(desiata + curiata);
-        var today = new Date();
-        var dd = today.getDate();
-        var mm = today.getMonth()+1; 
-        var yyyy = today.getFullYear();
-        let returnDate =today.setMonth(today.getMonth()+1)
-    let requestURL=`https://api.skypicker.com/flights?fly_from=airport:${curiata}&fly_to=airport:${desiata}&date_from=${dd}/${mm}/${yyyy}&date_to=${dd+10}/${mm}/${yyyy}&partner=picky&return_from=${dd+2}/${mm}/${yyyy}&return_to=${dd+10}/${mm}/${yyyy}&flight_type=round&curr=ILS&max_stopovers=0&ret_from_diff_airport=0&limit=5`
-    
-    if (desiata != null && curiata != null) {
-        const flightsData = await requestPromise(requestURL)
-        res.send(JSON.parse(flightsData).data)
-        return
+
+        let destairport = await airports.find(
+            { city: desCityName },
+            { "iata_code": 1, "_id": 0 })
+
+        const curiata = curairport[0]._doc.iata_code
+        const destiata = destairport[0]._doc.iata_code
+        // var today = new Date();
+        // var dd = today.getDate();
+        // var mm = today.getMonth() + 1;
+        // var yyyy = today.getFullYear();
+        // let returnDate = today.setMonth(mm)
+        let requestURL = `https://api.skypicker.com/flights?fly_from=airport:${curiata}&fly_to=airport:${destiata}&date_from=${fromDate}&date_to=${toDate}&partner=picky&return_from=${fromDate}&return_to=${toDate}&flight_type=round&curr=ILS&max_stopovers=0&ret_from_diff_airport=0&limit=5`
+        
+        if (destiata && curiata) {
+            const flightsData = await requestPromise(requestURL)
+            const flightsDataParsed = JSON.parse(flightsData)
+            res.send(flightsDataParsed.data)
+            return
+        }
+        else {
+            return false
+        }
     }
-    else{
-        return false
+    catch (err) {
+        res.send(err.errmsg)
     }
-}
-catch(err)
-{
-    res.send(err.errmsg)
-}
 })
 
 router.post('/cityWeather', async function (req, res) {
@@ -173,8 +177,8 @@ router.delete('/favorites', async function (req, res) {
             upsert: true
         }
     )
-    if(data.favoritePlaces.length == 0)
-    data= await Favorites.findOneAndDelete( { cityName: cityData.cityName, countryName: cityData.countryName })
+    if (data.favoritePlaces.length == 0)
+        data = await Favorites.findOneAndDelete({ cityName: cityData.cityName, countryName: cityData.countryName })
     res.send(data)
 })
 module.exports = router
