@@ -35,6 +35,7 @@ router.post('/flights', async function (req, res) {
     newToDate = [toDate[1], toDate[0], toDate[2]]
     fromDate = newFromDate.join("/")
     toDate = newToDate.join("/")
+    try{
     let desairport = await airports.find(
                 { city: desCityName },
                 { "iata_code": 1, "_id": 0 })
@@ -52,6 +53,11 @@ router.post('/flights', async function (req, res) {
         else {
             return false
         }
+    }
+    catch(e)
+    {
+        res.send(e.message)
+    }
   
 })
 

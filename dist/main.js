@@ -17,10 +17,6 @@ google.maps.event.addListener(autocomplete, 'place_changed', async function () {
     let destLocation = $("#autocomplete")[0].value
     await tripManager.getCityWeather(destLocation)
 })
-
-
-
-
 $('#date-picker').on('keypress', function (e) {
     if (e.which == 13) {
         let fromDate = $('#from-date').val()
