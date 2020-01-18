@@ -23,10 +23,9 @@ mongoose.set('useUnifiedTopology', true);
 router.get('/get/', async function (req, res) {
     res.end()
 })
-
 router.post('/flights', async function (req, res) {
     let curCityName = req.body[`currentLocation[cityName]`]
-    let curCountryName = req.body[`currenLocation[countryName]`]
+    let curCountryName = req.body[`currentLocation[countryName]`]
     let desCityName = req.body[`destLocation[cityName]`]
     let desCountryName = req.body[`destLocation[countryName]`]
     let fromDate = req.body['dates[fromDate]'].split("/")
@@ -35,30 +34,31 @@ router.post('/flights', async function (req, res) {
     newToDate = [toDate[1], toDate[0], toDate[2]]
     fromDate = newFromDate.join("/")
     toDate = newToDate.join("/")
-    try{
-    let desairport = await airports.find(
-                { city: desCityName },
-                { "iata_code": 1, "_id": 0 })
-    let curairport = await airports.find(
-                { city: curCityName },
-                { "iata_code": 1, "_id": 0 })
+    try {
+        let curairport = await airports.find(
+            { city: curCityName },
+            { "iata_code": 1, "_id": 0 })
+
+        let destairport = await airports.find(
+            { city: desCityName },
+            { "iata_code": 1, "_id": 0 })
+
         const curiata = curairport[0]._doc.iata_code
-        const desiata = desairport[0]._doc.iata_code
-        let requestURL = `https://api.skypicker.com/flights?fly_from=airport:${curiata}&fly_to=airport:${desiata}&date_from=${fromDate}&date_to=${toDate}&partner=picky&flight_type=round&curr=ILS&max_stopovers=0&ret_from_diff_airport=0&limit=5`
-        if (desiata != null && curiata != null) {
+        const destiata = destairport[0]._doc.iata_code
+        let requestURL = `https://api.skypicker.com/flights?fly_from=airport:${curiata}&fly_to=airport:${destiata}&date_from=${fromDate}&date_to=${toDate}&partner=picky&flight_type=round&curr=ILS&max_stopovers=0&ret_from_diff_airport=0&limit=5`
+        if (destiata && curiata) {
             const flightsData = await requestPromise(requestURL)
-            res.send(JSON.parse(flightsData).data)
+            const flightsDataParsed = JSON.parse(flightsData)
+            res.send(flightsDataParsed.data)
             return
         }
         else {
             return false
         }
     }
-    catch(e)
-    {
-        res.send(e.message)
+    catch (err) {
+        res.send(err.errmsg)
     }
-  
 })
 
 router.post('/cityWeather', async function (req, res) {

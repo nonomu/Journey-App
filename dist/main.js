@@ -33,7 +33,7 @@ $('#date-picker').on('keypress', function (e) {
 
 
 $("#cities").on("change", "select", async function () {
-    let type = $(".types option:selected").val()
+    let type = $("#types option:selected").val()
     let destLocation = $("#autocomplete")[0].value
     let currentLocation = $("#user-location")[0].value
     tripManager.sites = await tripManager.getSites(destLocation, type)
@@ -48,7 +48,7 @@ $("#cities").on("change", "select", async function () {
 
     let locations = { currenLocation: currentLocation, destLocation: destLocation }
     await tripManager.getFlights(locations)
-    $(".city-info").append("<button id = find-flights >Find Flights</button>")
+    $("#city-info").append("<button id = find-flights >Find Flights</button>")
 })
 
 // $("#cities").on("click", ".explore", async function () {
@@ -98,10 +98,8 @@ $(function () {
     }
 })
 
-$("#cities").on("click", ".find-flights", async function () {
-    $(this).text("Explore")
+$("#cities").on("click", "#find-flights", async function () {
     render.renderFlights(tripManager.flights)
-    $(this).attr("class", "explore")
 })
 
 $("#favorite-text").on("click", async function () {
@@ -109,9 +107,9 @@ $("#favorite-text").on("click", async function () {
         let sites = await tripManager.getFavorites()
         render.renderFavorites(sites)
         $(this).attr("class", "clicked")
-        $("#favorites-container").hide().slideDown("slow")
+        $("#favorites-container").hide().toggle("slide")
     } else if ($(this).hasClass("clicked")) {
-        $("#favorites-container").slideUp(500)
+        $("#favorites-container").toggle("slide")
         $(this).attr("class", "unclicked")
     }
 })
