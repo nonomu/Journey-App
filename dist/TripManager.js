@@ -5,8 +5,8 @@ class TripManager {
         this.flights=[],
         this.sites=[],
         this.weather = [],
-        this.dates = {}
-    }
+        this.dates = {} 
+       }
 
     setDates(dates){
         this.dates = dates
@@ -69,13 +69,6 @@ class TripManager {
 
     addToFavorites(destination, site) {
         let destObj = this._stringFromDOM(destination)
-        
-        let favSite = {
-            siteName: site.siteName,
-            address: site.address,
-            openingHours: site.openingHours,
-            rating: site.rating
-        }
         let favAndDest = {
             cityName: destObj.cityName,
             countryName: destObj.countryName,
@@ -101,6 +94,7 @@ class TripManager {
             address: site.address,
         }
         this.sites.forEach(s=> {if(s.siteName==site.siteName) {s.isFavorite=false}})
+        console.log(this.sites)
         let index = 0
         for (let favorite of this.favorites) {
             if (favorite.cityName === siteForDel.cityName && favorite.siteName === siteForDel.siteName && favorite.address === siteForDel.address) {

@@ -47,8 +47,11 @@ $("#cities").on("change", "select", async function () {
     }
 
     let locations = { currenLocation: currentLocation, destLocation: destLocation }
+    if(tripManager.flights.length === 0)
+    {
     await tripManager.getFlights(locations)
     $("#city-info").append("<button id = find-flights >Find Flights</button>")
+    }
 })
 
 // $("#cities").on("click", ".explore", async function () {
@@ -104,8 +107,8 @@ $("#cities").on("click", "#find-flights", async function () {
 
 $("#favorite-text").on("click", async function () {
     if ($(this).hasClass("unclicked")) {
-        let sites = await tripManager.getFavorites()
-        render.renderFavorites(sites)
+        await tripManager.getFavorites()
+        render.renderFavorites(tripManager.favorites)
         $(this).attr("class", "clicked")
         $("#favorites-container").hide().toggle("slide")
     } else if ($(this).hasClass("clicked")) {
@@ -116,8 +119,8 @@ $("#favorite-text").on("click", async function () {
 
 
 
-$("#sites").on("click", ".fa-plus-circle", function () {
-    let destination = $(this).closest("#sites").siblings("#cities").find(".city-info").find("p").text()
+$("#sites").on("click", ".fa-plus-circle", async function () {
+    let destination = $('#inputs').find('#origin-destination').find('#autocomplete')[0].value
     let chosenElement = $(this).closest(".favorite")
     let site = {
         siteName: chosenElement.siblings("p").text(),
@@ -126,19 +129,28 @@ $("#sites").on("click", ".fa-plus-circle", function () {
         rating: chosenElement.siblings(".rating").text(),
         website: chosenElement.closest(".site-info").siblings(".more-info").find("a").attr("href")
     }
-    tripManager.addToFavorites(destination, site)
+    await tripManager.addToFavorites(destination, site)
     $(this).attr("class", "fas fa-minus-circle")
+    if($("#favorite-text").hasClass("clicked"))
+    {
+        await tripManager.getFavorites()
+        render.renderFavorites(tripManager.favorites)
+    }
 })
 
 $("#sites").on("click", ".fa-minus-circle", async function () {
-    let destination = $(this).closest("#sites").siblings("#cities").find(".city-info").find("p").text()
+    let destination = $('#inputs').find('#origin-destination').find('#autocomplete')[0].value
     let chosenFavoriteElement = $(this).closest(".favorite")
     let site = {
         siteName: chosenFavoriteElement.siblings("p").text(),
         address: chosenFavoriteElement.siblings(".address").text(),
     }
     await tripManager.removeFromFavorites(destination, site)
-
+    if($("#favorite-text").hasClass("clicked"))
+    {
+        await tripManager.getFavorites()
+        render.renderFavorites(tripManager.favorites)
+    }
     $(this).attr("class", "fas fa-plus-circle")
 })
 
