@@ -10,7 +10,7 @@ const Transfer = require("./transfer")
 const IconsTransfer = Transfer.IconsTransfer
 const CityStateToCode = Transfer.CityStateToCode
 const CodeToCityState = Transfer.CodeToCityState
-var airports = mongoose.model('airports', new Schema({ name: String }));
+var airports = mongoose.model('airports', new Schema({ name: String, iata_code: String }));
 const WheatherAPIbasicURL = "https://api.openweathermap.org/data/2.5/weather"
 const FlightsAPIbasicURL = "https://api.skypicker.com/flights?"
 
@@ -23,22 +23,17 @@ mongoose.set('useUnifiedTopology', true);
 router.get('/get/', async function (req, res) {
     res.end()
 })
-
 router.post('/flights', async function (req, res) {
     let curCityName = req.body[`currentLocation[cityName]`]
     let curCountryName = req.body[`currentLocation[countryName]`]
     let desCityName = req.body[`destLocation[cityName]`]
     let desCountryName = req.body[`destLocation[countryName]`]
-
     let fromDate = req.body['dates[fromDate]'].split("/")
     let toDate = req.body['dates[toDate]'].split("/")
-
     newFromDate = [fromDate[1], fromDate[0], fromDate[2]]
     newToDate = [toDate[1], toDate[0], toDate[2]]
-
     fromDate = newFromDate.join("/")
     toDate = newToDate.join("/")
-
     try {
         let curairport = await airports.find(
             { city: curCityName },
@@ -50,13 +45,7 @@ router.post('/flights', async function (req, res) {
 
         const curiata = curairport[0]._doc.iata_code
         const destiata = destairport[0]._doc.iata_code
-        // var today = new Date();
-        // var dd = today.getDate();
-        // var mm = today.getMonth() + 1;
-        // var yyyy = today.getFullYear();
-        // let returnDate = today.setMonth(mm)
-        let requestURL = `https://api.skypicker.com/flights?fly_from=airport:${curiata}&fly_to=airport:${destiata}&date_from=${fromDate}&date_to=${toDate}&partner=picky&return_from=${fromDate}&return_to=${toDate}&flight_type=round&curr=ILS&max_stopovers=0&ret_from_diff_airport=0&limit=5`
-        
+        let requestURL = `https://api.skypicker.com/flights?fly_from=airport:${curiata}&fly_to=airport:${destiata}&date_from=${fromDate}&date_to=${toDate}&partner=picky&flight_type=round&curr=ILS&max_stopovers=0&ret_from_diff_airport=0&limit=5`
         if (destiata && curiata) {
             const flightsData = await requestPromise(requestURL)
             const flightsDataParsed = JSON.parse(flightsData)

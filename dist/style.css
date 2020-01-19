@@ -80,6 +80,7 @@ body{
 #nav-bar{
     grid-area: n;
     display: grid;
+    width: 100vw;
     grid-template-columns: repeat(2, 1fr);
     background-color: #554640;
     color: white;
