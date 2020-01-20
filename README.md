@@ -24,9 +24,10 @@ Journey-App is a places weather and flights  search app platform built with Jque
 ## Running the project
 1. Clone the repo.
 2. Run `npm install`.
-3. Run `node server.js`.
-4. Run `mongod`
-5. Navigate to `http://localhost:4200`
+3. Create `env` file in root and add google Api key + weather apiId.
+4. Run `node server.js`.
+5. Run `mongod`
+6. Navigate to `http://localhost:4200`
 
 ## Screenshots
 
