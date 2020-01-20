@@ -45,7 +45,7 @@ User see places by his choise and also can choose flights or add to favorites.
 
 ### Flights
 Get flights to destination from current input location user will redirect to wiki website to close flight.
-<p align="center"><img src="assets/vendors.png" width="300" /></p>
+<p align="center"><img src="assets/Flights.PNG" width="300" /></p>
 
 ### Favorites
 View user favorites by city and delete option.
