@@ -87,10 +87,6 @@ router.post('/sites/:type', async function (req, res) {
     let countryName = placeObj.countryName
     let result = await requestPromise(`https://maps.googleapis.com/maps/api/place/textsearch/json?query=${type}+${cityName}+${countryName}&key=${APIkey}`)
     let sitesOfType = JSON.parse(result)
-    // let latitude = results[0].geometry.location.lat
-    // let longitude = results[0].geometry.location.lng
-    // result = await requestPromise(`https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=${latitude},${longitude}&radius=2000&key=${APIkey}&pagetoken`)
-    // result = JSON.parse(result)
     let index = 0
     let sitesResults = []
     for (let site of sitesOfType.results) {
