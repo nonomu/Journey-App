@@ -50,7 +50,7 @@ $("#cities").on("change", "select", async function () {
     if(tripManager.flights.length === 0)
     {
     await tripManager.getFlights(locations)
-    $("#city-info").append("<button id = find-flights >Find Flights</button>")
+    $("#city-info").append("<button id = find-flights >Flights</button>")
     }
 })
 
