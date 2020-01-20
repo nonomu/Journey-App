@@ -1,6 +1,4 @@
 # Journey-App
-Journey-App -  
-# We Do
 
 Journey-App is a places weather and flights  search app platform built with Jquery includes weather in cities, places to travel , and flights to the city.
 
@@ -38,7 +36,7 @@ Journey-App is a places weather and flights  search app platform built with Jque
 
 ### Home
 A short introduction to the platform. The user can navigate to registration or login form via the navigation bar
-<p align="center"><img src="assets/home.png" width="300" /></p>
+<p align="center"><img src="assets/Home.png" width="300" /></p>
 
 ### Register
 Registration form. User can input personal and wedding information.
