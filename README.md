@@ -1,8 +1,8 @@
 # Journey-App
-Journey-App -  places weather and flights  search app.
+Journey-App -  
 # We Do
 
-We Do is a wedding management platform built with React. It includes vendor recommendations and booking, budget tracker, user profile management, and guest management.
+Journey-App is a places weather and flights  search app platform built with Jquery includes weather in cities, places to travel , and flights to the city.
 
 ## Contributors
 - Noam Mualmi (nonomu)
@@ -31,8 +31,8 @@ We Do is a wedding management platform built with React. It includes vendor reco
 1. Clone the repo.
 2. Run `npm install`.
 3. Run `node server.js`.
-4. Run `mysql`.
-5. Navigate to `http://localhost:3000`.
+4. Run `mongod
+5. Navigate to `http://localhost:4200`
 
 ## Screenshots
 
