@@ -4,6 +4,8 @@ Journey-App is a places weather and flights  search app platform built with Jque
 
 ## Contributors
 - Noam Mualmi (nonomu)
+- Renee Cohen (Renee88)
+- Yonatan Ahi(yonatanahi)
 
 ## Table Of Contents
 - [Journey App](#Journey-App)
