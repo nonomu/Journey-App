@@ -57,3 +57,6 @@ View user favorites by city and delete option.
 ## Tech-stack
 1. Jquery, Handelbars, CSS3 , Ajax.
 2. Express (Node.js), Mongoose (MongoDB).
+3. Google city AutoComplete Api.
+4. Weather Api.
+5. Kiwi Flights Api
