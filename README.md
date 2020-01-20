@@ -12,73 +12,46 @@ Journey-App is a places weather and flights  search app platform built with Jque
   - [Running the project](#running-the-project)
   - [Screenshots](#screenshots)
     - [Home](#home)
-    - [Register](#register)
-    - [Login](#login)
-    - [Profile](#profile)
-    - [Vendors](#vendors)
+    - [Place&Date](#Place&Date)
+    - [PlaceFilter](#PlaceFilter)
+    - [Places](#Places)
+    - [Flights](#Flights)
     - [Favorites](#favorites)
-    - [Vendor info](#vendor-info)
-    - [Book vendor](#book-vendor)
-    - [Budget tracker](#budget-tracker)
-    - [Guest management](#guest-management)
-    - [Add table](#add-table)
-    - [Table management](#table-management)
   - [Tech-stack](#tech-stack)
 
 ## Running the project
 1. Clone the repo.
 2. Run `npm install`.
 3. Run `node server.js`.
-4. Run `mongod
+4. Run `mongod`
 5. Navigate to `http://localhost:4200`
 
 ## Screenshots
 
 ### Home
-A short introduction to the platform. The user can navigate to registration or login form via the navigation bar
+A home page of App . The user can choose find place or see his favorites.
 <p align="center"><img src="assets/Home.PNG" width="300" /></p>
 
-### Register
-Registration form. User can input personal and wedding information.
-<p align="center"><img src="assets/register.png" width="300" /></p>
+### Place&Date
+Choose form. User can input place and date.
+<p align="center"><img src="assets/ChoosePlaceAndDate.PNG" width="300" /></p>
 
-### Login
-<p align="center"><img src="assets/login.png" width="300" /></p>
+### PlaceFilter
+<p align="center"><img src="assets/choosePlace.png" width="300" /></p>
 
-### Profile
-Update and view user profile information.
-<p align="center"><img src="assets/profile.png" width="300" /></p>
+### Places
+User see places by his choise and also can choose flights or add to favorites.
+<p align="center"><img src="assets/places.PNG" width="300" /></p>
 
-### Vendors
-Get vendor recommendations, add vendors to favorites, book vendor for wedding. Clicking on a vendor will redirect to a more detailed dialog box.
+### Flights
+Get flights to destination from current input location user will redirect to wiki website to close flight.
 <p align="center"><img src="assets/vendors.png" width="300" /></p>
 
 ### Favorites
-View favorite vendors in one place.
-<p align="center"><img src="assets/favorites.png" width="300" /></p>
+View user favorites by city and delete option.
+<p align="center"><img src="assets/Favorites.PNG" width="300" /></p>
 
-### Vendor info
-<p align="center"><img src="assets/vendor-info.png" width="300" /></p>
-
-### Book vendor
-Vendor booking screen. Users have to input the price they paid for that vendor so it will be added to their budget tracker.
-<p align="center"><img src="assets/book-vendor.png" width="300" /></p>
-
-### Budget tracker
-Get an overview of all booked vendors for the wedding. Review total budget and how much of it was spent already.
-<p align="center"><img src="assets/budget-tracker.png" width="300" /></p>
-
-### Guest management
-Manage guest list for the wedding. Clicking the + button will open a dialog box for adding a new table, so user can manage their table setting. 
-<p align="center"><img src="assets/guest-management.png" width="300" /></p>
-
-### Add table
-<p align="center"><img src="assets/add-table.png" width="300" /></p>
-
-### Table management
-Add or remove guests from a table.
-<p align="center"><img src="assets/table-management.png" width="300" /></p>
 
 ## Tech-stack
-1. React, MobX, Material-UI, React-Toastify and Axios.
-2. Express (Node.js), Sequelize (MySQL), bcrypt.
+1. Jquery, Handelbars, CSS3 , Ajax.
+2. Express (Node.js), Mongoose (MongoDB).
